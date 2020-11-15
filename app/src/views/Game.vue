@@ -172,7 +172,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .game-config {
 	display: flex;
 	min-height: 100vh;
@@ -183,22 +183,22 @@ export default {
 	display: flex;
 	height: 100vh;
 	overflow: hidden;
-}
 
-.gameboard__cards {
-	display: flex;
-	flex: 1 1 auto;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
+	&__cards {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 
-.gameboard__state {
-	display: flex;
-	flex: 0 1 auto;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-left: 1rem;
+	&__state {
+		display: flex;
+		flex: 0 1 auto;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-left: 1rem;
+	}
 }
 </style>

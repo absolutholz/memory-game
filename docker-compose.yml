@@ -1,16 +1,16 @@
-version: '3.8'
+
+version: '3'
 
 services:
-  front-end:
+  vue-ui:
     build:
-      context: .
-      dockerfile: ./docker-config/front-end/Dockerfile
-    working_dir: /app
-    environment:
-      NODE_ENV: development
+      context: ./app
+      dockerfile: Dockerfile
     ports:
-      - 8000:8000 # vue ui
-      - 8080:8080 # vue dev
+      - "8080:8080"
+    container_name: vue-ui
     volumes:
-      - ./:/app
-    command: bash -c "vue ui -H 0.0.0.0"
+       - ./app:/usr/src/app
+       - /usr/src/app/node_modules
+    # command: bash -c "vue ui -H 0.0.0.0"
+    command: ["npm", "run", "serve"]
