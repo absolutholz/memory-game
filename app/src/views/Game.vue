@@ -1,67 +1,74 @@
 <template>
-	<h1 hidden>Game</h1>
+	<main>
+		<h1 hidden>Game</h1>
 
-	<section class="game-config" v-if="playState === state.STATE_GAME_STOPPED">
-		<form @submit.prevent="startGame">
-			<label for="card-count">
-				<div>Number of cards</div>
-				<input v-model="config.cardCount"  id="card-count" max="100" min="4" required step="2" type="number">
-			</label>
-
-			<fieldset>
-				<legend>Players</legend>
-
-				<label for="player-1-name">
-					<div>Player 1</div>
-					<input v-model="config.player1" id="player-1-name" required type="text">
+		<section class="game-config" v-if="playState === state.STATE_GAME_STOPPED">
+			<form @submit.prevent="startGame">
+				<label for="card-count">
+					<div>Number of cards</div>
+					<input v-model="config.cardCount"  id="card-count" max="54" min="4" required step="2" type="number">
 				</label>
 
-				<label for="player-2-name">
-					<div>Player 2</div>
-					<input v-model="config.player2" id="player-2-name" required type="text">
-				</label>
-			</fieldset>
+				<fieldset>
+					<legend>Players</legend>
 
-			<div>
-				<button type="submit">Start game</button>
-			</div>
-		</form>
-	</section>
+					<label for="player-1-name">
+						<div>Player 1</div>
+						<input v-model="config.player1" id="player-1-name" required type="text">
+					</label>
 
-	<section class="gameboard" v-if="playState === state.STATE_GAME_PLAYING">
-		<section class="gameboard__cards">
-			<card-list
-				@on-match="onMatch"
-				@on-non-match="onNonMatch"
-				:cards="cards"
-				:foundCards="foundCards"
-			/>
+					<label for="player-2-name">
+						<div>Player 2</div>
+						<input v-model="config.player2" id="player-2-name" required type="text">
+					</label>
+				</fieldset>
+
+				<div>
+					<button type="submit">Start game</button>
+				</div>
+			</form>
 		</section>
-		<section class="gameboard__state">
-			<ol>
-				<li>
-					<player-score
-						:foundCards="player1Cards"
-						:isActive="playerTurn === config.player1"
-						:name="config.player1"
-					/>
-				</li>
-				<li>
-					<player-score
-						:foundCards="player2Cards"
-						:isActive="playerTurn === config.player2"
-						:name="config.player2"
-					/>
-				</li>
-			</ol>
+
+		<section class="gameboard" v-if="playState === state.STATE_GAME_PLAYING">
+			<section class="gameboard__cards">
+				<card-list
+					@on-match="onMatch"
+					@on-non-match="onNonMatch"
+					:cards="cards"
+					:foundCards="foundCards"
+					:imageIds="imageIds"
+				/>
+			</section>
+			<section class="gameboard__state">
+				<ol class="scoreboard__player-list">
+					<li>
+						<player-score
+							:foundCards="player1Cards"
+							:isActive="playerTurn === config.player1"
+							:name="config.player1"
+						/>
+					</li>
+					<li>
+						<player-score
+							:foundCards="player2Cards"
+							:isActive="playerTurn === config.player2"
+							:name="config.player2"
+						/>
+					</li>
+				</ol>
+			</section>
 		</section>
-	</section>
+	</main>
 </template>
 
 <script>
 import { reactive } from "vue";
+
 import CardList from './../components/CardList';
 import PlayerScore from './../components/PlayerScore';
+
+import imageIds from './../shapes';
+import shuffle from './../array-shuffle';
 
 const STATE_GAME_STOPPED = 'not-started';
 const STATE_GAME_PLAYING = 'playing';
@@ -76,27 +83,6 @@ function GameConfig () {
 	const cards = [];
 
   return { config, cards };
-}
-
-// Fisher-Yates (aka Knuth) Shuffle
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffle(array) {
-	var currentIndex = array.length, temporaryValue, randomIndex;
-
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-	return array;
 }
 
 export default {
@@ -114,6 +100,7 @@ export default {
 			player1Cards: [],
 			player2Cards: [],
 			foundCards: [],
+			imageIds: shuffle(imageIds),
 		};
 	},
 
@@ -183,6 +170,7 @@ export default {
 	display: flex;
 	height: 100vh;
 	overflow: hidden;
+	padding: 1rem;
 
 	&__cards {
 		display: flex;
@@ -199,6 +187,19 @@ export default {
 		justify-content: center;
 		align-items: center;
 		margin-left: 1rem;
+		min-width: 10vw;
+	}
+}
+
+.scoreboard__player-list {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+
+	> li {
+		+ li {
+			margin-top: 1rem;
+		}
 	}
 }
 </style>

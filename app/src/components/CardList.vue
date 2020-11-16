@@ -1,12 +1,20 @@
 <template>
 	<ol class="card-list" ref="root">
-		<li v-for="(card, index) in cards" :key="index">
+		<li
+			v-for="(card, index) in cards" :key="index"
+			:style="`color: ${ colors[card.name] }`"
+		>
 			<card
 				:id="card.id"
 				:isFound="isCardFound(card)"
+				:isShowing="isCardShowing(card)"
 				:name="card.name"
 				@on-card-select="onCardSelect"
-			/>
+			>
+				<svg class="card__image card__image--svg">
+					<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
+				</svg>
+			</card>
 		</li>
 	</ol>
 </template>
@@ -15,6 +23,9 @@
 import { ref, onMounted } from 'vue';
 
 import Card from './Card';
+
+import colors from './../colors';
+import shuffle from './../array-shuffle';
 
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
@@ -51,11 +62,18 @@ export default {
 			required: true,
 			type: Array,
 		},
+
+		imageIds: {
+			required: true,
+			type: Array,
+		},
 	},
 
 	data() {
 		return {
 			card1: null,
+			card2: null,
+			colors: shuffle(colors),
 		};
 	},
 
@@ -65,25 +83,37 @@ export default {
 
 			if (!this.card1) {
 				console.log('first', card);
-				this.card1 = this.cards.find((cardIter) => cardIter.id === card.id)
+				this.card1 = this.cards.find((cardIter) => cardIter.id === card.id);
+			} else if (!this.card2) {
+				console.log('second', card);
+				this.card2 = this.cards.find((cardIter) => cardIter.id === card.id)
 
-			} else if (card.id !== this.card1.id && card.name === this.card1.name) {
-				console.warn('match!', this.card1, card);
+				if (this.card1.name === this.card2.name) {
+					console.warn('match!', this.card1, card);
+					this.$emit('on-match', [this.card1, this.card2]);
 
-				const card2 = this.cards.find((cardIter) => cardIter.id === card.id)
+					setTimeout(() => {
+						this.card1 = null;
+						this.card2 = null;
+					}, 2000);
+				} else {
+					console.info('no match', this.card1, this.card);
+					this.$emit('on-non-match');
 
-				this.$emit('on-match', [this.card1, card2]);
-				this.card1 = null;
-
-			} else {
-				console.info('no match', this.card1, card);
-				this.$emit('on-non-match');
-				this.card1 = null;
+					setTimeout(() => {
+						this.card1 = null;
+						this.card2 = null;
+					}, 2000);
+				}
 			}
 		},
 
 		isCardFound (card) {
 			return !!this.foundCards.find((foundCard) => card.id === foundCard.id);
+		},
+
+		isCardShowing (card) {
+			return (this.card1 && card.id === this.card1.id) || (this.card2 && card.id === this.card2.id);
 		},
 	},
 
