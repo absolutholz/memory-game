@@ -58,6 +58,7 @@ export default {
 </script>
 
 <style lang="scss">
+// Card flip animation
 // https://codepen.io/edeesims/pen/iGDzk?editors=0100
 // https://codepen.io/cojdev/pen/EQZVRN?editors=0100
 // https://codepen.io/ettrics/pen/zxMPWj?editors=0100
@@ -103,7 +104,7 @@ export default {
 	}
 
 	&__back {
-		color: dodgerblue;
+		color: var(--color-highlight);
 	}
 
 	&__face {

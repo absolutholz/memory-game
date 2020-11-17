@@ -1,30 +1,47 @@
 <template>
-	<main>
-		<h1 hidden>Game</h1>
+	<main class="l-container">
+		<section class="l-center" v-if="playState === state.STATE_GAME_NOT_STARTED">
+			<form class="l-min-width" @submit.prevent="startGame">
+				<h2 class="section__hdln">Game Configuration</h2>
 
-		<section class="game-config" v-if="playState === state.STATE_GAME_STOPPED">
-			<form @submit.prevent="startGame">
-				<label for="card-count">
-					<div>Number of cards</div>
-					<input v-model="config.cardCount"  id="card-count" max="54" min="4" required step="2" type="number">
-				</label>
+				<fieldset>
+					<legend>Cards</legend>
+
+					<label class="input-group" for="card-count">
+						<div class="input-label">Number</div>
+						<input
+							class="input"
+							id="card-count"
+							max="54"
+							min="8"
+							required step="2"
+							type="number"
+							v-model="config.cardCount"
+						>
+					</label>
+
+					<div class="input-group">
+						<div class="input-label">Style</div>
+						<button class="input" disabled>Shapes</button>
+					</div>
+				</fieldset>
 
 				<fieldset>
 					<legend>Players</legend>
 
-					<label for="player-1-name">
-						<div>Player 1</div>
-						<input v-model="config.player1" id="player-1-name" required type="text">
+					<label class="input-group" for="player-1-name">
+						<div class="input-label">Player 1</div>
+						<input class="input" v-model="config.player1" id="player-1-name" required type="text">
 					</label>
 
-					<label for="player-2-name">
-						<div>Player 2</div>
-						<input v-model="config.player2" id="player-2-name" required type="text">
+					<label class="input-group" for="player-2-name">
+						<div class="input-label">Player 2</div>
+						<input class="input" v-model="config.player2" id="player-2-name" required type="text">
 					</label>
 				</fieldset>
 
-				<div>
-					<button type="submit">Start game</button>
+				<div class="section__footer">
+					<button class="btn btn--block" type="submit">Start game</button>
 				</div>
 			</form>
 		</section>
@@ -58,6 +75,30 @@
 				</ol>
 			</section>
 		</section>
+
+		<section class="l-center" v-if="playState === state.STATE_GAME_OVER">
+			<div class="l-min-width">
+				<div>Game Over</div>
+				<h2 v-if="player1Cards.length === player2Cards.length">It's a draw!</h2>
+				<h2 v-else>{{ winningPlayer }} won!</h2>
+
+				<div>
+					<div>
+						<div>{{ config.player1 }}</div>
+						<div>{{ player1Cards.length }}</div>
+					</div>
+					<div></div>
+					<div>
+						<div>{{ config.player2 }}</div>
+						<div>{{ player2Cards.length }}</div>
+					</div>
+				</div>
+
+				<div class="section__footer">
+					<button class="btn btn--block" @click="reset">New Game</button>
+				</div>
+			</div>
+		</section>
 	</main>
 </template>
 
@@ -70,8 +111,9 @@ import PlayerScore from './../components/PlayerScore';
 import imageIds from './../shapes';
 import shuffle from './../array-shuffle';
 
-const STATE_GAME_STOPPED = 'not-started';
+const STATE_GAME_NOT_STARTED = 'not-started';
 const STATE_GAME_PLAYING = 'playing';
+const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
 	let config = reactive({
@@ -95,13 +137,19 @@ export default {
 
 	data() {
 		return {
-			playState: STATE_GAME_STOPPED,
+			playState: STATE_GAME_NOT_STARTED,
 			playerTurn: this.config.player1,
 			player1Cards: [],
 			player2Cards: [],
 			foundCards: [],
 			imageIds: shuffle(imageIds),
 		};
+	},
+
+	computed: {
+		winningPlayer () {
+			return this.player1Cards.length > this.player2Cards.length ? this.config.player1 : this.config.player2;
+		},
 	},
 
 	methods: {
@@ -120,6 +168,11 @@ export default {
 			}
 
 			this.cards = shuffle(cards);
+
+			this.playerTurn = this.config.player1;
+			this.player1Cards = [];
+			this.player2Cards = [];
+			this.foundCards = [];
 
 			this.playState = STATE_GAME_PLAYING;
 		},
@@ -140,19 +193,28 @@ export default {
 				} else if (this.playerTurn === this.config.player2) {
 					this.player2Cards.push(foundCard);
 				}
+
+				if (this.foundCards.length === this.config.cardCount * 1) {
+					this.playState = STATE_GAME_OVER;
+				}
 			});
 		},
 
 		onNonMatch () {
 			this.advancePlayerTurn();
 		},
+
+		reset () {
+			this.playState = STATE_GAME_NOT_STARTED;
+		},
 	},
 
 	setup() {
 		const { config, cards } = GameConfig();
 		const state = {
-			STATE_GAME_STOPPED,
+			STATE_GAME_NOT_STARTED,
 			STATE_GAME_PLAYING,
+			STATE_GAME_OVER,
 		};
 		return { config, cards, state };
 	}
@@ -160,17 +222,10 @@ export default {
 </script>
 
 <style lang="scss">
-.game-config {
-	display: flex;
-	min-height: 100vh;
-	justify-content: center;
-}
-
 .gameboard {
 	display: flex;
-	height: 100vh;
+	height: calc(100vh - 2rem);
 	overflow: hidden;
-	padding: 1rem;
 
 	&__cards {
 		display: flex;
@@ -201,5 +256,14 @@ export default {
 			margin-top: 1rem;
 		}
 	}
+}
+
+.game-config form {
+	width: Min(100%, 25rem);
+}
+
+.input-group {
+	display: block;
+	width: 100%;
 }
 </style>

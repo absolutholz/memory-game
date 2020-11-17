@@ -147,6 +147,6 @@ export default {
 
 .card-list	> li {
 	flex: 0 1 calc(var(--width) * 100%);
-	padding: 1rem;
+	padding: min(2vw, var(--spacing-base));
 }
 </style>

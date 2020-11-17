@@ -8,20 +8,42 @@ export default {
 };
 </script>
 
-<style>
-*, ::before, ::after {
-	box-sizing: border-box;
-}
+<style lang="scss">
+@import "~semantic-reboot/src/reboot-root";
+@import "~semantic-reboot/src/reboot-html";
+@import "~semantic-reboot/src/reboot-body";
+@import "~semantic-reboot/src/reboot-interactions";
+@import "~semantic-reboot/src/reboot-anchors";
+@import "~semantic-reboot/src/reboot-form-elements";
 
 :root {
-	background: #fffff7;
-	color: #111;
-	font: 1em / 1.5 sans-serif;
+	--color-highlight: rebeccapurple;
+	--color-typography: #11111a;
+	--color-background: #fffff8;
+
+	--typo-size-micro: 0.75rem;
+	--typo-size-mini: 0.875rem;
+	--typo-size-base: 1rem;
+	--typo-size-macro: 1.25rem;
+	--typo-size-mega: 1.75rem;
+
+	@media (min-width: 20rem) {
+		--typo-size-micro: 0.875rem;
+		--typo-size-mini: 1rem;
+		--typo-size-base: 1.125rem;
+		--typo-size-macro: 1.5rem;
+		--typo-size-mega: 2rem;
+	}
+
+	--spacing-micro: 0.25rem;
+	--spacing-mini: 0.5rem;
+	--spacing-base: 1rem;
+	--spacing-macro: 1.5rem;
+	--spacing-mega: 3rem;
 }
 
 body {
-	font-size: 1.125rem;
-	margin: 0;
+	font-size: var(--typo-size-base);
 }
 
 button {
@@ -35,5 +57,77 @@ button {
 	padding: 0;
 	text-align: inherit;
 	width: auto;
+}
+
+fieldset {
+	margin-top: var(--spacing-macro);
+}
+
+legend {
+	color: #333;
+	font-size: var(--typo-size-micro);
+	font-weight: bold;
+	margin-bottom: var(--spacing-micro);
+}
+
+.input-group {
+	margin-top: var(--spacing-base);
+}
+
+.l-container {
+	padding: var(--spacing-base);
+}
+
+.l-center {
+	// align-items: center;
+	display: flex;
+	justify-content: center;
+	min-height: calc(100vh - 2rem);
+	width: 100%;
+}
+
+.l-min-width {
+	width: Min(25rem, 100%);
+}
+
+.btn {
+	background: var(--color-highlight);
+	border-radius: 3px;
+	color: white;
+	letter-spacing: 0.1ch;
+	padding: 0.5em 1em;
+	text-align: center;
+	text-transform: capitalize;
+
+	&--block {
+		display: block;
+		width: 100%;
+	}
+}
+
+.section {
+	&__hdln {
+		font-size: var(--typo-size-macro);
+		font-weight: bold;
+		margin-bottom: var(--spacing-macro);
+		margin-top: 0;
+	}
+
+	&__footer {
+		margin-top: var(--spacing-mega);
+	}
+}
+
+.input {
+	background: white;
+	border: 2px solid #666;
+	border-radius: 3px;
+	font-size: var(--typo-size-macro);
+	padding: 0.125em 0.5em;
+	width: 100%;
+}
+
+.input-label {
+	margin-bottom: 0.5rem;
 }
 </style>

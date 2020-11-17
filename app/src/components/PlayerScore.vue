@@ -42,15 +42,16 @@ export default {
 .player {
 	border: 4px solid lightgrey;
 	border-radius: 8px;
-	padding: 0.5rem 1rem;
+	padding: var(--spacing-micro) var(--spacing-base);
 	position: relative;
 
 	&__name {
 		margin: 0;
+		white-space: nowrap;
 	}
 
 	&::before {
-		border-right: 1.5rem solid dodgerblue;
+		border-right: 1.5rem solid var(--color-highlight);
 		border-bottom: 1.5rem solid transparent;
 		border-top: 1.5rem solid transparent;
 		content: "";
@@ -63,7 +64,7 @@ export default {
 	}
 
 	&--active {
-		border-color: dodgerblue;
+		border-color: var(--color-highlight);
 
 		&::before {
 			display: block;
