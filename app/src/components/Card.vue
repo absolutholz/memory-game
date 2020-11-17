@@ -3,6 +3,7 @@
 		@click="onClick"
 		:class="`card${ isShowing ? ' card--showing' : '' }${ isFound ? ' card--found' : '' }`"
 		:disabled="isShowing || isFound"
+		:style="`--color: ${ color };`"
 	>
 		<div class="card__content">
 			<div class="card__back">
@@ -30,6 +31,11 @@ export default {
 
 		name: {
 			required: true,
+			type: String,
+		},
+
+		color: {
+			required: false,
 			type: String,
 		},
 
@@ -64,6 +70,7 @@ export default {
 // https://codepen.io/ettrics/pen/zxMPWj?editors=0100
 
 .card {
+	color: var(--color, --primary);
 	display: block;
 	padding-bottom: 100%;
 	perspective: 500px;

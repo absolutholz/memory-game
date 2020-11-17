@@ -2,9 +2,9 @@
 	<ol class="card-list" ref="root">
 		<li
 			v-for="(card, index) in cards" :key="index"
-			:style="`color: ${ colors[card.name] }`"
 		>
 			<card
+				:color="card.color"
 				:id="card.id"
 				:isFound="isCardFound(card)"
 				:isShowing="isCardShowing(card)"
@@ -23,9 +23,6 @@
 import { ref, onMounted } from 'vue';
 
 import Card from './Card';
-
-import colors from './../colors';
-import shuffle from './../array-shuffle';
 
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
@@ -74,7 +71,6 @@ export default {
 		return {
 			card1: null,
 			card2: null,
-			colors: shuffle(colors),
 		};
 	},
 

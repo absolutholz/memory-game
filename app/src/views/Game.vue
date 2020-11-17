@@ -97,24 +97,23 @@
 								v-for="(cardGroup, cardGroupIndex) in winningPlayerCardGroups" :key="cardGroupIndex"
 								class="mini-card-group"
 							>
-								<div
+								<mini-card
 									v-for="(card, index) in cardGroup" :key="index"
-									class="mini-card"
-									:style="`transform: rotate(${ (Math.random() * 10) * (Math.random() > 0.5 ? -1 : 1) }deg);`"
+									:color="card.color"
 								>
 									<svg class="mini-card__image mini-card__image--svg">
 										<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
 									</svg>
-								</div>
+								</mini-card>
 							</div>
 						</div>
-						<figcaption>{{ player1Cards.length }} Cards</figcaption>
+						<!-- <figcaption>{{ player1Cards.length }} Cards</figcaption> -->
 					</figure>
 
-					<div>
+					<!-- <div>
 						<div>{{ config.player2 }}</div>
 						<div>{{ player2Cards.length }}</div>
-					</div>
+					</div> -->
 
 					<div class="section__footer">
 						<button class="btn btn--block" @click="reset">New Game</button>
@@ -130,8 +129,10 @@ import { reactive } from "vue";
 
 import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
+import MiniCard from './../components/MiniCard';
 import PlayerScore from './../components/PlayerScore';
 
+import colors from './../colors';
 import imageIds from './../shapes';
 import shuffle from './../array-shuffle';
 
@@ -157,6 +158,7 @@ export default {
 	components: {
 		CardList,
 		Gameboard,
+		MiniCard,
 		PlayerScore,
 	},
 
@@ -192,6 +194,7 @@ export default {
 	methods: {
 		startGame () {
 			const cards = [];
+			const shuffledColors = shuffle(colors);
 
 			for (let i = 0; i < this.config.cardCount; i++) {
 				const name = `${ Math.ceil((i + 1) / 2) }`;
@@ -201,6 +204,7 @@ export default {
 					name,
 					id,
 					found: false,
+					color: shuffledColors[name],
 				});
 			}
 
@@ -292,31 +296,5 @@ export default {
 	margin: 0 var(--spacing-micro);
 	position: relative;
 	width: 50px;
-}
-
-.mini-card {
-	background: white;
-	border-radius: 4px;
-	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-
-	&__image {
-		height: 80%;
-		left: 10%;
-		object-fit: contain;
-		position: absolute;
-		top: 10%;
-		width: 80%;
-		z-index: 0;
-	}
-
-	// &:nth-child(even) {
-	// 	top: 20%;
-	// 	left: 20%;
-	// }
 }
 </style>

@@ -24,22 +24,22 @@ export default {
 	--typo-size-micro: 0.75rem;
 	--typo-size-mini: 0.875rem;
 	--typo-size-base: 1rem;
-	--typo-size-macro: 1.25rem;
-	--typo-size-mega: 1.75rem;
+	--typo-size-mega: 1.25rem;
+	--typo-size-macro: 1.75rem;
 
 	@media (min-width: 20rem) {
 		--typo-size-micro: 0.875rem;
 		--typo-size-mini: 1rem;
 		--typo-size-base: 1.125rem;
-		--typo-size-macro: 1.5rem;
-		--typo-size-mega: 2rem;
+		--typo-size-meag: 1.5rem;
+		--typo-size-macro: 2rem;
 	}
 
 	--spacing-micro: 0.25rem;
 	--spacing-mini: 0.5rem;
 	--spacing-base: 1rem;
-	--spacing-macro: 1.5rem;
-	--spacing-mega: 3rem;
+	--spacing-mega: 1.5rem;
+	--spacing-macro: 3rem;
 }
 
 body {
