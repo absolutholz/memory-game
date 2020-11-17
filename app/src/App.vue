@@ -70,6 +70,10 @@ legend {
 	margin-bottom: var(--spacing-micro);
 }
 
+figure {
+	margin: 0;
+}
+
 .input-group {
 	margin-top: var(--spacing-base);
 }

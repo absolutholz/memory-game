@@ -1,104 +1,127 @@
 <template>
-	<main class="l-container">
-		<section class="l-center" v-if="playState === state.STATE_GAME_NOT_STARTED">
-			<form class="l-min-width" @submit.prevent="startGame">
-				<h2 class="section__hdln">Game Configuration</h2>
+	<main>
+		<div class="l-container" v-if="playState === state.STATE_GAME_NOT_STARTED">
+			<section class="l-center">
+				<form class="l-min-width" @submit.prevent="startGame">
+					<h2 class="section__hdln">Game Configuration</h2>
 
-				<fieldset>
-					<legend>Cards</legend>
+					<fieldset>
+						<legend>Cards</legend>
 
-					<label class="input-group" for="card-count">
-						<div class="input-label">Number</div>
-						<input
-							class="input"
-							id="card-count"
-							max="54"
-							min="8"
-							required step="2"
-							type="number"
-							v-model="config.cardCount"
-						>
-					</label>
+						<label class="input-group" for="card-count">
+							<div class="input-label">Number</div>
+							<input
+								class="input"
+								id="card-count"
+								max="54"
+								min="8"
+								required step="2"
+								type="number"
+								v-model="config.cardCount"
+							>
+						</label>
 
-					<div class="input-group">
-						<div class="input-label">Style</div>
-						<button class="input" disabled>Shapes</button>
+						<div class="input-group">
+							<div class="input-label">Style</div>
+							<button class="input" disabled>Shapes</button>
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend>Players</legend>
+
+						<label class="input-group" for="player-1-name">
+							<div class="input-label">Player 1</div>
+							<input class="input" v-model="config.player1" id="player-1-name" required type="text">
+						</label>
+
+						<label class="input-group" for="player-2-name">
+							<div class="input-label">Player 2</div>
+							<input class="input" v-model="config.player2" id="player-2-name" required type="text">
+						</label>
+					</fieldset>
+
+					<div class="section__footer">
+						<button class="btn btn--block" type="submit">Start game</button>
 					</div>
-				</fieldset>
+				</form>
+			</section>
+		</div>
 
-				<fieldset>
-					<legend>Players</legend>
+		<section v-if="playState === state.STATE_GAME_PLAYING">
+			<gameboard>
+				<template v-slot:cards>
 
-					<label class="input-group" for="player-1-name">
-						<div class="input-label">Player 1</div>
-						<input class="input" v-model="config.player1" id="player-1-name" required type="text">
-					</label>
+					<card-list
+						@on-match="onMatch"
+						@on-non-match="onNonMatch"
+						:cards="cards"
+						:foundCards="foundCards"
+						:imageIds="imageIds"
+					/>
 
-					<label class="input-group" for="player-2-name">
-						<div class="input-label">Player 2</div>
-						<input class="input" v-model="config.player2" id="player-2-name" required type="text">
-					</label>
-				</fieldset>
+				</template>
+				<template v-slot:score>
 
-				<div class="section__footer">
-					<button class="btn btn--block" type="submit">Start game</button>
-				</div>
-			</form>
+					<ol class="scoreboard__player-list">
+						<li>
+							<player-score
+								:foundCards="player1Cards"
+								:isActive="playerTurn === config.player1"
+								:name="config.player1"
+							/>
+						</li>
+						<li>
+							<player-score
+								:foundCards="player2Cards"
+								:isActive="playerTurn === config.player2"
+								:name="config.player2"
+							/>
+						</li>
+					</ol>
+
+				</template>
+			</gameboard>
 		</section>
 
-		<section class="gameboard" v-if="playState === state.STATE_GAME_PLAYING">
-			<section class="gameboard__cards">
-				<card-list
-					@on-match="onMatch"
-					@on-non-match="onNonMatch"
-					:cards="cards"
-					:foundCards="foundCards"
-					:imageIds="imageIds"
-				/>
-			</section>
-			<section class="gameboard__state">
-				<ol class="scoreboard__player-list">
-					<li>
-						<player-score
-							:foundCards="player1Cards"
-							:isActive="playerTurn === config.player1"
-							:name="config.player1"
-						/>
-					</li>
-					<li>
-						<player-score
-							:foundCards="player2Cards"
-							:isActive="playerTurn === config.player2"
-							:name="config.player2"
-						/>
-					</li>
-				</ol>
-			</section>
-		</section>
+		<div class="l-container" v-if="playState === state.STATE_GAME_OVER">
+			<section class="l-center">
+				<div class="l-min-width">
+					<div>Game Over</div>
+					<h2 v-if="player1Cards.length === player2Cards.length">It's a draw!</h2>
+					<h2 v-else>{{ winningPlayer }} won!</h2>
 
-		<section class="l-center" v-if="playState === state.STATE_GAME_OVER">
-			<div class="l-min-width">
-				<div>Game Over</div>
-				<h2 v-if="player1Cards.length === player2Cards.length">It's a draw!</h2>
-				<h2 v-else>{{ winningPlayer }} won!</h2>
+					<figure>
+						<div class="mini-card-list">
+							<div
+								v-for="(cardGroup, cardGroupIndex) in winningPlayerCardGroups" :key="cardGroupIndex"
+								class="mini-card-group"
+							>
+								<div
+									v-for="(card, index) in cardGroup" :key="index"
+									class="mini-card"
+									:style="`transform: rotate(${ (Math.random() * 10) * (Math.random() > 0.5 ? -1 : 1) }deg);`"
+								>
+									<svg class="mini-card__image mini-card__image--svg">
+										<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
+									</svg>
+								</div>
+							</div>
+						</div>
+						<figcaption>{{ player1Cards.length }} Cards</figcaption>
+					</figure>
 
-				<div>
-					<div>
-						<div>{{ config.player1 }}</div>
-						<div>{{ player1Cards.length }}</div>
-					</div>
-					<div></div>
 					<div>
 						<div>{{ config.player2 }}</div>
 						<div>{{ player2Cards.length }}</div>
 					</div>
-				</div>
 
-				<div class="section__footer">
-					<button class="btn btn--block" @click="reset">New Game</button>
+					<div class="section__footer">
+						<button class="btn btn--block" @click="reset">New Game</button>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	</main>
 </template>
 
@@ -106,6 +129,7 @@
 import { reactive } from "vue";
 
 import CardList from './../components/CardList';
+import Gameboard from './../components/Gameboard';
 import PlayerScore from './../components/PlayerScore';
 
 import imageIds from './../shapes';
@@ -132,6 +156,7 @@ export default {
 
 	components: {
 		CardList,
+		Gameboard,
 		PlayerScore,
 	},
 
@@ -150,6 +175,18 @@ export default {
 		winningPlayer () {
 			return this.player1Cards.length > this.player2Cards.length ? this.config.player1 : this.config.player2;
 		},
+
+		winningPlayerCardGroups () {
+			const cards = {};
+			(this.player1Cards.length > this.player2Cards.length ? this.player1Cards : this.player2Cards).forEach((card) => {
+				if (!cards[card.name]) {
+					cards[card.name] = [];
+				}
+				cards[card.name].push(card);
+			});
+
+			return cards;
+		}
 	},
 
 	methods: {
@@ -222,39 +259,17 @@ export default {
 </script>
 
 <style lang="scss">
-.gameboard {
-	display: flex;
-	height: calc(100vh - 2rem);
-	overflow: hidden;
-
-	&__cards {
-		display: flex;
-		flex: 1 1 auto;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-
-	&__state {
-		display: flex;
-		flex: 0 1 auto;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		margin-left: 1rem;
-		min-width: 10vw;
-	}
-}
-
 .scoreboard__player-list {
+	display: flex;
+	flex-direction: inherit;
+	flex-wrap: wrap;
 	list-style: none;
-	margin: 0;
+	justify-content: center;
+	margin: calc(-1 * var(--spacing-mini));
 	padding-left: 0;
 
 	> li {
-		+ li {
-			margin-top: 1rem;
-		}
+		margin: var(--spacing-mini);
 	}
 }
 
@@ -265,5 +280,43 @@ export default {
 .input-group {
 	display: block;
 	width: 100%;
+}
+
+.mini-card-list {
+	display: flex;
+	justify-content: center;;
+}
+
+.mini-card-group {
+	height: 50px;
+	margin: 0 var(--spacing-micro);
+	position: relative;
+	width: 50px;
+}
+
+.mini-card {
+	background: white;
+	border-radius: 4px;
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+
+	&__image {
+		height: 80%;
+		left: 10%;
+		object-fit: contain;
+		position: absolute;
+		top: 10%;
+		width: 80%;
+		z-index: 0;
+	}
+
+	// &:nth-child(even) {
+	// 	top: 20%;
+	// 	left: 20%;
+	// }
 }
 </style>

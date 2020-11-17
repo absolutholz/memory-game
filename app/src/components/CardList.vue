@@ -30,6 +30,7 @@ import shuffle from './../array-shuffle';
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
 
+	// console.log(elList.scrollHeight, nContainerHeight);
 	while (elList.scrollHeight > nContainerHeight) {
 		elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / 2);
 		// console.log('/ 2', getComputedStyle(elList).getPropertyValue('--width'));
