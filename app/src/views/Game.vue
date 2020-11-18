@@ -30,15 +30,22 @@
 					<fieldset>
 						<legend>Players</legend>
 
-						<label class="input-group" for="player-1-name">
-							<div class="input-label">Player 1</div>
-							<input class="input" v-model="config.playerNames[0]" id="player-1-name" required type="text">
+						<label
+							v-for="(player, index) in config.players" :key="index"
+							class="input-group"
+							for="`player-${ player.name }-name`"
+						>
+							<div class="input-label">Player {{ index + 1 }} name</div>
+							<input class="input" v-model="player.name" :id="`player-${ player.name }-name`" required type="text">
 						</label>
 
-						<label class="input-group" for="player-2-name">
-							<div class="input-label">Player 2</div>
-							<input class="input" v-model="config.playerNames[1]" id="player-2-name" required type="text">
-						</label>
+						<div class="fieldset__footer">
+							<button
+								@click="addPlayer"
+								class="btn btn--block btn--hollow"
+								type="button"
+							>Add player</button>
+						</div>
 					</fieldset>
 
 					<div class="section__footer">
@@ -64,18 +71,11 @@
 				<template v-slot:score>
 
 					<ol class="scoreboard__player-list">
-						<li>
+						<li v-for="(player, index) in config.players" :key="index">
 							<player-score
-								:foundCards="player1Cards"
-								:isActive="playerTurn === config.playerNames[0]"
-								:name="config.playerNames[0]"
-							/>
-						</li>
-						<li>
-							<player-score
-								:foundCards="player2Cards"
-								:isActive="playerTurn === config.playerNames[1]"
-								:name="config.playerNames[1]"
+								:foundCards="player.cards"
+								:isActive="playerTurnIndex === index"
+								:name="player.name"
 							/>
 						</li>
 					</ol>
@@ -88,12 +88,13 @@
 			<section class="l-center">
 				<div class="l-min-width">
 					<div>Game Over</div>
-					<h2 v-if="player1Cards.length === player2Cards.length">It's a draw!</h2>
-					<h2 v-else>{{ winningPlayer }} won!</h2>
+
+					<h2 v-if="winningPlayers.length > 1">It's a draw!</h2>
+					<h2 v-else>{{ winningPlayers[0].name }} won!</h2>
 
 					<figure>
 						<ul class="mini-card-list">
-							<li
+							<!-- <li
 								v-for="(cardGroup, cardGroupIndex) in winningPlayerCardGroups" :key="cardGroupIndex"
 								class="mini-card-list__item"
 							>
@@ -105,7 +106,7 @@
 										<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
 									</svg>
 								</mini-card>
-							</li>
+							</li> -->
 						</ul>
 						<!-- <figcaption>{{ player1Cards.length }} Cards</figcaption> -->
 					</figure>
@@ -129,7 +130,7 @@ import { reactive } from "vue";
 
 import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
-import MiniCard from './../components/MiniCard';
+// import MiniCard from './../components/MiniCard';
 import PlayerScore from './../components/PlayerScore';
 
 import colors from './../colors';
@@ -141,28 +142,22 @@ const STATE_GAME_PLAYING = 'playing';
 const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
-	let config = reactive({
+	const  config = reactive({
 		cardCount: 20,
-		playerNames: [
-			'Player 1',
-			'Player 2',
+		players: [
+			{
+				name: 'Player 1',
+				cards: [],
+			},
+			{
+				name: 'Player 2',
+				cards: [],
+			},
 		],
 	});
 
-	const cards = [];
-
-  return { config, cards };
+	return { config };
 }
-
-// function Player () {
-// 	let name = '';
-// 	let cards = [];
-
-// 	return {
-// 		name,
-// 		cards,
-// 	};
-// }
 
 export default {
 	name: 'Game',
@@ -170,37 +165,45 @@ export default {
 	components: {
 		CardList,
 		Gameboard,
-		MiniCard,
+		// MiniCard,
 		PlayerScore,
 	},
 
 	data() {
 		return {
+			cards: [],
 			playState: STATE_GAME_NOT_STARTED,
-			playerTurn: this.config.playerNames[0],
-			player1Cards: [],
-			player2Cards: [],
+			playerTurnIndex: 0,
 			foundCards: [],
 			imageIds: shuffle(imageIds),
 		};
 	},
 
 	computed: {
-		winningPlayer () {
-			return this.player1Cards.length > this.player2Cards.length ? this.config.playerNames[0] : this.config.playerNames[1];
+		winningPlayers () {
+			let winners = [];
+			this.config.players.forEach((player) => {
+				console.log("XXX", winners[0], player);
+				if (!winners.length || player.cards.length === winners[0].cards.length) {
+					winners.push(player);
+				} else if (player.cards.length > winners[0].cards.length) {
+					winners = [player];
+				}
+			});
+			return winners;
 		},
 
-		winningPlayerCardGroups () {
-			const cards = {};
-			(this.player1Cards.length > this.player2Cards.length ? this.player1Cards : this.player2Cards).forEach((card) => {
-				if (!cards[card.name]) {
-					cards[card.name] = [];
-				}
-				cards[card.name].push(card);
-			});
+		// winningPlayerCardGroups () {
+		// 	const cards = {};
+		// 	(this.player1Cards.length > this.player2Cards.length ? this.player1Cards : this.player2Cards).forEach((card) => {
+		// 		if (!cards[card.name]) {
+		// 			cards[card.name] = [];
+		// 		}
+		// 		cards[card.name].push(card);
+		// 	});
 
-			return cards;
-		}
+		// 	return cards;
+		// }
 	},
 
 	methods: {
@@ -221,36 +224,33 @@ export default {
 			}
 
 			this.cards = shuffle(cards);
-
-			this.playerTurn = this.config.playerNames[0];
-			this.player1Cards = [];
-			this.player2Cards = [];
 			this.foundCards = [];
+
+			this.playerTurnIndex = 0;
+			this.config.players.forEach((player) => {
+				player.cards = [];
+			});
 
 			this.playState = STATE_GAME_PLAYING;
 		},
 
 		advancePlayerTurn () {
 			console.log('next player');
-			this.playerTurn = this.playerTurn === this.config.playerNames[0] ? this.config.playerNames[1] : this.config.playerNames[0];
+			this.playerTurnIndex = this.playerTurnIndex < this.config.players.length - 1 ? this.playerTurnIndex + 1 : 0;
 		},
 
 		onMatch (cards) {
+			const currentPlayerCards = this.config.players[this.playerTurnIndex].cards;
+
 			cards.forEach((selectedCard) => {
 				const foundCard = this.cards.find((card) => card.id === selectedCard.id);
-
 				this.foundCards.push(foundCard);
-
-				if (this.playerTurn === this.config.playerNames[0]) {
-					this.player1Cards.push(foundCard);
-				} else if (this.playerTurn === this.config.playerNames[1]) {
-					this.player2Cards.push(foundCard);
-				}
-
-				if (this.foundCards.length === this.config.cardCount * 1) {
-					this.playState = STATE_GAME_OVER;
-				}
+				currentPlayerCards.push(foundCard);
 			});
+
+			if (this.foundCards.length === this.config.cardCount * 1) {
+				this.playState = STATE_GAME_OVER;
+			}
 		},
 
 		onNonMatch () {
@@ -260,16 +260,23 @@ export default {
 		reset () {
 			this.playState = STATE_GAME_NOT_STARTED;
 		},
+
+		addPlayer () {
+			this.config.players.push({
+				name: `Player ${ this.config.players.length + 1 }`,
+				cards: [],
+			});
+		},
 	},
 
 	setup() {
-		const { config, cards } = GameConfig();
+		const { config } = GameConfig();
 		const state = {
 			STATE_GAME_NOT_STARTED,
 			STATE_GAME_PLAYING,
 			STATE_GAME_OVER,
 		};
-		return { config, cards, state };
+		return { config, state };
 	}
 };
 </script>

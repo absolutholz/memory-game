@@ -70,6 +70,12 @@ legend {
 	margin-bottom: var(--spacing-micro);
 }
 
+.fieldset {
+	&__footer {
+		margin-top: var(--spacing-base);
+	}
+}
+
 figure {
 	margin: 0;
 }
@@ -96,8 +102,10 @@ figure {
 
 .btn {
 	background: var(--color-highlight);
+	border: 2px solid transparent;
 	border-radius: 3px;
 	color: white;
+	font-weight: bold;
 	letter-spacing: 0.1ch;
 	padding: 0.5em 1em;
 	text-align: center;
@@ -106,6 +114,12 @@ figure {
 	&--block {
 		display: block;
 		width: 100%;
+	}
+
+	&--hollow {
+		background: none;
+		border-color: currentColor;
+		color: var(--color-highlight);
 	}
 }
 
@@ -126,8 +140,8 @@ figure {
 	background: white;
 	border: 2px solid #666;
 	border-radius: 3px;
-	font-size: var(--typo-size-macro);
-	padding: 0.125em 0.5em;
+	font-size: var(--typo-size-mega);
+	padding: 0.25em 0.5em;
 	width: 100%;
 }
 
