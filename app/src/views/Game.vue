@@ -32,12 +32,12 @@
 
 						<label class="input-group" for="player-1-name">
 							<div class="input-label">Player 1</div>
-							<input class="input" v-model="config.player1" id="player-1-name" required type="text">
+							<input class="input" v-model="config.playerNames[0]" id="player-1-name" required type="text">
 						</label>
 
 						<label class="input-group" for="player-2-name">
 							<div class="input-label">Player 2</div>
-							<input class="input" v-model="config.player2" id="player-2-name" required type="text">
+							<input class="input" v-model="config.playerNames[1]" id="player-2-name" required type="text">
 						</label>
 					</fieldset>
 
@@ -67,15 +67,15 @@
 						<li>
 							<player-score
 								:foundCards="player1Cards"
-								:isActive="playerTurn === config.player1"
-								:name="config.player1"
+								:isActive="playerTurn === config.playerNames[0]"
+								:name="config.playerNames[0]"
 							/>
 						</li>
 						<li>
 							<player-score
 								:foundCards="player2Cards"
-								:isActive="playerTurn === config.player2"
-								:name="config.player2"
+								:isActive="playerTurn === config.playerNames[1]"
+								:name="config.playerNames[1]"
 							/>
 						</li>
 					</ol>
@@ -143,14 +143,26 @@ const STATE_GAME_OVER = 'game-over';
 function GameConfig () {
 	let config = reactive({
 		cardCount: 20,
-		player1: 'Player 1',
-		player2: 'Player 2',
+		playerNames: [
+			'Player 1',
+			'Player 2',
+		],
 	});
 
 	const cards = [];
 
   return { config, cards };
 }
+
+// function Player () {
+// 	let name = '';
+// 	let cards = [];
+
+// 	return {
+// 		name,
+// 		cards,
+// 	};
+// }
 
 export default {
 	name: 'Game',
@@ -165,7 +177,7 @@ export default {
 	data() {
 		return {
 			playState: STATE_GAME_NOT_STARTED,
-			playerTurn: this.config.player1,
+			playerTurn: this.config.playerNames[0],
 			player1Cards: [],
 			player2Cards: [],
 			foundCards: [],
@@ -175,7 +187,7 @@ export default {
 
 	computed: {
 		winningPlayer () {
-			return this.player1Cards.length > this.player2Cards.length ? this.config.player1 : this.config.player2;
+			return this.player1Cards.length > this.player2Cards.length ? this.config.playerNames[0] : this.config.playerNames[1];
 		},
 
 		winningPlayerCardGroups () {
@@ -210,7 +222,7 @@ export default {
 
 			this.cards = shuffle(cards);
 
-			this.playerTurn = this.config.player1;
+			this.playerTurn = this.config.playerNames[0];
 			this.player1Cards = [];
 			this.player2Cards = [];
 			this.foundCards = [];
@@ -220,7 +232,7 @@ export default {
 
 		advancePlayerTurn () {
 			console.log('next player');
-			this.playerTurn = this.playerTurn === this.config.player1 ? this.config.player2 : this.config.player1;
+			this.playerTurn = this.playerTurn === this.config.playerNames[0] ? this.config.playerNames[1] : this.config.playerNames[0];
 		},
 
 		onMatch (cards) {
@@ -229,9 +241,9 @@ export default {
 
 				this.foundCards.push(foundCard);
 
-				if (this.playerTurn === this.config.player1) {
+				if (this.playerTurn === this.config.playerNames[0]) {
 					this.player1Cards.push(foundCard);
-				} else if (this.playerTurn === this.config.player2) {
+				} else if (this.playerTurn === this.config.playerNames[1]) {
 					this.player2Cards.push(foundCard);
 				}
 

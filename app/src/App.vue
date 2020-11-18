@@ -118,7 +118,7 @@ figure {
 	}
 
 	&__footer {
-		margin-top: var(--spacing-macros);
+		margin-top: var(--spacing-macro);
 	}
 }
 
