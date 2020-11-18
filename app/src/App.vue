@@ -121,6 +121,15 @@ figure {
 		border-color: currentColor;
 		color: var(--color-highlight);
 	}
+
+	&--small {
+		font-size: 0.75em;
+		padding: 0 0.25em;
+	}
+
+	&--danger {
+		color: #b71c1c;
+	}
 }
 
 .section {
@@ -147,5 +156,9 @@ figure {
 
 .input-label {
 	margin-bottom: 0.5rem;
+
+	.btn {
+		float: right;
+	}
 }
 </style>

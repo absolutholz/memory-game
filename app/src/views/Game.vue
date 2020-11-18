@@ -35,11 +35,27 @@
 							class="input-group"
 							for="`player-${ player.name }-name`"
 						>
-							<div class="input-label">Player {{ index + 1 }} name</div>
-							<input class="input" v-model="player.name" :id="`player-${ player.name }-name`" required type="text">
+							<div class="input-label">
+								Player {{ index + 1 }}
+								<button
+									v-if="config.players.length > 2"
+									@click="removePlayer(player)"
+									class="btn btn--small btn--hollow"
+									type="button"
+								>remove</button>
+							</div>
+							<input
+								v-model="player.name"
+								class="input"
+								:id="`player-${ player.name }-name`"
+								min-length="2"
+								max-length="20"
+								required
+								type="text"
+							>
 						</label>
 
-						<div class="fieldset__footer">
+						<div class="fieldset__footer" v-if="config.players.length < 4">
 							<button
 								@click="addPlayer"
 								class="btn btn--block btn--hollow"
@@ -87,34 +103,36 @@
 		<div class="l-container" v-if="playState === state.STATE_GAME_OVER">
 			<section class="l-center">
 				<div class="l-min-width">
-					<div>Game Over</div>
+					<!-- <div>Game Over</div> -->
 
-					<h2 v-if="winningPlayers.length > 1">It's a draw!</h2>
-					<h2 v-else>{{ winningPlayers[0].name }} won!</h2>
+					<section class="results">
+						<div class="results__head">
+							<h2 class="results__hdln" v-if="winningPlayers.length > 1">It's a draw!</h2>
+							<h2 class="results__hdln" v-else>{{ winningPlayers[0].name }} won!</h2>
+						</div>
 
-					<figure>
-						<ul class="mini-card-list">
-							<!-- <li
-								v-for="(cardGroup, cardGroupIndex) in winningPlayerCardGroups" :key="cardGroupIndex"
-								class="mini-card-list__item"
-							>
-								<mini-card
-									v-for="(card, index) in cardGroup" :key="index"
-									:color="card.color"
-								>
-									<svg class="mini-card__image mini-card__image--svg">
-										<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
-									</svg>
-								</mini-card>
-							</li> -->
-						</ul>
-						<!-- <figcaption>{{ player1Cards.length }} Cards</figcaption> -->
-					</figure>
+						<div class="results__body">
+							<player-result
+								v-for="(player, index) in winningPlayers" :key="index"
+								:imageIds="imageIds"
+								:player="player"
+							/>
+						</div>
+					</section>
 
-					<!-- <div>
-						<div>{{ config.player2 }}</div>
-						<div>{{ player2Cards.length }}</div>
-					</div> -->
+					<section class="results" v-if="notWinningPlayers.length">
+						<div class="results__head">
+							<h2 class="results__hdln">Better luck next time</h2>
+						</div>
+
+						<div class="results__body">
+							<player-result
+								v-for="(player, index) in notWinningPlayers" :key="index"
+								:imageIds="imageIds"
+								:player="player"
+							/>
+						</div>
+					</section>
 
 					<div class="section__footer">
 						<button class="btn btn--block" @click="reset">New Game</button>
@@ -130,7 +148,7 @@ import { reactive } from "vue";
 
 import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
-// import MiniCard from './../components/MiniCard';
+import PlayerResult from './../components/PlayerResult';
 import PlayerScore from './../components/PlayerScore';
 
 import colors from './../colors';
@@ -165,7 +183,7 @@ export default {
 	components: {
 		CardList,
 		Gameboard,
-		// MiniCard,
+		PlayerResult,
 		PlayerScore,
 	},
 
@@ -183,7 +201,6 @@ export default {
 		winningPlayers () {
 			let winners = [];
 			this.config.players.forEach((player) => {
-				console.log("XXX", winners[0], player);
 				if (!winners.length || player.cards.length === winners[0].cards.length) {
 					winners.push(player);
 				} else if (player.cards.length > winners[0].cards.length) {
@@ -193,17 +210,9 @@ export default {
 			return winners;
 		},
 
-		// winningPlayerCardGroups () {
-		// 	const cards = {};
-		// 	(this.player1Cards.length > this.player2Cards.length ? this.player1Cards : this.player2Cards).forEach((card) => {
-		// 		if (!cards[card.name]) {
-		// 			cards[card.name] = [];
-		// 		}
-		// 		cards[card.name].push(card);
-		// 	});
-
-		// 	return cards;
-		// }
+		notWinningPlayers () {
+			return this.config.players.filter((player) => !this.winningPlayers.includes(player));
+		},
 	},
 
 	methods: {
@@ -267,6 +276,11 @@ export default {
 				cards: [],
 			});
 		},
+
+		removePlayer (playerToRemove) {
+			const indexToRemove = this.config.players.findIndex((player) => player === playerToRemove);
+			this.config.players.splice(indexToRemove, 1);
+		},
 	},
 
 	setup() {
@@ -315,9 +329,44 @@ export default {
 
 	&__item {
 		height: 50px;
-		margin: var(--spacing-micro);
+		margin: var(--spacing-mini);
 		position: relative;
 		width: 50px;
+	}
+}
+
+.results {
+	align-items: center;
+	border: 4px solid #444;
+	border-radius: 4rem 4rem 1rem 1rem;
+	display: flex;
+	flex-direction: column;
+	margin: var(--spacing-macro) 0;
+	padding: 2rem;
+
+	&__head {
+		background: white;
+		line-height: 1;
+		margin: -3rem 0 var(--spacing-mega);
+		padding: 0 var(--spacing-base);
+	}
+
+	&__body {
+		display: flex;
+		flex-wrap: wrap;
+
+		> * {
+			flex: 1 1 auto;
+			margin: var(--spacing-mega);
+			max-width: 250px;
+		}
+	}
+
+	&__hdln {
+		background: white;
+		font-size: var(--typo-size-macro);
+		line-height: 1;
+		margin: -0.25em 0 0;
 	}
 }
 </style>
