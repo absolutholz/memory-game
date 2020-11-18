@@ -92,10 +92,10 @@
 					<h2 v-else>{{ winningPlayer }} won!</h2>
 
 					<figure>
-						<div class="mini-card-list">
-							<div
+						<ul class="mini-card-list">
+							<li
 								v-for="(cardGroup, cardGroupIndex) in winningPlayerCardGroups" :key="cardGroupIndex"
-								class="mini-card-group"
+								class="mini-card-list__item"
 							>
 								<mini-card
 									v-for="(card, index) in cardGroup" :key="index"
@@ -105,8 +105,8 @@
 										<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
 									</svg>
 								</mini-card>
-							</div>
-						</div>
+							</li>
+						</ul>
 						<!-- <figcaption>{{ player1Cards.length }} Cards</figcaption> -->
 					</figure>
 
@@ -288,13 +288,17 @@ export default {
 
 .mini-card-list {
 	display: flex;
-	justify-content: center;;
-}
+	flex-wrap: wrap;
+	justify-content: center;
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
 
-.mini-card-group {
-	height: 50px;
-	margin: 0 var(--spacing-micro);
-	position: relative;
-	width: 50px;
+	&__item {
+		height: 50px;
+		margin: var(--spacing-micro);
+		position: relative;
+		width: 50px;
+	}
 }
 </style>
