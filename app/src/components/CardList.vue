@@ -30,7 +30,7 @@ function sizeList (elList) {
 	// console.log(elList.scrollHeight, nContainerHeight);
 	while (elList.scrollHeight > nContainerHeight) {
 		elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / 2);
-		// console.log('/ 2', getComputedStyle(elList).getPropertyValue('--width'));
+		// console.log('/ 2', getComputeSdStyle(elList).getPropertyValue('--width'));
 	}
 
 	const step = 1.0125;

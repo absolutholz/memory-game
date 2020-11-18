@@ -57,9 +57,6 @@ export default {
 			this.$emit('on-card-select', { name: this.name, id: this.id });
 		},
 	},
-
-	setup () {
-	},
 };
 </script>
 

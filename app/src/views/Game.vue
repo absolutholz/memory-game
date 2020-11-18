@@ -23,7 +23,7 @@
 
 						<div class="input-group">
 							<div class="input-label">Style</div>
-							<button class="input" disabled>Shapes</button>
+							<button class="input" disabled>Shapes & Colors</button>
 						</div>
 					</fieldset>
 
