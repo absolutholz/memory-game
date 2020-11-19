@@ -345,7 +345,7 @@ export default {
 	padding: 2rem;
 
 	&__head {
-		background: white;
+		background: var(--color-background);
 		line-height: 1;
 		margin: -3rem 0 var(--spacing-mega);
 		padding: 0 var(--spacing-base);
@@ -363,7 +363,7 @@ export default {
 	}
 
 	&__hdln {
-		background: white;
+		background: var(--color-background);
 		font-size: var(--typo-size-macro);
 		line-height: 1;
 		margin: -0.25em 0 0;
