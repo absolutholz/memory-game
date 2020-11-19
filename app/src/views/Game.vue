@@ -367,6 +367,7 @@ export default {
 		font-size: var(--typo-size-macro);
 		line-height: 1;
 		margin: -0.25em 0 0;
+		text-align: center;
 	}
 }
 </style>
