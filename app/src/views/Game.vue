@@ -249,7 +249,6 @@ export default {
 		},
 
 		advancePlayerTurn () {
-			console.log('next player');
 			this.playerTurnIndex = this.playerTurnIndex < this.config.players.length - 1 ? this.playerTurnIndex + 1 : 0;
 		},
 
