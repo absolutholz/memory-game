@@ -65,23 +65,20 @@ fieldset {
 
 legend {
 	color: #333;
-	font-size: var(--typo-size-micro);
+	display: block;
+	float: none;
+	font-size: var(--typo-size-mega);
 	font-weight: bold;
-	margin-bottom: var(--spacing-micro);
 }
 
 .fieldset {
 	&__footer {
-		margin-top: var(--spacing-base);
+		margin-top: var(--spacing-mega);
 	}
 }
 
 figure {
 	margin: 0;
-}
-
-.input-group {
-	margin-top: var(--spacing-base);
 }
 
 .l-container {
@@ -156,11 +153,33 @@ figure {
 	width: 100%;
 }
 
+.input-group {
+	margin-bottom: var(--spacing-base);
+	margin-top: var(--spacing-base);
+}
+
 .input-label {
-	margin-bottom: 0.5rem;
+	font-size: var(--typo-size-micro);
+	margin-bottom: var(--spacing-micro);
 
 	.btn {
 		float: right;
+	}
+}
+
+.icon {
+	fill: currentColor;
+	font-size: 1.25em;
+	height: 1em;
+	vertical-align: text-bottom;
+}
+
+.icon\+text {
+	display: flex;
+
+	&__icon {
+		margin-left: 0.25em;
+		margin-right: 0.25em;
 	}
 }
 </style>

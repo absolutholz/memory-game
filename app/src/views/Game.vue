@@ -6,7 +6,7 @@
 					<h2 class="section__hdln">Game Configuration</h2>
 
 					<fieldset>
-						<legend>Cards</legend>
+						<legend><svg-cards aria-hidden="true" class="icon" /> Cards</legend>
 
 						<label class="input-group" for="card-count">
 							<div class="input-label">Number</div>
@@ -28,7 +28,7 @@
 					</fieldset>
 
 					<fieldset>
-						<legend>Players</legend>
+						<legend><svg-players aria-hidden="true" class="icon" /> Players</legend>
 
 						<label
 							v-for="(player, index) in config.players" :key="index"
@@ -42,7 +42,7 @@
 									@click="removePlayer(player)"
 									class="btn btn--small btn--hollow"
 									type="button"
-								>remove</button>
+								><svg-player-remove aria-hidden="true" aria-label="remove player" class="icon" title="remove player" /></button>
 							</div>
 							<input
 								v-model="player.name"
@@ -58,14 +58,14 @@
 						<div class="fieldset__footer" v-if="config.players.length < 4">
 							<button
 								@click="addPlayer"
-								class="btn btn--block btn--hollow"
+								class="btn btn--hollow"
 								type="button"
-							>Add player</button>
+							><svg-player-add class="icon" /> Add player</button>
 						</div>
 					</fieldset>
 
 					<div class="section__footer">
-						<button class="btn btn--block" type="submit">Start game</button>
+						<button class="btn btn--block" type="submit"><svg-play aria-hidden="true" class="icon" /> Start game</button>
 					</div>
 				</form>
 			</section>
@@ -97,8 +97,8 @@
 					</ol>
 
 					<div class="scoreboard__buttons">
-						<button @click="startGame" class="btn btn--block btn--hollow" type="button">Restart</button>
-						<button class="btn btn--block btn--hollow" @click="reset">New</button>
+						<button @click="startGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
+						<button class="btn btn--block btn--hollow" @click="reset"><svg-home aria-hidden="true" class="icon" /> New</button>
 					</div>
 
 				</template>
@@ -140,7 +140,7 @@
 					</section>
 
 					<div class="section__footer">
-						<button class="btn btn--block" @click="reset">New Game</button>
+						<button class="btn btn--block" @click="reset"><svg-home aria-hidden="true" class="icon" /> New Game</button>
 					</div>
 				</div>
 			</section>
@@ -159,6 +159,14 @@ import PlayerScore from './../components/PlayerScore';
 import colors from './../colors';
 import imageIds from './../shapes';
 import shuffle from './../array-shuffle';
+
+import SvgCards from '@mdi/svg/svg/cards.svg';
+import SvgHome from '@mdi/svg/svg/home.svg';
+import SvgPlay from '@mdi/svg/svg/play-circle.svg';
+import SvgPlayerAdd from '@mdi/svg/svg/account-plus.svg';
+import SvgPlayerRemove from '@mdi/svg/svg/account-minus.svg';
+import SvgPlayers from '@mdi/svg/svg/account-group.svg';
+import SvgRestart from '@mdi/svg/svg/restart.svg';
 
 const STATE_GAME_NOT_STARTED = 'not-started';
 const STATE_GAME_PLAYING = 'playing';
@@ -190,6 +198,14 @@ export default {
 		Gameboard,
 		PlayerResult,
 		PlayerScore,
+
+		SvgCards,
+		SvgHome,
+		SvgPlay,
+		SvgPlayerAdd,
+		SvgPlayerRemove,
+		SvgPlayers,
+		SvgRestart,
 	},
 
 	data() {
