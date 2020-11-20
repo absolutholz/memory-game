@@ -23,7 +23,11 @@
 
 						<div class="input-group">
 							<div class="input-label">Style</div>
-							<button class="input" disabled>Shapes & Colors</button>
+							<select v-model="config.cardStyle" class="input">
+								<option value="shapes">Shapes & Colors</option>
+								<option value="letters">Letters</option>
+								<option value="numbers">Numbers</option>
+							</select>
 						</div>
 					</fieldset>
 
@@ -80,7 +84,7 @@
 						@on-non-match="onNonMatch"
 						:cards="cards"
 						:foundCards="foundCards"
-						:imageIds="imageIds"
+						:cardFaceStyle="cardFaceStyle"
 					/>
 
 				</template>
@@ -158,6 +162,7 @@ import PlayerScore from './../components/PlayerScore';
 
 import colors from './../colors';
 import imageIds from './../shapes';
+import letters from './../letters';
 import shuffle from './../array-shuffle';
 
 import SvgCards from '@mdi/svg/svg/cards.svg';
@@ -175,6 +180,7 @@ const STATE_GAME_OVER = 'game-over';
 function GameConfig () {
 	const  config = reactive({
 		cardCount: 20,
+		cardStyle: 'shapes',
 		players: [
 			{
 				name: 'Player 1',
@@ -234,6 +240,18 @@ export default {
 		notWinningPlayers () {
 			return this.config.players.filter((player) => !this.winningPlayers.includes(player));
 		},
+
+		cardFaceStyle () {
+			switch (this.config.cardStyle) {
+				case 'shapes':
+					return 'sprite';
+				case 'letters':
+				case 'numbers':
+					return 'text';
+			}
+
+			return '';
+		},
 	},
 
 	methods: {
@@ -243,14 +261,29 @@ export default {
 
 			for (let i = 0; i < this.config.cardCount; i++) {
 				const name = `${ Math.ceil((i + 1) / 2) }`;
-				const id = `${ name }-${ (i + 1) % 2 ? 'a' : 'b' }`;
+				const variant = (i + 1) % 2 ? 'a' : 'b';
+				const id = `${ name }-${ variant }`;
 
-				cards.push({
+				const config = {
 					name,
 					id,
 					found: false,
 					color: shuffledColors[name],
-				});
+				};
+
+				if (this.config.cardStyle === 'numbers') {
+					config.text = name;
+				}
+
+				if (this.config.cardStyle === 'letters') {
+					config.text = variant === 'a' ? letters[name] : letters[name].toUpperCase();
+				}
+
+				if (this.config.cardStyle === 'shapes') {
+					config.spriteId = imageIds[name];
+				}
+
+				cards.push(config);
 			}
 
 			this.cards = shuffle(cards);

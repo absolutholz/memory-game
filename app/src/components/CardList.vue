@@ -11,9 +11,13 @@
 				:name="card.name"
 				@on-card-select="onCardSelect"
 			>
-				<svg class="card__image card__image--svg">
-					<use :href="`/shapes.svg#${ imageIds[card.name] }`"></use>
+				<svg v-if="cardFaceStyle === 'sprite'" class="card__image card__image--svg">
+					<use :href="`/shapes.svg#${ card.spriteId }`"></use>
 				</svg>
+				<svg v-else-if="cardFaceStyle === 'text'" class="card__image" viewBox="0 0 24 24">
+					<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ card.text }}</text>
+				</svg>
+				<img v-else class="card__image" :src="card.image.src">
 			</card>
 		</li>
 	</ol>
@@ -61,9 +65,9 @@ export default {
 			type: Array,
 		},
 
-		imageIds: {
-			required: true,
-			type: Array,
+		cardFaceStyle: {
+			required: false,
+			type: String,
 		},
 	},
 
