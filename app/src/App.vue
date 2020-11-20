@@ -105,10 +105,12 @@ figure {
 	border: 2px solid transparent;
 	border-radius: 3px;
 	color: white;
+	display: inline-block;
 	font-weight: bold;
 	letter-spacing: 0.1ch;
 	padding: 0.5em 1em;
 	text-align: center;
+	text-decoration: none;
 	text-transform: capitalize;
 
 	&--block {
