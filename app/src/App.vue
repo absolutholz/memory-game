@@ -97,7 +97,7 @@ figure {
 }
 
 .l-min-width {
-	width: Min(25rem, 100%);
+	width: Min(50rem, 100%);
 }
 
 .btn {
