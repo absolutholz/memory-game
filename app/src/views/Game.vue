@@ -96,6 +96,11 @@
 						</li>
 					</ol>
 
+					<div class="scoreboard__buttons">
+						<button @click="startGame" class="btn btn--block btn--hollow" type="button">Restart</button>
+						<button class="btn btn--block btn--hollow" @click="reset">New</button>
+					</div>
+
 				</template>
 			</gameboard>
 		</section>
@@ -296,17 +301,29 @@ export default {
 </script>
 
 <style lang="scss">
-.scoreboard__player-list {
-	display: flex;
-	flex-direction: inherit;
-	flex-wrap: wrap;
-	list-style: none;
-	justify-content: center;
-	margin: calc(-1 * var(--spacing-mini));
-	padding-left: 0;
+.scoreboard {
+	&__player-list {
+		display: flex;
+		flex-direction: inherit;
+		flex-wrap: wrap;
+		list-style: none;
+		justify-content: center;
+		margin: calc(-1 * var(--spacing-mini));
+		margin-top: auto;
+		padding-left: 0;
 
-	> li {
-		margin: var(--spacing-mini);
+		> li {
+			margin: var(--spacing-mini);
+		}
+	}
+
+	&__buttons {
+		font-size: var(--typo-size-micro);
+		margin-top: auto;
+
+		.btn {
+			margin-top: var(--spacing-mini);
+		}
 	}
 }
 
@@ -356,9 +373,8 @@ export default {
 		flex-wrap: wrap;
 
 		> * {
-			flex: 1 1 auto;
+			flex: 1 1 25rem;
 			margin: var(--spacing-mega);
-			max-width: 250px;
 		}
 	}
 
