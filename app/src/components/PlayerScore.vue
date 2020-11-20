@@ -50,24 +50,28 @@ export default {
 		white-space: nowrap;
 	}
 
-	&::before {
-		border-right: 1.5rem solid var(--color-highlight);
-		border-bottom: 1.5rem solid transparent;
-		border-top: 1.5rem solid transparent;
-		content: "";
-		display: none;
-		height: 0;
-		position: absolute;
-		right: 100%;
-		top: calc(50% - 1.5rem);
-		width: 0;
+	@media (orientation: landscape) {
+		&::before {
+			border-right: 1.5rem solid var(--color-highlight);
+			border-bottom: 1.5rem solid transparent;
+			border-top: 1.5rem solid transparent;
+			content: "";
+			display: none;
+			height: 0;
+			position: absolute;
+			right: 100%;
+			top: calc(50% - 1.5rem);
+			width: 0;
+		}
 	}
 
 	&--active {
 		border-color: var(--color-highlight);
 
-		&::before {
-			display: block;
+		@media (orientation: landscape) {
+			&::before {
+				display: block;
+			}
 		}
 	}
 }
