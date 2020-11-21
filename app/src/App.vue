@@ -109,6 +109,7 @@ figure {
 	text-align: center;
 	text-decoration: none;
 	text-transform: capitalize;
+	white-space: nowrap;
 
 	&--block {
 		display: block;

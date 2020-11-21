@@ -132,7 +132,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .card-list {
 	--width: 1;
 	align-items: center;
@@ -144,10 +144,10 @@ export default {
 	max-height: 100%;
 	padding-left: 0;
 	width: 100%;
-}
 
-.card-list	> li {
-	flex: 0 1 calc(var(--width) * 100%);
-	padding: min(2vw, var(--spacing-base));
+	> li {
+		flex: 0 1 calc(var(--width) * 100%);
+		padding: Min(2vw, var(--spacing-base));
+	}
 }
 </style>
