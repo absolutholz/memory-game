@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<div class="l-container" v-if="playState === state.STATE_GAME_NOT_STARTED">
+		<div class="l-container game__config" v-if="playState === state.STATE_GAME_NOT_STARTED">
 			<section class="l-center">
 				<form class="l-min-width" @submit.prevent="startGame">
 					<h2 class="section__hdln">Game Configuration</h2>
@@ -75,7 +75,10 @@
 			</section>
 		</div>
 
-		<section v-if="playState === state.STATE_GAME_PLAYING">
+		<section
+			v-if="playState === state.STATE_GAME_PLAYING"
+			class="game__play"
+		>
 			<gameboard>
 				<template v-slot:cards>
 
@@ -109,7 +112,7 @@
 			</gameboard>
 		</section>
 
-		<div class="l-container" v-if="playState === state.STATE_GAME_OVER">
+		<div class="l-container game__result" v-if="playState === state.STATE_GAME_OVER">
 			<section class="l-center">
 				<div class="l-min-width">
 					<!-- <div>Game Over</div> -->
@@ -351,6 +354,21 @@ export default {
 </script>
 
 <style lang="scss">
+.game {
+	&__config {
+		background: var(--color-background);
+	}
+
+	&__play {
+		background: var(--color-background);
+		position: relative;
+	}
+
+	&__result {
+		background: var(--color-background);
+	}
+}
+
 .scoreboard {
 	&__player-list {
 		display: flex;

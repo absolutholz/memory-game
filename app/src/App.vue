@@ -21,6 +21,12 @@ export default {
 	--color-typography: #11111a;
 	--color-background: #fffff8;
 
+	--spacing-micro: 0.25rem;
+	--spacing-mini: 0.5rem;
+	--spacing-base: 1rem;
+	--spacing-mega: 1.5rem;
+	--spacing-macro: 3rem;
+
 	--typo-size-micro: 0.75rem;
 	--typo-size-mini: 0.875rem;
 	--typo-size-base: 1rem;
@@ -35,11 +41,7 @@ export default {
 		--typo-size-macro: 2rem;
 	}
 
-	--spacing-micro: 0.25rem;
-	--spacing-mini: 0.5rem;
-	--spacing-base: 1rem;
-	--spacing-mega: 1.5rem;
-	--spacing-macro: 3rem;
+	overflow-y: auto;
 }
 
 body {

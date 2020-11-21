@@ -1,8 +1,6 @@
 <template>
 	<ol class="card-list" ref="root">
-		<li
-			v-for="(card, index) in cards" :key="index"
-		>
+		<li v-for="(card, index) in cards" :key="index">
 			<card
 				:color="card.color"
 				:id="card.id"
@@ -29,6 +27,8 @@ import { ref, onMounted } from 'vue';
 import Card from './Card';
 
 function sizeList (elList) {
+	elList.style.setProperty('--width', 1);
+
 	const nContainerHeight = elList.getBoundingClientRect().height;
 
 	// console.log(elList.scrollHeight, nContainerHeight);
