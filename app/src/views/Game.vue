@@ -82,9 +82,9 @@
 					<card-list
 						@on-match="onMatch"
 						@on-non-match="onNonMatch"
+						:cardFaceStyle="cardFaceStyle"
 						:cards="cards"
 						:foundCards="foundCards"
-						:cardFaceStyle="cardFaceStyle"
 					/>
 
 				</template>
@@ -123,6 +123,7 @@
 						<div class="results__body">
 							<player-result
 								v-for="(player, index) in winningPlayers" :key="index"
+								:cardFaceStyle="cardFaceStyle"
 								:imageIds="imageIds"
 								:player="player"
 							/>
@@ -137,6 +138,7 @@
 						<div class="results__body">
 							<player-result
 								v-for="(player, index) in notWinningPlayers" :key="index"
+								:cardFaceStyle="cardFaceStyle"
 								:imageIds="imageIds"
 								:player="player"
 							/>
