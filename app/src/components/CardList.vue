@@ -1,5 +1,5 @@
 <template>
-	<ol class="card-list" ref="root">
+	<ol class="card-list" ref="elRoot">
 		<li v-for="(card, index) in cards" :key="index">
 			<card
 				:color="card.color"
@@ -119,22 +119,22 @@ export default {
 	},
 
 	setup() {
-		const root = ref(null);
+		const elRoot = ref(null);
 
 		onMounted(() => {
-			sizeList(root.value);
+			sizeList(elRoot.value);
 		});
 
 		window.addEventListener('orientationchange', () => {
 			// console.log({event});
-			root.value.style.setProperty('--width', 1);
+			elRoot.value.style.setProperty('--width', 1);
 			setTimeout(() => {
-				sizeList(root.value);
+				sizeList(elRoot.value);
 			}, 50);
 		});
 
 		return {
-			root,
+			elRoot,
 		};
 	},
 };

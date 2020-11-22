@@ -10,25 +10,29 @@
 
 						<label class="input-group" for="card-count">
 							<div class="input-label">Number</div>
-							<input
-								class="input"
+							<input-number
+								@update:value="(val) => config.cardCount = val"
 								id="card-count"
-								max="54"
-								min="8"
-								required step="2"
-								type="number"
-								v-model="config.cardCount"
-							>
+								:max="54"
+								:min="8"
+								:required="true"
+								:step="2"
+								:value="config.cardCount * 1"
+							/>
 						</label>
 
-						<div class="input-group">
+						<label class="input-group" for="card-style">
 							<div class="input-label">Style</div>
-							<select v-model="config.cardStyle" class="input">
+							<select
+								v-model="config.cardStyle"
+								class="input"
+								id="card-style"
+							>
 								<option value="shapes">Shapes & Colors</option>
 								<option value="letters">Letters</option>
 								<option value="numbers">Numbers</option>
 							</select>
-						</div>
+						</label>
 					</fieldset>
 
 					<fieldset>
@@ -162,6 +166,7 @@ import { reactive } from "vue";
 
 import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
+import InputNumber from '../components/InputNumber.vue';
 import PlayerResult from './../components/PlayerResult';
 import PlayerScore from './../components/PlayerScore';
 
@@ -207,6 +212,7 @@ export default {
 	components: {
 		CardList,
 		Gameboard,
+		InputNumber,
 		PlayerResult,
 		PlayerScore,
 
@@ -216,7 +222,7 @@ export default {
 		SvgPlayerAdd,
 		SvgPlayerRemove,
 		SvgPlayers,
-		SvgRestart,
+		SvgRestart
 	},
 
 	data() {
