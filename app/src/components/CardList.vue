@@ -27,7 +27,7 @@ import { ref, onMounted } from 'vue';
 import Card from './Card';
 
 function sizeList (elList) {
-	elList.style.setProperty('--width', 1);
+	// console.log('size');
 
 	const nContainerHeight = elList.getBoundingClientRect().height;
 
@@ -123,6 +123,14 @@ export default {
 
 		onMounted(() => {
 			sizeList(root.value);
+		});
+
+		window.addEventListener('orientationchange', () => {
+			// console.log({event});
+			root.value.style.setProperty('--width', 1);
+			setTimeout(() => {
+				sizeList(root.value);
+			}, 50);
 		});
 
 		return {
