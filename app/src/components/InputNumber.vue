@@ -138,33 +138,4 @@ export default {
 .number-input {
 	text-align: center;
 }
-
-.compound-input {
-	display: inline-flex;
-	padding: 0;
-
-	&__input {
-		appearance: textfield;
-		background: none;
-		border: 0;
-		flex: 1 1 auto;
-		padding: 0.25em 0.5em;
-
-		&::-webkit-outer-spin-button,
-		&::-webkit-inner-spin-button {
-			-webkit-appearance: none;
-			margin: 0;
-		}
-	}
-
-	&__prefix,
-	&__suffix {
-		flex: 0 0 auto;
-		padding: 0.25em 0.5em;
-
-		&:disabled {
-			opacity: 0.4;
-		}
-	}
-}
 </style>

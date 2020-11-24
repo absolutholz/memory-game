@@ -159,6 +159,16 @@ figure {
 	width: 100%;
 }
 
+select.input {
+	$icon-size: 1.25em;
+	$icon-container-size: $icon-size * 1.5;
+	$icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z'></path></svg>";
+
+	appearance: none;
+	background: url($icon) no-repeat calc(100% - #{($icon-container-size - $icon-size) / 2}) center / $icon-size $icon-size white;
+	padding-right: $icon-container-size;
+}
+
 .input-group {
 	margin-bottom: var(--spacing-base);
 	margin-top: var(--spacing-base);
@@ -186,6 +196,35 @@ figure {
 	&__icon {
 		margin-left: 0.25em;
 		margin-right: 0.25em;
+	}
+}
+
+.compound-input {
+	display: flex;
+	padding: 0;
+
+	&__input {
+		appearance: textfield;
+		background: none;
+		border: 0;
+		flex: 1 1 auto;
+		padding: 0.25em 0.5em;
+
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
+
+	&__prefix,
+	&__suffix {
+		flex: 0 0 auto;
+		padding: 0.25em 0.5em;
+
+		&:disabled {
+			opacity: 0.4;
+		}
 	}
 }
 </style>

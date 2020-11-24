@@ -40,30 +40,35 @@
 					<fieldset>
 						<legend><svg-players aria-hidden="true" class="icon" /> Players</legend>
 
-						<label
-							v-for="(player, index) in config.players" :key="index"
-							class="input-group"
-							for="`player-${ player.name }-name`"
-						>
-							<div class="input-label">
-								Player {{ index + 1 }}
-								<button
-									v-if="config.players.length > 2"
-									@click="removePlayer(player)"
-									class="btn btn--small btn--hollow"
-									type="button"
-								><svg-player-remove aria-hidden="true" aria-label="remove player" class="icon" title="remove player" /></button>
-							</div>
-							<input
-								v-model="player.name"
-								class="input"
-								:id="`player-${ player.name }-name`"
-								min-length="2"
-								max-length="20"
-								required
-								type="text"
+						<div class="player-grid">
+
+							<label
+								v-for="(player, index) in config.players" :key="index"
+								class="input-group"
+								for="`player-${ player.name }-name`"
 							>
-						</label>
+								<div class="input-label">
+									Player {{ index + 1 }}
+								</div>
+								<div class="compound-input input">
+									<input
+										v-model="player.name"
+										class="compound-input__input"
+										:id="`player-${ player.name }-name`"
+										min-length="2"
+										max-length="20"
+										required
+										type="text"
+									>
+									<button
+										v-if="config.players.length > 2"
+										@click="removePlayer(player)"
+										class="compound-input__suffix"
+										type="button"
+									><svg-player-remove aria-hidden="true" aria-label="remove player" class="icon" title="remove player" /></button>
+								</div>
+							</label>
+						</div>
 
 						<div class="fieldset__footer">
 							<button
@@ -481,6 +486,18 @@ export default {
 		line-height: 1;
 		margin: -0.25em 0 0;
 		text-align: center;
+	}
+}
+
+.player-grid {
+	display: grid;
+	grid-auto-rows: 1fr;
+	grid-gap: var(--spacing-base) var(--spacing-base);
+	grid-template-columns: repeat(auto-fill, minmax(clamp(50% #{"-"} var(--spacing-base), 25ch, 100%), 1fr));
+	margin: var(--spacing-base) 0;
+
+	> * {
+		margin: 0;
 	}
 }
 </style>
