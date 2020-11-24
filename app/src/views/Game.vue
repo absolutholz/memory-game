@@ -199,18 +199,20 @@ const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
 	const  config = reactive({
-		cardCount: 20,
-		cardStyle: 'shapes',
-		players: [
-			{
-				name: 'Player 1',
-				cards: [],
-			},
-			{
-				name: 'Player 2',
-				cards: [],
-			},
-		],
+		cardCount: window.localStorage.cardCount || 20,
+		cardStyle: window.localStorage.cardStyle || 'shapes',
+		players: window.localStorage.players
+			? JSON.parse(window.localStorage.players)
+			: [
+				{
+					name: 'Player 1',
+					cards: [],
+				},
+				{
+					name: 'Player 2',
+					cards: [],
+				},
+			],
 	});
 
 	return { config };
@@ -317,6 +319,10 @@ export default {
 			this.config.players.forEach((player) => {
 				player.cards = [];
 			});
+
+			window.localStorage.cardStyle = this.config.cardStyle;
+			window.localStorage.cardCount = this.config.cardCount;
+			window.localStorage.players = JSON.stringify(this.config.players);
 
 			this.playState = STATE_GAME_PLAYING;
 		},
