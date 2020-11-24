@@ -5,12 +5,13 @@
 			:aria-controls="id"
 			aria-label="Decrease"
 			class="compound-input__prefix"
-			:disabled="disabled"
+			:disabled="disabled || proxyValue <= min"
 			type="button"
 		>
 			<svg-subtract aria-hidden="true" class="icon" />
 		</button>
 		<input
+			@change="checkValue"
 			class="compound-input__input number-input"
 			:diabled="disabled"
 			:id="id"
@@ -26,7 +27,7 @@
 			:aria-controls="id"
 			aria-label="Increase"
 			class="compound-input__suffix"
-			:disabled="disabled"
+			:disabled="disabled || proxyValue >= max"
 			type="button"
 		>
 			<svg-add aria-hidden="true" class="icon" />
@@ -94,16 +95,40 @@ export default {
 		proxyValue: {
 			get() { return this.value; },
 			set(newValue) { this.$emit('update:value', newValue); }
-		}
+		},
 	},
 
 	methods: {
+		checkValue () {
+			let value = this.proxyValue;
+
+			if (value < this.min) {
+				console.log('too small');
+				value = this.min;
+			}
+
+			if (value > this.max) {
+				console.log('too big');
+				value = this.max;
+			}
+
+			if (value % this.step !== 0) {
+				value = Math.floor(value / this.step) * this.step;
+			}
+
+			this.proxyValue = value;
+		},
+
 		stepDown () {
-			this.proxyValue -= this.step;
+			if (this.proxyValue > this.min) {
+				this.proxyValue -= this.step;
+			}
 		},
 
 		stepUp () {
-			this.proxyValue += this.step;
+			if (this.proxyValue < this.max) {
+				this.proxyValue += this.step;
+			}
 		},
 	},
 };
@@ -136,6 +161,10 @@ export default {
 	&__suffix {
 		flex: 0 0 auto;
 		padding: 0.25em 0.5em;
+
+		&:disabled {
+			opacity: 0.4;
+		}
 	}
 }
 </style>
