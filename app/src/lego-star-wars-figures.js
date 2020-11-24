@@ -84,6 +84,18 @@ const config = {
 		{
 			src: '/img/cards/lego-star-wars-figures/Snowtrooper.webp',
 		},
+		{
+			src: '/img/cards/lego-star-wars-figures/Jawa.webp',
+		},
+		{
+			src: '/img/cards/lego-star-wars-figures/Tusken-Raider.webp',
+		},
+		{
+			src: '/img/cards/lego-star-wars-figures/Maul.webp',
+		},
+		{
+			src: '/img/cards/lego-star-wars-figures/BB-8.webp',
+		},
 	],
 };
 
