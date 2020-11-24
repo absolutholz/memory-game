@@ -31,6 +31,8 @@
 								<option value="shapes">Shapes & Colors</option>
 								<option value="letters">Letters</option>
 								<option value="numbers">Numbers</option>
+								<option value="legoFigures">LEGO Figures</option>
+								<option value="legoStarWarsFigures">LEGO Star Wars Figures</option>
 							</select>
 						</label>
 					</fieldset>
@@ -107,6 +109,8 @@
 						</li>
 					</ol>
 
+					<div>Round: {{ roundCount }}</div>
+
 					<div class="scoreboard__buttons">
 						<button @click="startGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
 						<button class="btn btn--block btn--hollow" @click="reset"><svg-home aria-hidden="true" class="icon" /> New</button>
@@ -152,6 +156,10 @@
 						</div>
 					</section>
 
+					<div>
+						Rounds: {{ roundCount }}
+					</div>
+
 					<div class="section__footer">
 						<button class="btn btn--block" @click="reset"><svg-home aria-hidden="true" class="icon" /> New Game</button>
 					</div>
@@ -173,6 +181,8 @@ import PlayerScore from './../components/PlayerScore';
 import colors from './../colors';
 import imageIds from './../shapes';
 import letters from './../letters';
+import legoFigures from './../lego-figures';
+import legoStarWarsFigures from './../lego-star-wars-figures';
 import shuffle from './../array-shuffle';
 
 import SvgCards from '@mdi/svg/svg/cards.svg';
@@ -232,6 +242,7 @@ export default {
 			playerTurnIndex: 0,
 			foundCards: [],
 			imageIds: shuffle(imageIds),
+			roundCount: 1,
 		};
 	},
 
@@ -284,18 +295,20 @@ export default {
 
 				if (this.config.cardStyle === 'numbers') {
 					config.text = name;
-				}
-
-				if (this.config.cardStyle === 'letters') {
+				} else if (this.config.cardStyle === 'letters') {
 					config.text = variant === 'a' ? letters[name] : letters[name].toUpperCase();
-				}
-
-				if (this.config.cardStyle === 'shapes') {
+				} else if (this.config.cardStyle === 'shapes') {
 					config.spriteId = imageIds[name];
+				} else if (this.config.cardStyle === 'legoFigures') {
+					config.imageSrc = legoFigures.images[name].src;
+				} else if (this.config.cardStyle === 'legoStarWarsFigures') {
+					config.imageSrc = legoStarWarsFigures.images[name].src;
 				}
 
 				cards.push(config);
 			}
+
+			this.roundCount = 1,
 
 			this.cards = shuffle(cards);
 			this.foundCards = [];
@@ -310,6 +323,9 @@ export default {
 
 		advancePlayerTurn () {
 			this.playerTurnIndex = this.playerTurnIndex < this.config.players.length - 1 ? this.playerTurnIndex + 1 : 0;
+			if (this.playerTurnIndex === 0) {
+				this.roundCount += 1;
+			}
 		},
 
 		onMatch (cards) {
