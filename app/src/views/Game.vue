@@ -65,10 +65,11 @@
 							>
 						</label>
 
-						<div class="fieldset__footer" v-if="config.players.length < 4">
+						<div class="fieldset__footer">
 							<button
 								@click="addPlayer"
 								class="btn btn--hollow"
+								:disabled="config.players.length >= 4"
 								type="button"
 							><svg-player-add class="icon" /> Add player</button>
 						</div>

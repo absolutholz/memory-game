@@ -45,6 +45,7 @@ export default {
 }
 
 body {
+	overscroll-behavior: none;
 	font-size: var(--typo-size-base);
 }
 
@@ -129,9 +130,11 @@ figure {
 		padding: 0 0.25em;
 	}
 
-	&--danger {
-		color: #b71c1c;
+	&:disabled {
+		opacity: 0.4;
 	}
+
+
 }
 
 .section {
