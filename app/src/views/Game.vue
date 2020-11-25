@@ -289,6 +289,18 @@ export default {
 			const cards = [];
 			const shuffledColors = shuffle(colors);
 
+			let cardPool;
+			if (this.config.cardStyle === 'letters') {
+				cardPool = shuffle(letters);
+			} else if (this.config.cardStyle === 'shapes') {
+				cardPool = shuffle(imageIds);
+			} else if (this.config.cardStyle === 'legoFigures') {
+				cardPool = shuffle(legoFigures.images);
+			} else if (this.config.cardStyle === 'legoStarWarsFigures') {
+				cardPool = shuffle(legoStarWarsFigures.images);
+			}
+			console.log(cardPool, legoStarWarsFigures);
+
 			for (let i = 0; i < this.config.cardCount; i++) {
 				const name = `${ Math.ceil((i + 1) / 2) }`;
 				const variant = (i + 1) % 2 ? 'a' : 'b';
@@ -304,13 +316,11 @@ export default {
 				if (this.config.cardStyle === 'numbers') {
 					config.text = name;
 				} else if (this.config.cardStyle === 'letters') {
-					config.text = variant === 'a' ? letters[name] : letters[name].toUpperCase();
+					config.text = variant === 'a' ? cardPool[name] : cardPool[name].toUpperCase();
 				} else if (this.config.cardStyle === 'shapes') {
-					config.spriteId = imageIds[name];
-				} else if (this.config.cardStyle === 'legoFigures') {
-					config.imageSrc = legoFigures.images[name].src;
-				} else if (this.config.cardStyle === 'legoStarWarsFigures') {
-					config.imageSrc = legoStarWarsFigures.images[name].src;
+					config.spriteId = cardPool[name];
+				} else if (this.config.cardStyle === 'legoFigures' || this.config.cardStyle === 'legoStarWarsFigures') {
+					config.imageSrc = cardPool[name].src;
 				}
 
 				cards.push(config);
