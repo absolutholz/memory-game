@@ -350,7 +350,9 @@ export default {
 			});
 
 			if (this.foundCards.length === this.config.cardCount * 1) {
-				this.playState = STATE_GAME_OVER;
+				setTimeout(() => {
+					this.playState = STATE_GAME_OVER;
+				}, 2500);
 			}
 		},
 
