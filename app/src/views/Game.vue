@@ -115,7 +115,10 @@
 						</li>
 					</ol>
 
-					<div>Round: {{ roundCount }}</div>
+					<div>
+						<div><timer :seconds="secondsPlayed" /></div>
+						<div>Round: {{ roundCount }}</div>
+					</div>
 
 					<div class="scoreboard__buttons">
 						<button @click="startGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
@@ -183,6 +186,7 @@ import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
 import PlayerResult from './../components/PlayerResult';
 import PlayerScore from './../components/PlayerScore';
+import Timer from './../components/Timer';
 
 import colors from './../colors';
 import imageIds from './../shapes';
@@ -233,6 +237,7 @@ export default {
 		InputNumber,
 		PlayerResult,
 		PlayerScore,
+		Timer,
 
 		SvgCards,
 		SvgHome,
@@ -240,7 +245,7 @@ export default {
 		SvgPlayerAdd,
 		SvgPlayerRemove,
 		SvgPlayers,
-		SvgRestart
+		SvgRestart,
 	},
 
 	data() {
@@ -251,6 +256,8 @@ export default {
 			foundCards: [],
 			imageIds: shuffle(imageIds),
 			roundCount: 1,
+			secondsPlayed: 0,
+			timer: null,
 		};
 	},
 
@@ -339,6 +346,11 @@ export default {
 			window.localStorage.cardStyle = this.config.cardStyle;
 			window.localStorage.cardCount = this.config.cardCount;
 			window.localStorage.players = JSON.stringify(this.config.players);
+			this.secondsPlayed = 0;
+
+			this.timer = setInterval(() => {
+				this.secondsPlayed += 1;
+			}, 1000);
 
 			this.playState = STATE_GAME_PLAYING;
 		},
@@ -360,6 +372,7 @@ export default {
 			});
 
 			if (this.foundCards.length === this.config.cardCount * 1) {
+				clearInterval(this.timer);
 				setTimeout(() => {
 					this.playState = STATE_GAME_OVER;
 				}, 2500);
