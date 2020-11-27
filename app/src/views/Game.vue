@@ -206,7 +206,7 @@ const STATE_GAME_RESTARTING = 'restarting';
 const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
-	const savedConfig = JSON.parse(window.localStorage.config) || {};
+	const savedConfig = JSON.parse(window.localStorage.config || '{}');
 	const config = reactive({
 		cardCount: savedConfig.cardCount || 20,
 		cardStyle: savedConfig.cardStyle || 'shapes',
