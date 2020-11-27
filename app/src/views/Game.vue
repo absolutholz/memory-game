@@ -105,7 +105,8 @@
 				</template>
 				<template v-slot:score>
 
-					<ol class="scoreboard__player-list">
+					<scoreboard-player-list :activePlayer="config.players[playerTurnIndex]" :players="config.players" />
+					<!-- <ol class="scoreboard__player-list">
 						<li v-for="(player, index) in config.players" :key="index">
 							<player-score
 								:foundCards="player.cards"
@@ -113,10 +114,10 @@
 								:name="player.name"
 							/>
 						</li>
-					</ol>
+					</ol> -->
 
 					<div>
-						<div><timer :seconds="secondsPlayed" /></div>
+						<div><time-display :seconds="secondsPlayed" /></div>
 						<div>Round: {{ roundCount }}</div>
 					</div>
 
@@ -185,8 +186,9 @@ import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
 import PlayerResult from './../components/PlayerResult';
-import PlayerScore from './../components/PlayerScore';
-import Timer from './../components/Timer';
+// import PlayerScore from './../components/PlayerScore';
+import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
+import TimeDisplay from './../components/TimeDisplay';
 
 import colors from './../colors';
 import imageIds from './../shapes';
@@ -194,6 +196,7 @@ import letters from './../letters';
 import legoFigures from './../lego-figures';
 import legoStarWarsFigures from './../lego-star-wars-figures';
 import shuffle from './../array-shuffle';
+import Timer from './../Timer';
 
 import SvgCards from '@mdi/svg/svg/cards.svg';
 import SvgHome from '@mdi/svg/svg/home.svg';
@@ -205,6 +208,7 @@ import SvgRestart from '@mdi/svg/svg/restart.svg';
 
 const STATE_GAME_NOT_STARTED = 'not-started';
 const STATE_GAME_PLAYING = 'playing';
+// const STATE_GAME_PAUSED = 'paused';
 const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
@@ -236,8 +240,9 @@ export default {
 		Gameboard,
 		InputNumber,
 		PlayerResult,
-		PlayerScore,
-		Timer,
+		// PlayerScore,
+		ScoreboardPlayerList,
+		TimeDisplay,
 
 		SvgCards,
 		SvgHome,
@@ -348,11 +353,43 @@ export default {
 			window.localStorage.players = JSON.stringify(this.config.players);
 			this.secondsPlayed = 0;
 
-			this.timer = setInterval(() => {
-				this.secondsPlayed += 1;
-			}, 1000);
+			if (!this.timer) {
+				this.timer = Timer();
+				this.timer.addObserver({ update: () => {
+					this.secondsPlayed += 1;
+					console.log(this.secondsPlayed);
+				}});
+
+				// window.addEventListener('blur', () => {
+				// 	this.pauseGame();
+				// });
+
+				// window.addEventListener('focus', () => {
+				// 	this.resumeGame();
+				// });
+			}
+			this.timer.start(1000);
 
 			this.playState = STATE_GAME_PLAYING;
+		},
+
+		// pauseGame () {
+		// 	console.log('pausing');
+		// 	this.timer.stop();
+		// 	this.playState = STATE_GAME_PAUSED;
+		// },
+
+		// resumeGame () {
+		// 	console.log('resuming');
+		// 	this.timer.start();
+		// 	this.playState = STATE_GAME_PLAYING;
+		// },
+
+		endGame () {
+			this.timer.stop();
+			setTimeout(() => {
+				this.playState = STATE_GAME_OVER;
+			}, 2500);
 		},
 
 		advancePlayerTurn () {
@@ -372,10 +409,7 @@ export default {
 			});
 
 			if (this.foundCards.length === this.config.cardCount * 1) {
-				clearInterval(this.timer);
-				setTimeout(() => {
-					this.playState = STATE_GAME_OVER;
-				}, 2500);
+				this.endGame();
 			}
 		},
 
@@ -384,6 +418,7 @@ export default {
 		},
 
 		reset () {
+			this.timer.stop();
 			this.playState = STATE_GAME_NOT_STARTED;
 		},
 
@@ -429,20 +464,20 @@ export default {
 }
 
 .scoreboard {
-	&__player-list {
-		display: flex;
-		flex-direction: inherit;
-		flex-wrap: wrap;
-		list-style: none;
-		justify-content: center;
-		margin: calc(-1 * var(--spacing-mini));
-		margin-top: auto;
-		padding-left: 0;
+	// &__player-list {
+	// 	display: flex;
+	// 	flex-direction: inherit;
+	// 	flex-wrap: wrap;
+	// 	list-style: none;
+	// 	justify-content: center;
+	// 	margin: calc(-1 * var(--spacing-mini));
+	// 	margin-top: auto;
+	// 	padding-left: 0;
 
-		> li {
-			margin: var(--spacing-mini);
-		}
-	}
+	// 	> li {
+	// 		margin: var(--spacing-mini);
+	// 	}
+	// }
 
 	&__buttons {
 		font-size: var(--typo-size-micro);

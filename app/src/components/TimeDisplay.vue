@@ -32,7 +32,7 @@
 import SvgTimer from '@mdi/svg/svg/timer-outline.svg';
 
 export default {
-	name: "TimerDisplay",
+	name: "TimeDisplay",
 
 	components: {
 		SvgTimer,
