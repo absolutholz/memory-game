@@ -88,7 +88,7 @@
 		</div>
 
 		<section
-			v-if="playState === state.STATE_GAME_PLAYING"
+			v-if="playState === state.STATE_GAME_PLAYING || playState === state.STATE_GAME_RESTARTING || playState === state.STATE_GAME_STARTING"
 			class="game__play"
 		>
 			<gameboard>
@@ -100,21 +100,15 @@
 						:cardFaceStyle="cardFaceStyle"
 						:cards="cards"
 						:foundCards="foundCards"
+						:gameState="playState"
+						:hideCardsKey="hideCardsKey"
+						ref="cardListComponent"
 					/>
 
 				</template>
 				<template v-slot:score>
 
 					<scoreboard-player-list :activePlayer="config.players[playerTurnIndex]" :players="config.players" />
-					<!-- <ol class="scoreboard__player-list">
-						<li v-for="(player, index) in config.players" :key="index">
-							<player-score
-								:foundCards="player.cards"
-								:isActive="playerTurnIndex === index"
-								:name="player.name"
-							/>
-						</li>
-					</ol> -->
 
 					<div>
 						<div><time-display :seconds="secondsPlayed" /></div>
@@ -122,8 +116,8 @@
 					</div>
 
 					<div class="scoreboard__buttons">
-						<button @click="startGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
-						<button class="btn btn--block btn--hollow" @click="reset"><svg-home aria-hidden="true" class="icon" /> New</button>
+						<button @click="restartGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
+						<button class="btn btn--block btn--hollow" @click="endGame"><svg-home aria-hidden="true" class="icon" /> New</button>
 					</div>
 
 				</template>
@@ -171,7 +165,7 @@
 					</div>
 
 					<div class="section__footer">
-						<button class="btn btn--block" @click="reset"><svg-home aria-hidden="true" class="icon" /> New Game</button>
+						<button class="btn btn--block" @click="endGame"><svg-home aria-hidden="true" class="icon" /> New Game</button>
 					</div>
 				</div>
 			</section>
@@ -186,7 +180,6 @@ import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
 import PlayerResult from './../components/PlayerResult';
-// import PlayerScore from './../components/PlayerScore';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
 import TimeDisplay from './../components/TimeDisplay';
 
@@ -207,17 +200,17 @@ import SvgPlayers from '@mdi/svg/svg/account-group.svg';
 import SvgRestart from '@mdi/svg/svg/restart.svg';
 
 const STATE_GAME_NOT_STARTED = 'not-started';
+const STATE_GAME_STARTING = 'starting';
 const STATE_GAME_PLAYING = 'playing';
-// const STATE_GAME_PAUSED = 'paused';
+const STATE_GAME_RESTARTING = 'restarting';
 const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
-	const  config = reactive({
-		cardCount: window.localStorage.cardCount || 20,
-		cardStyle: window.localStorage.cardStyle || 'shapes',
-		players: window.localStorage.players
-			? JSON.parse(window.localStorage.players)
-			: [
+	const savedConfig = JSON.parse(window.localStorage.config) || {};
+	const config = reactive({
+		cardCount: savedConfig.cardCount || 20,
+		cardStyle: savedConfig.cardStyle || 'shapes',
+		players: savedConfig.players || [
 				{
 					name: 'Player 1',
 					cards: [],
@@ -232,6 +225,63 @@ function GameConfig () {
 	return { config };
 }
 
+function saveConfiguration (config = {}) {
+	window.localStorage.config = JSON.stringify(config);
+}
+
+function dealCards (cardStyle, cardCount) {
+	const cards = [];
+	const shuffledColors = shuffle(colors);
+
+	let cardPool;
+	switch (cardStyle) {
+		case 'letters':
+			cardPool = shuffle(letters);
+			break;
+		case 'shapes':
+			cardPool = shuffle(imageIds);
+			break;
+		case 'legoFigures':
+			cardPool = shuffle(legoFigures.images);
+			break;
+		case 'legoStarWarsFigures':
+			cardPool = shuffle(legoStarWarsFigures.images);
+			break;
+	}
+
+	for (let i = 0; i < cardCount; i++) {
+		const name = `${ Math.ceil((i + 1) / 2) }`;
+		const variant = (i + 1) % 2 ? 'a' : 'b';
+
+		const config = {
+			name,
+			id: `${ name }-${ variant }`,
+			found: false,
+			color: shuffledColors[name],
+		};
+
+		switch (cardStyle) {
+			case 'numbers':
+				config.text = name;
+				break;
+			case 'letters':
+				config.text = variant === 'a' ? cardPool[name] : cardPool[name].toUpperCase();
+				break;
+			case 'shapes':
+				config.spriteId = cardPool[name];
+				break;
+			case 'legoFigures':
+			case 'legoStarWarsFigures':
+				config.imageSrc = cardPool[name].src;
+				break;
+		}
+
+		cards.push(config);
+	}
+
+	return shuffle(cards);
+}
+
 export default {
 	name: 'Game',
 
@@ -240,7 +290,6 @@ export default {
 		Gameboard,
 		InputNumber,
 		PlayerResult,
-		// PlayerScore,
 		ScoreboardPlayerList,
 		TimeDisplay,
 
@@ -263,6 +312,7 @@ export default {
 			roundCount: 1,
 			secondsPlayed: 0,
 			timer: null,
+			hideCardsKey: 0,
 		};
 	},
 
@@ -297,61 +347,17 @@ export default {
 	},
 
 	methods: {
-		startGame () {
-			const cards = [];
-			const shuffledColors = shuffle(colors);
+		setGameboard () {
+			this.cards = dealCards(this.config.cardStyle, this.config.cardCount);
 
-			let cardPool;
-			if (this.config.cardStyle === 'letters') {
-				cardPool = shuffle(letters);
-			} else if (this.config.cardStyle === 'shapes') {
-				cardPool = shuffle(imageIds);
-			} else if (this.config.cardStyle === 'legoFigures') {
-				cardPool = shuffle(legoFigures.images);
-			} else if (this.config.cardStyle === 'legoStarWarsFigures') {
-				cardPool = shuffle(legoStarWarsFigures.images);
-			}
-			console.log(cardPool, legoStarWarsFigures);
-
-			for (let i = 0; i < this.config.cardCount; i++) {
-				const name = `${ Math.ceil((i + 1) / 2) }`;
-				const variant = (i + 1) % 2 ? 'a' : 'b';
-				const id = `${ name }-${ variant }`;
-
-				const config = {
-					name,
-					id,
-					found: false,
-					color: shuffledColors[name],
-				};
-
-				if (this.config.cardStyle === 'numbers') {
-					config.text = name;
-				} else if (this.config.cardStyle === 'letters') {
-					config.text = variant === 'a' ? cardPool[name] : cardPool[name].toUpperCase();
-				} else if (this.config.cardStyle === 'shapes') {
-					config.spriteId = cardPool[name];
-				} else if (this.config.cardStyle === 'legoFigures' || this.config.cardStyle === 'legoStarWarsFigures') {
-					config.imageSrc = cardPool[name].src;
-				}
-
-				cards.push(config);
-			}
-
-			this.roundCount = 1,
-
-			this.cards = shuffle(cards);
 			this.foundCards = [];
+			this.roundCount = 1,
+			this.secondsPlayed = 0;
 
 			this.playerTurnIndex = 0;
 			this.config.players.forEach((player) => {
 				player.cards = [];
 			});
-
-			window.localStorage.cardStyle = this.config.cardStyle;
-			window.localStorage.cardCount = this.config.cardCount;
-			window.localStorage.players = JSON.stringify(this.config.players);
-			this.secondsPlayed = 0;
 
 			if (!this.timer) {
 				this.timer = Timer();
@@ -368,6 +374,19 @@ export default {
 				// 	this.resumeGame();
 				// });
 			}
+		},
+
+		startGame () {
+			this.playState = STATE_GAME_STARTING;
+
+			saveConfiguration({
+				cardStyle: this.config.cardStyle,
+				cardCount: this.config.cardCount,
+				players: this.config.players,
+			});
+
+			this.setGameboard();
+
 			this.timer.start(1000);
 
 			this.playState = STATE_GAME_PLAYING;
@@ -385,11 +404,23 @@ export default {
 		// 	this.playState = STATE_GAME_PLAYING;
 		// },
 
+		restartGame () {
+			this.playState = STATE_GAME_RESTARTING;
+
+			this.hideCardsKey = Math.random();
+
+			setTimeout(() => {
+				this.setGameboard();
+
+				this.timer.start(1000);
+
+				this.playState = STATE_GAME_PLAYING;
+			}, 250);
+		},
+
 		endGame () {
 			this.timer.stop();
-			setTimeout(() => {
-				this.playState = STATE_GAME_OVER;
-			}, 2500);
+			this.playState = STATE_GAME_NOT_STARTED;
 		},
 
 		advancePlayerTurn () {
@@ -409,17 +440,14 @@ export default {
 			});
 
 			if (this.foundCards.length === this.config.cardCount * 1) {
-				this.endGame();
+				setTimeout(() => {
+					this.playState = STATE_GAME_OVER;
+				}, 2500);
 			}
 		},
 
 		onNonMatch () {
 			this.advancePlayerTurn();
-		},
-
-		reset () {
-			this.timer.stop();
-			this.playState = STATE_GAME_NOT_STARTED;
 		},
 
 		addPlayer () {
@@ -438,6 +466,8 @@ export default {
 	setup() {
 		const { config } = GameConfig();
 		const state = {
+			STATE_GAME_STARTING,
+			STATE_GAME_RESTARTING,
 			STATE_GAME_NOT_STARTED,
 			STATE_GAME_PLAYING,
 			STATE_GAME_OVER,

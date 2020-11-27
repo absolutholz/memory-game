@@ -103,12 +103,10 @@ export default {
 			let value = this.proxyValue;
 
 			if (value < this.min) {
-				console.log('too small');
 				value = this.min;
 			}
 
 			if (value > this.max) {
-				console.log('too big');
 				value = this.max;
 			}
 

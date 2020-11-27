@@ -72,7 +72,7 @@ export default {
 	padding-bottom: 100%;
 	perspective: 500px;
 	position: relative;
-	transition: opacity 250ms 2s;
+	transition: opacity 250ms var(--card-hide-delay, 2s);
 	width: 100%;
 
 	&__content {

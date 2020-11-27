@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
 
 import Card from './Card';
 
@@ -47,6 +47,20 @@ function sizeList (elList) {
 	elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / step);
 }
 
+function Gameboard () {
+	const activeCards = reactive({
+		card1: null,
+		card2: null,
+	});
+
+	const hideActiveCards = () => {
+		activeCards.card1 = null;
+		activeCards.card2 = null;
+	};
+
+	return { activeCards, hideActiveCards };
+}
+
 export default {
 	name: 'CardList',
 
@@ -69,41 +83,37 @@ export default {
 			required: false,
 			type: String,
 		},
-	},
 
-	data() {
-		return {
-			card1: null,
-			card2: null,
-		};
+		hideCardsKey: {
+			required: false,
+			type: Number,
+		},
 	},
 
 	methods: {
 		onCardSelect (card) {
-			console.log(card);
+			// console.log(card);
 
-			if (!this.card1) {
-				console.log('first', card);
-				this.card1 = this.cards.find((cardIter) => cardIter.id === card.id);
-			} else if (!this.card2) {
-				console.log('second', card);
-				this.card2 = this.cards.find((cardIter) => cardIter.id === card.id)
+			if (!this.activeCards.card1) {
+				// console.log('first', card);
+				this.activeCards.card1 = this.cards.find((cardIter) => cardIter.id === card.id);
+			} else if (!this.activeCards.card2) {
+				// console.log('second', card);
+				this.activeCards.card2 = this.cards.find((cardIter) => cardIter.id === card.id)
 
-				if (this.card1.name === this.card2.name) {
-					console.warn('match!', this.card1, card);
-					this.$emit('on-match', [this.card1, this.card2]);
+				if (this.activeCards.card1.name === this.activeCards.card2.name) {
+					// console.warn('match!', this.activeCards.card1, card);
+					this.$emit('on-match', [this.activeCards.card1, this.activeCards.card2]);
 
 					setTimeout(() => {
-						this.card1 = null;
-						this.card2 = null;
+						this.hideActiveCards();
 					}, 2000);
 				} else {
-					console.info('no match', this.card1, this.card);
+					// console.info('no match', this.activeCards.card1, this.card);
 					this.$emit('on-non-match');
 
 					setTimeout(() => {
-						this.card1 = null;
-						this.card2 = null;
+						this.hideActiveCards();
 					}, 2000);
 				}
 			}
@@ -114,27 +124,37 @@ export default {
 		},
 
 		isCardShowing (card) {
-			return (this.card1 && card.id === this.card1.id) || (this.card2 && card.id === this.card2.id);
+			return (this.activeCards.card1 && card.id === this.activeCards.card1.id) || (this.activeCards.card2 && card.id === this.activeCards.card2.id);
 		},
 	},
 
-	setup() {
+	setup(props) {
 		const elRoot = ref(null);
+		const { activeCards, hideActiveCards } = Gameboard();
 
 		onMounted(() => {
 			sizeList(elRoot.value);
 		});
 
 		window.addEventListener('orientationchange', () => {
-			// console.log({event});
 			elRoot.value.style.setProperty('--width', 1);
 			setTimeout(() => {
 				sizeList(elRoot.value);
-			}, 50);
+			}, 150);
+		});
+
+		watch(() => props.hideCardsKey, () => {
+			hideActiveCards();
+			elRoot.value.style.setProperty('--card-hide-delay', '0s');
+			setTimeout(() => {
+				elRoot.value.style.removeProperty('--card-hide-delay');
+			}, 1000);
 		});
 
 		return {
 			elRoot,
+			activeCards,
+			hideActiveCards,
 		};
 	},
 };
