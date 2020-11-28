@@ -111,10 +111,7 @@
 
 					<scoreboard-player-list :activePlayer="config.players[playerTurnIndex]" :players="config.players" />
 
-					<div>
-						<div><time-display :seconds="secondsPlayed" /></div>
-						<div>Round: {{ roundCount }}</div>
-					</div>
+					<temporal-display :secondsPlayed="secondsPlayed" :roundCount="roundCount" />
 
 					<div class="scoreboard__buttons">
 						<button @click="restartGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
@@ -182,7 +179,7 @@ import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
 import PlayerResult from './../components/PlayerResult';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
-import TimeDisplay from './../components/TimeDisplay';
+import TemporalDisplay from '../components/TemporalDisplay.vue';
 
 import SvgCards from '@mdi/svg/svg/cards.svg';
 import SvgHome from '@mdi/svg/svg/home.svg';
@@ -270,7 +267,7 @@ export default {
 		InputNumber,
 		PlayerResult,
 		ScoreboardPlayerList,
-		TimeDisplay,
+		TemporalDisplay,
 
 		SvgCards,
 		SvgHome,
