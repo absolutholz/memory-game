@@ -3,7 +3,15 @@
 		class="mini-card"
 		:style="`--rotation: ${ (Math.random() * 15) * (Math.random() > 0.5 ? -1 : 1) }deg; --color: ${ color };`"
 	>
-		<slot />
+		<slot>
+			<svg v-if="faceImageType === 'svg-stack'" class="card__image card__image--svg">
+				<use :href="faceImageSrc"></use>
+			</svg>
+			<svg v-else-if="faceImageType === 'svg-text'" class="card__image" viewBox="0 0 24 24">
+				<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ faceImageSrc }}</text>
+			</svg>
+			<img v-else class="card__image" :src="faceImageSrc">
+		</slot>
 	</div>
 </template>
 
@@ -14,6 +22,16 @@ export default {
 	props: {
 		color: {
 			required: false,
+			type: String,
+		},
+
+		faceImageSrc: {
+			required: true,
+			type: String,
+		},
+
+		faceImageType: {
+			required: true,
 			type: String,
 		},
 	},

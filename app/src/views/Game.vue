@@ -426,6 +426,7 @@ export default {
 			});
 
 			if (this.foundCards.length === this.config.cardCount * 1) {
+				this.timer.stop();
 				setTimeout(() => {
 					this.playState = STATE_GAME_OVER;
 				}, 2500);

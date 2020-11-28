@@ -8,14 +8,9 @@
 				<mini-card
 					v-for="(card, index) in cardGroup" :key="index"
 					:color="card.color"
+					:faceImageSrc="card.image.src"
+					:faceImageType="card.type"
 				>
-					<svg v-if="cardFaceStyle === 'sprite'" class="mini-card__image mini-card__image--svg">
-						<use :href="`/shapes.svg#${ card.spriteId }`"></use>
-					</svg>
-					<svg v-else-if="cardFaceStyle === 'text'" class="mini-card__image" viewBox="0 0 24 24">
-						<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ card.text }}</text>
-					</svg>
-					<img v-else class="mini-card__image" :src="card.imageSrc">
 				</mini-card>
 			</li>
 		</ul>
