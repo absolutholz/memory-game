@@ -17,23 +17,21 @@
 				</slot>
 			</div>
 			<div class="card__face">
-				<slot>
-					<svg v-if="faceImageType === 'svg-stack'" class="card__image card__image--svg">
-						<use :href="faceImageSrc"></use>
-					</svg>
-					<svg v-else-if="faceImageType === 'svg-text'" class="card__image" viewBox="0 0 24 24">
-						<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ faceImageSrc }}</text>
-					</svg>
-					<img v-else class="card__image" :src="faceImageSrc">
-				</slot>
+				<card-image :src="faceImageSrc" :type="faceImageType" />
 			</div>
 		</div>
 	</button>
 </template>
 
 <script>
+import CardImage from './CardImage';
+
 export default {
 	name: 'Card',
+
+	components: {
+		CardImage
+	},
 
 	props: {
 		id: {
