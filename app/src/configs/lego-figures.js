@@ -1,6 +1,18 @@
 const config = {
+	id: 'LegoFigures',
+	name: 'Lego figures',
+	type: 'image',
+
+	cover: {
+		type: 'image',
+		image: {
+			src: '/img/cards/lego-figures/cover.webp',
+		},
+	},
+
 	images: [
 		{
+			name: 'Barbarian',
 			src: '/img/cards/lego-figures/Barbarian.webp',
 		},
 		{

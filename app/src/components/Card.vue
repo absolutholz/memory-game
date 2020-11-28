@@ -8,12 +8,24 @@
 		<div class="card__content">
 			<div class="card__back">
 				<span v-if="$route.query.debug" style="position: relative; z-index: 10;">{{ name }}</span>
-				<svg class="card__image card__image--svg" viewBox="0 0 24 24">
-					<path fill="currentColor" d="M11,13.5V21.5H3V13.5H11M12,2L17.5,11H6.5L12,2M17.5,13C20,13 22,15 22,17.5C22,20 20,22 17.5,22C15,22 13,20 13,17.5C13,15 15,13 17.5,13Z" />
-				</svg>
+				<slot name="back">
+					<div v-if="backImageType === 'svg'" class="card__image card__image--svg" v-html="backImageSrc"></div>
+					<img v-else-if="backImageType === 'image'" class="card__image" :src="backImageSrc">
+					<svg v-else class="card__image card__image--svg" viewBox="0 0 24 24">
+						<path fill="currentColor" d="M21.47,4.35L20.13,3.79V12.82L22.56,6.96C22.97,5.94 22.5,4.77 21.47,4.35M1.97,8.05L6.93,20C7.24,20.77 7.97,21.24 8.74,21.26C9,21.26 9.27,21.21 9.53,21.1L16.9,18.05C17.65,17.74 18.11,17 18.13,16.26C18.14,16 18.09,15.71 18,15.45L13,3.5C12.71,2.73 11.97,2.26 11.19,2.25C10.93,2.25 10.67,2.31 10.42,2.4L3.06,5.45C2.04,5.87 1.55,7.04 1.97,8.05M18.12,4.25A2,2 0 0,0 16.12,2.25H14.67L18.12,10.59" />
+					</svg>
+				</slot>
 			</div>
 			<div class="card__face">
-				<slot />
+				<slot>
+					<svg v-if="faceImageType === 'svg-stack'" class="card__image card__image--svg">
+						<use :href="faceImageSrc"></use>
+					</svg>
+					<svg v-else-if="faceImageType === 'svg-text'" class="card__image" viewBox="0 0 24 24">
+						<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ faceImageSrc }}</text>
+					</svg>
+					<img v-else class="card__image" :src="faceImageSrc">
+				</slot>
 			</div>
 		</div>
 	</button>
@@ -49,6 +61,26 @@ export default {
 			default: false,
 			required: false,
 			type: Boolean,
+		},
+
+		backImageSrc: {
+			required: false,
+			type: String,
+		},
+
+		backImageType: {
+			required: false,
+			type: String,
+		},
+
+		faceImageSrc: {
+			required: false,
+			type: String,
+		},
+
+		faceImageType: {
+			required: false,
+			type: String,
 		},
 	},
 

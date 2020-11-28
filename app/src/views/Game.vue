@@ -28,11 +28,10 @@
 								class="input"
 								id="card-style"
 							>
-								<option value="shapes">Shapes & Colors</option>
-								<option value="letters">Letters</option>
-								<option value="numbers">Numbers</option>
-								<option value="legoFigures">LEGO Figures</option>
-								<option value="legoStarWarsFigures">LEGO Star Wars Figures</option>
+								<option
+									v-for="(typeConfig, index) in config.configs" :key="index"
+									:value="typeConfig.id"
+								>{{ typeConfig.name }}</option>
 							</select>
 						</label>
 					</fieldset>
@@ -97,6 +96,8 @@
 					<card-list
 						@on-match="onMatch"
 						@on-non-match="onNonMatch"
+						:cardBackSrc="cover.image.src"
+						:cardBackType="cover.type"
 						:cardFaceStyle="cardFaceStyle"
 						:cards="cards"
 						:foundCards="foundCards"
@@ -183,14 +184,6 @@ import PlayerResult from './../components/PlayerResult';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
 import TimeDisplay from './../components/TimeDisplay';
 
-import colors from './../colors';
-import imageIds from './../shapes';
-import letters from './../letters';
-import legoFigures from './../lego-figures';
-import legoStarWarsFigures from './../lego-star-wars-figures';
-import shuffle from './../array-shuffle';
-import Timer from './../Timer';
-
 import SvgCards from '@mdi/svg/svg/cards.svg';
 import SvgHome from '@mdi/svg/svg/home.svg';
 import SvgPlay from '@mdi/svg/svg/play-circle.svg';
@@ -198,6 +191,17 @@ import SvgPlayerAdd from '@mdi/svg/svg/account-plus.svg';
 import SvgPlayerRemove from '@mdi/svg/svg/account-minus.svg';
 import SvgPlayers from '@mdi/svg/svg/account-group.svg';
 import SvgRestart from '@mdi/svg/svg/restart.svg';
+
+import shuffle from './../array-shuffle';
+import Timer from './../Timer';
+
+import colors from './../colors';
+
+import configShapes from './../configs/shapes';
+import configLetters from './../configs/letters';
+import configNumbers from './../configs/numbers';
+import configLegoFigures from './../configs/lego-figures';
+import configLegoStarWarsFigures from './../configs/lego-star-wars-figures';
 
 const STATE_GAME_NOT_STARTED = 'not-started';
 const STATE_GAME_STARTING = 'starting';
@@ -207,6 +211,9 @@ const STATE_GAME_OVER = 'game-over';
 
 function GameConfig () {
 	const savedConfig = JSON.parse(window.localStorage.config || '{}');
+
+	const configs = [ configShapes, configLetters, configNumbers, configLegoFigures, configLegoStarWarsFigures ];
+
 	const config = reactive({
 		cardCount: savedConfig.cardCount || 20,
 		cardStyle: savedConfig.cardStyle || 'shapes',
@@ -220,6 +227,7 @@ function GameConfig () {
 					cards: [],
 				},
 			],
+		configs,
 	});
 
 	return { config };
@@ -229,54 +237,25 @@ function saveConfiguration (config = {}) {
 	window.localStorage.config = JSON.stringify(config);
 }
 
-function dealCards (cardStyle, cardCount) {
+function dealCards (config, cardCount) {
 	const cards = [];
 	const shuffledColors = shuffle(colors);
-
-	let cardPool;
-	switch (cardStyle) {
-		case 'letters':
-			cardPool = shuffle(letters);
-			break;
-		case 'shapes':
-			cardPool = shuffle(imageIds);
-			break;
-		case 'legoFigures':
-			cardPool = shuffle(legoFigures.images);
-			break;
-		case 'legoStarWarsFigures':
-			cardPool = shuffle(legoStarWarsFigures.images);
-			break;
-	}
+	const cardPool = shuffle(config.images);
 
 	for (let i = 0; i < cardCount; i++) {
 		const name = `${ Math.ceil((i + 1) / 2) }`;
 		const variant = (i + 1) % 2 ? 'a' : 'b';
 
-		const config = {
+		const cardConfig = {
 			name,
 			id: `${ name }-${ variant }`,
 			found: false,
 			color: shuffledColors[name],
+			type: config.type,
+			image: cardPool[name],
 		};
 
-		switch (cardStyle) {
-			case 'numbers':
-				config.text = name;
-				break;
-			case 'letters':
-				config.text = variant === 'a' ? cardPool[name] : cardPool[name].toUpperCase();
-				break;
-			case 'shapes':
-				config.spriteId = cardPool[name];
-				break;
-			case 'legoFigures':
-			case 'legoStarWarsFigures':
-				config.imageSrc = cardPool[name].src;
-				break;
-		}
-
-		cards.push(config);
+		cards.push(cardConfig);
 	}
 
 	return shuffle(cards);
@@ -308,7 +287,6 @@ export default {
 			playState: STATE_GAME_NOT_STARTED,
 			playerTurnIndex: 0,
 			foundCards: [],
-			imageIds: shuffle(imageIds),
 			roundCount: 1,
 			secondsPlayed: 0,
 			timer: null,
@@ -344,11 +322,19 @@ export default {
 
 			return '';
 		},
+
+		cover () {
+			return this.gameStyle.cover;
+		},
+
+		gameStyle () {
+			return this.config.configs.find((config) => config.id === this.config.cardStyle);
+		},
 	},
 
 	methods: {
 		setGameboard () {
-			this.cards = dealCards(this.config.cardStyle, this.config.cardCount);
+			this.cards = dealCards(this.gameStyle, this.config.cardCount);
 
 			this.foundCards = [];
 			this.roundCount = 1,
@@ -494,21 +480,6 @@ export default {
 }
 
 .scoreboard {
-	// &__player-list {
-	// 	display: flex;
-	// 	flex-direction: inherit;
-	// 	flex-wrap: wrap;
-	// 	list-style: none;
-	// 	justify-content: center;
-	// 	margin: calc(-1 * var(--spacing-mini));
-	// 	margin-top: auto;
-	// 	padding-left: 0;
-
-	// 	> li {
-	// 		margin: var(--spacing-mini);
-	// 	}
-	// }
-
 	&__buttons {
 		font-size: var(--typo-size-micro);
 		margin-top: auto;

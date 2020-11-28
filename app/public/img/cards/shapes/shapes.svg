@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<symbol viewBox="0 0 24 24" id="circle" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="triangle" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M1,21H23L12,2" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="square" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M3,3V21H21V3" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="pentagon" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,2.5L2,9.8L5.8,21.5H18.2L22,9.8L12,2.5Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="hexagon" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="octagon" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M15.73,3H8.27L3,8.27V15.73L8.27,21H15.73L21,15.73V8.27" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="star" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="shield" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="rectangle" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M4,6V19H20V6H4Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="plus" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M20 14H14V20H10V14H4V10H10V4H14V10H20V14Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="heart" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="house" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,3L20,9V21H15V14H9V21H4V9L12,3Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="diamond" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M6,2L2,8L12,22L22,8L18,2H6Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="rhombus" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12 2C11.5 2 11 2.19 10.59 2.59L2.59 10.59C1.8 11.37 1.8 12.63 2.59 13.41L10.59 21.41C11.37 22.2 12.63 22.2 13.41 21.41L21.41 13.41C22.2 12.63 22.2 11.37 21.41 10.59L13.41 2.59C13 2.19 12.5 2 12 2Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="cards-diamond" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M19,12L12,22L5,12L12,2" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="cards-spade" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,2C9,7 4,9 4,14C4,16 6,18 8,18C9,18 10,18 11,17C11,17 11.32,19 9,22H15C13,19 13,17 13,17C14,18 15,18 16,18C18,18 20,16 20,14C20,9 15,7 12,2Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="cards-club" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,2C14.3,2 16.3,4 16.3,6.2C16.21,8.77 14.34,9.83 14.04,10C15.04,9.5 16.5,9.5 16.5,9.5C19,9.5 21,11.3 21,13.8C21,16.3 19,18 16.5,18C16.5,18 15,18 13,17C13,17 12.7,19 15,22H9C11.3,19 11,17 11,17C9,18 7.5,18 7.5,18C5,18 3,16.3 3,13.8C3,11.3 5,9.5 7.5,9.5C7.5,9.5 8.96,9.5 9.96,10C9.66,9.83 7.79,8.77 7.7,6.2C7.7,4 9.7,2 12,2Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="cloud" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M19.35,10.03C18.67,6.59 15.64,4 12,4C9.11,4 6.6,5.64 5.35,8.03C2.34,8.36 0,10.9 0,14A6,6 0 0,0 6,20H19A5,5 0 0,0 24,15C24,12.36 21.95,10.22 19.35,10.03Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="moon" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M2 12A10 10 0 0 0 15 21.54A10 10 0 0 1 15 2.46A10 10 0 0 0 2 12Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="arrow-right" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="arrow-left" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="egg" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M19.5,14.5A7.5,7.5 0 0,1 12,22A7.5,7.5 0 0,1 4.5,14.5C4.5,10.36 7.86,2 12,2C16.14,2 19.5,10.36 19.5,14.5Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="lightning" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M7,2V13H10V22L17,10H13L17,2H7Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="pumpkin" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M6.5,6C7.47,6 8.37,6.5 9.11,7.38C9.66,6.79 10.31,6.36 11,6.15V4A2,2 0 0,1 13,2H15V4H13V6.15C13.69,6.36 14.34,6.79 14.89,7.38C15.63,6.5 16.53,6 17.5,6C20,6 22,9.36 22,13.5C22,17.64 20,21 17.5,21C16.53,21 15.63,20.5 14.89,19.62C14.08,20.5 13.08,21 12,21C10.92,21 9.92,20.5 9.11,19.62C8.37,20.5 7.47,21 6.5,21C4,21 2,17.64 2,13.5C2,9.36 4,6 6.5,6Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="puzzle" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M20.5,11H19V7C19,5.89 18.1,5 17,5H13V3.5A2.5,2.5 0 0,0 10.5,1A2.5,2.5 0 0,0 8,3.5V5H4A2,2 0 0,0 2,7V10.8H3.5C5,10.8 6.2,12 6.2,13.5C6.2,15 5,16.2 3.5,16.2H2V20A2,2 0 0,0 4,22H7.8V20.5C7.8,19 9,17.8 10.5,17.8C12,17.8 13.2,19 13.2,20.5V22H17A2,2 0 0,0 19,20V16H20.5A2.5,2.5 0 0,0 23,13.5A2.5,2.5 0 0,0 20.5,11Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="umbrella" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,2A9,9 0 0,1 21,11H13V19A3,3 0 0,1 10,22A3,3 0 0,1 7,19V18H9V19A1,1 0 0,0 10,20A1,1 0 0,0 11,19V11H3A9,9 0 0,1 12,2Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="water" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M12,20A6,6 0 0,1 6,14C6,10 12,3.25 12,3.25C12,3.25 18,10 18,14A6,6 0 0,1 12,20Z" />
+	</symbol>
+
+	<symbol viewBox="0 0 24 24" id="asterisk" xmlns="http://www.w3.org/2000/svg">
+		<path fill="currentColor" d="M10,2H14L13.21,9.91L19.66,5.27L21.66,8.73L14.42,12L21.66,15.27L19.66,18.73L13.21,14.09L14,22H10L10.79,14.09L4.34,18.73L2.34,15.27L9.58,12L2.34,8.73L4.34,5.27L10.79,9.91L10,2Z" />
+	</symbol>
+</svg>

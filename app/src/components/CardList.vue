@@ -2,21 +2,17 @@
 	<ol class="card-list" ref="elRoot">
 		<li v-for="(card, index) in cards" :key="index">
 			<card
+				:backImageSrc="cardBackSrc"
+				:backImageType="cardBackType"
 				:color="card.color"
+				:faceImageType="card.type"
+				:faceImageSrc="card.image.src"
 				:id="card.id"
 				:isFound="isCardFound(card)"
 				:isShowing="isCardShowing(card)"
 				:name="card.name"
 				@on-card-select="onCardSelect"
-			>
-				<svg v-if="cardFaceStyle === 'sprite'" class="card__image card__image--svg">
-					<use :href="`/shapes.svg#${ card.spriteId }`"></use>
-				</svg>
-				<svg v-else-if="cardFaceStyle === 'text'" class="card__image" viewBox="0 0 24 24">
-					<text fill="currentColor" font-weight="bold" text-anchor="middle" dominant-baseline="central" x="50%" y="50%">{{ card.text }}</text>
-				</svg>
-				<img v-else class="card__image" :src="card.imageSrc">
-			</card>
+			/>
 		</li>
 	</ol>
 </template>
@@ -79,14 +75,19 @@ export default {
 			type: Array,
 		},
 
-		cardFaceStyle: {
+		hideCardsKey: {
+			required: false,
+			type: Number,
+		},
+
+		cardBackType: {
 			required: false,
 			type: String,
 		},
 
-		hideCardsKey: {
+		cardBackSrc: {
 			required: false,
-			type: Number,
+			type: String,
 		},
 	},
 

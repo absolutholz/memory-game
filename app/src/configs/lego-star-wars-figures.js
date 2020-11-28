@@ -1,4 +1,15 @@
 const config = {
+	id: 'legoStarWarsFigures',
+	name: 'Lego Star Wars figures',
+	type: 'image',
+
+	cover: {
+		type: 'image',
+		image: {
+			src: '/img/cards/lego-star-wars-figures/cover.webp',
+		},
+	},
+
 	images: [
 		{
 			src: '/img/cards/lego-star-wars-figures/Asohka-Tano.webp',
