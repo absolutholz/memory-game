@@ -40,8 +40,14 @@ export default {
 
 <style lang="scss">
 .scoreboard-player {
-	border: 4px solid lightgrey;
+	background: var(--color-background);
+	border: 4px solid transparent;
 	border-radius: 8px;
+	box-shadow:
+		0 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0 2px 2px 0 rgba(0, 0, 0, 0.14),
+		0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
 	padding: var(--spacing-micro) var(--spacing-base);
 	position: relative;
 
@@ -50,29 +56,8 @@ export default {
 		white-space: nowrap;
 	}
 
-	@media (orientation: landscape) {
-		&::before {
-			border-right: 1.5rem solid var(--color-highlight);
-			border-bottom: 1.5rem solid transparent;
-			border-top: 1.5rem solid transparent;
-			content: "";
-			display: none;
-			height: 0;
-			position: absolute;
-			right: 100%;
-			top: calc(50% - 1.5rem);
-			width: 0;
-		}
-	}
-
 	&--active {
 		border-color: var(--color-highlight);
-
-		@media (orientation: landscape) {
-			&::before {
-				display: block;
-			}
-		}
 	}
 }
 </style>

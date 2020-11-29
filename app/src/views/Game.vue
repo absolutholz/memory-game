@@ -90,33 +90,32 @@
 			v-if="playState === state.STATE_GAME_PLAYING || playState === state.STATE_GAME_RESTARTING || playState === state.STATE_GAME_STARTING"
 			class="game__play"
 		>
-			<gameboard>
-				<template v-slot:cards>
+			<gameboard
+				@do-restart-game="restartGame"
+				@do-configure-new-game="endGame"
+			>
 
-					<card-list
-						@on-match="onMatch"
-						@on-non-match="onNonMatch"
-						:cardBackSrc="cover.image.src"
-						:cardBackType="cover.type"
-						:cardFaceStyle="cardFaceStyle"
-						:cards="cards"
-						:foundCards="foundCards"
-						:gameState="playState"
-						:hideCardsKey="hideCardsKey"
-						ref="cardListComponent"
-					/>
+				<card-list
+					@on-match="onMatch"
+					@on-non-match="onNonMatch"
+					:cardBackSrc="cover.image.src"
+					:cardBackType="cover.type"
+					:cardFaceStyle="cardFaceStyle"
+					:cards="cards"
+					:foundCards="foundCards"
+					:gameState="playState"
+					:hideCardsKey="hideCardsKey"
+					ref="cardListComponent"
+				/>
 
-				</template>
-				<template v-slot:score>
+				<template v-slot:players>
 
 					<scoreboard-player-list :activePlayer="config.players[playerTurnIndex]" :players="config.players" />
 
-					<temporal-display :secondsPlayed="secondsPlayed" :roundCount="roundCount" />
+				</template>
+				<template v-slot:temporal>
 
-					<div class="scoreboard__buttons">
-						<button @click="restartGame" class="btn btn--block btn--hollow" type="button"><svg-restart aria-hidden="true" class="icon" /> Restart</button>
-						<button class="btn btn--block btn--hollow" @click="endGame"><svg-home aria-hidden="true" class="icon" /> New</button>
-					</div>
+					<temporal-display :secondsPlayed="secondsPlayed" :roundCount="roundCount" />
 
 				</template>
 			</gameboard>
@@ -187,7 +186,6 @@ import SvgPlay from '@mdi/svg/svg/play-circle.svg';
 import SvgPlayerAdd from '@mdi/svg/svg/account-plus.svg';
 import SvgPlayerRemove from '@mdi/svg/svg/account-minus.svg';
 import SvgPlayers from '@mdi/svg/svg/account-group.svg';
-import SvgRestart from '@mdi/svg/svg/restart.svg';
 
 import shuffle from './../array-shuffle';
 import Timer from './../Timer';
@@ -275,7 +273,6 @@ export default {
 		SvgPlayerAdd,
 		SvgPlayerRemove,
 		SvgPlayers,
-		SvgRestart,
 	},
 
 	data() {
@@ -346,7 +343,7 @@ export default {
 				this.timer = Timer();
 				this.timer.addObserver({ update: () => {
 					this.secondsPlayed += 1;
-					console.log(this.secondsPlayed);
+					// console.log(this.secondsPlayed);
 				}});
 
 				// window.addEventListener('blur', () => {

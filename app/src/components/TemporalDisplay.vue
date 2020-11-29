@@ -39,11 +39,10 @@ export default {
 	width: 100%;
 
 	&__time {
-
+		margin-right: var(--spacing-base);
 	}
 
 	&__rounds {
-		margin-left: var(--spacing-base);
 	}
 }
 </style>

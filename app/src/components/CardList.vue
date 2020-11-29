@@ -23,14 +23,12 @@ import { reactive, ref, onMounted, watch } from 'vue';
 import Card from './Card';
 
 function sizeList (elList) {
-	// console.log('size');
-
 	const nContainerHeight = elList.getBoundingClientRect().height;
 
-	// console.log(elList.scrollHeight, nContainerHeight);
+	// console.log(elList, elList.getBoundingClientRect(), elList.scrollHeight, nContainerHeight);
 	while (elList.scrollHeight > nContainerHeight) {
 		elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / 2);
-		// console.log('/ 2', getComputeSdStyle(elList).getPropertyValue('--width'));
+		// console.log('/ 2', getComputedStyle(elList).getPropertyValue('--width'));
 	}
 
 	const step = 1.0125;
@@ -163,7 +161,9 @@ export default {
 
 <style lang="scss">
 .card-list {
+	--gutter: var(--spacing-micro);
 	--width: 1;
+
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
@@ -176,7 +176,15 @@ export default {
 
 	> li {
 		flex: 0 1 calc(var(--width) * 100%);
-		padding: Min(2vw, var(--spacing-base));
+		padding: Min(2vw, var(--gutter));
+	}
+
+	@media (min-width: 600px) {
+		--gutter: var(--spacing-mini);
+	}
+
+	@media (min-width: 900px) {
+		--gutter: var(--spacing-base);
 	}
 }
 </style>

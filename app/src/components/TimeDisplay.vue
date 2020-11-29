@@ -68,6 +68,7 @@ export default {
 .timer {
 	align-items: center;
 	display: inline-flex;
+	min-width: 10ch;
 
 	> * {
 		margin-right: 0.25em;

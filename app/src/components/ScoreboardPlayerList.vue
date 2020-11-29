@@ -36,20 +36,34 @@ export default {
 
 <style lang="scss">
 .scoreboard-player-list {
-	display: flex;
-	flex-wrap: wrap;
+	--gutter: var(--spacing-micro);
+
+	// display: flex;
+	// flex-wrap: wrap;
 	list-style: none;
-	margin: calc(var(--spacing-mini) * -1);
+	margin: calc(var(--gutter) * -1);
 	padding-left: 0;
 
+	// @media (orientation: landscape) {
+	// 	display: block;
+	// }
 
 	> li {
-		flex: 0 1 auto;
-		margin: var(--spacing-mini);
+		display: inline-block;
+		// flex: 0 1 auto;
+		margin: var(--gutter);
 
 		@media (orientation: landscape) {
-			flex: 1 1 100%;
+			display: block;
 		}
+	}
+
+	@media (min-width: 600px) {
+		--gutter: var(--spacing-mini);
+	}
+
+	@media (min-width: 900px) {
+		--gutter: var(--spacing-base);
 	}
 }
 </style>
