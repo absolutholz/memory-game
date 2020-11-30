@@ -87,7 +87,7 @@
 		</div>
 
 		<section
-			v-if="playState === state.STATE_GAME_PLAYING || playState === state.STATE_GAME_RESTARTING || playState === state.STATE_GAME_STARTING"
+			v-if="isGameBeingPlayed"
 			class="game__play"
 		>
 			<gameboard
@@ -120,6 +120,12 @@
 				</template>
 			</gameboard>
 		</section>
+
+		<paused-screen
+			v-if="playState === state.STATE_GAME_PAUSED"
+			@click="resumeGame"
+			class=""
+		/>
 
 		<div class="l-container game__result" v-if="playState === state.STATE_GAME_OVER">
 			<section class="l-center">
@@ -176,13 +182,14 @@ import { reactive } from "vue";
 import CardList from './../components/CardList';
 import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
+import PausedScreen from '../components/PausedScreen.vue';
 import PlayerResult from './../components/PlayerResult';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
 import TemporalDisplay from '../components/TemporalDisplay.vue';
 
 import SvgCards from '@mdi/svg/svg/cards.svg';
 import SvgHome from '@mdi/svg/svg/home.svg';
-import SvgPlay from '@mdi/svg/svg/play-circle.svg';
+import SvgPlay from '@mdi/svg/svg/play.svg';
 import SvgPlayerAdd from '@mdi/svg/svg/account-plus.svg';
 import SvgPlayerRemove from '@mdi/svg/svg/account-minus.svg';
 import SvgPlayers from '@mdi/svg/svg/account-group.svg';
@@ -201,6 +208,7 @@ import configLegoStarWarsFigures from './../configs/lego-star-wars-figures';
 const STATE_GAME_NOT_STARTED = 'not-started';
 const STATE_GAME_STARTING = 'starting';
 const STATE_GAME_PLAYING = 'playing';
+const STATE_GAME_PAUSED = 'paused';
 const STATE_GAME_RESTARTING = 'restarting';
 const STATE_GAME_OVER = 'game-over';
 
@@ -263,6 +271,7 @@ export default {
 		CardList,
 		Gameboard,
 		InputNumber,
+		PausedScreen,
 		PlayerResult,
 		ScoreboardPlayerList,
 		TemporalDisplay,
@@ -324,6 +333,13 @@ export default {
 		gameStyle () {
 			return this.config.configs.find((config) => config.id === this.config.cardStyle);
 		},
+
+		isGameBeingPlayed () {
+			return this.playState === this.state.STATE_GAME_PLAYING
+				|| this.playState === this.state.STATE_GAME_RESTARTING
+				|| this.playState === this.state.STATE_GAME_STARTING
+				|| this.playState === this.state.STATE_GAME_PAUSED;
+		},
 	},
 
 	methods: {
@@ -340,19 +356,15 @@ export default {
 			});
 
 			if (!this.timer) {
-				this.timer = Timer();
+				this.timer = Timer(1000);
 				this.timer.addObserver({ update: () => {
 					this.secondsPlayed += 1;
 					// console.log(this.secondsPlayed);
 				}});
 
-				// window.addEventListener('blur', () => {
-				// 	this.pauseGame();
-				// });
-
-				// window.addEventListener('focus', () => {
-				// 	this.resumeGame();
-				// });
+				window.addEventListener('blur', () => {
+					this.pauseGame();
+				});
 			}
 		},
 
@@ -367,22 +379,22 @@ export default {
 
 			this.setGameboard();
 
-			this.timer.start(1000);
+			this.timer.start();
 
 			this.playState = STATE_GAME_PLAYING;
 		},
 
-		// pauseGame () {
-		// 	console.log('pausing');
-		// 	this.timer.stop();
-		// 	this.playState = STATE_GAME_PAUSED;
-		// },
+		pauseGame () {
+			console.log('pausing game');
+			this.timer.stop();
+			this.playState = STATE_GAME_PAUSED;
+		},
 
-		// resumeGame () {
-		// 	console.log('resuming');
-		// 	this.timer.start();
-		// 	this.playState = STATE_GAME_PLAYING;
-		// },
+		resumeGame () {
+			console.log('resuming game');
+			this.timer.start();
+			this.playState = STATE_GAME_PLAYING;
+		},
 
 		restartGame () {
 			this.playState = STATE_GAME_RESTARTING;
@@ -392,7 +404,7 @@ export default {
 			setTimeout(() => {
 				this.setGameboard();
 
-				this.timer.start(1000);
+				this.timer.start();
 
 				this.playState = STATE_GAME_PLAYING;
 			}, 250);
@@ -450,6 +462,7 @@ export default {
 			STATE_GAME_STARTING,
 			STATE_GAME_RESTARTING,
 			STATE_GAME_NOT_STARTED,
+			STATE_GAME_PAUSED,
 			STATE_GAME_PLAYING,
 			STATE_GAME_OVER,
 		};

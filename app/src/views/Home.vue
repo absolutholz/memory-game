@@ -52,9 +52,4 @@ export default {
 		text-decoration: none;
 	}
 }
-
-.rich-text {
-	max-width: 60ch;
-
-}
 </style>

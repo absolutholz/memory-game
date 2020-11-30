@@ -258,4 +258,16 @@ select.input {
 		}
 	}
 }
+
+.rich-text {
+	max-width: 60ch;
+
+	> *:first-child {
+		margin-top: 0;
+	}
+
+	> *:last-child {
+		margin-top: 0;
+	}
+}
 </style>
