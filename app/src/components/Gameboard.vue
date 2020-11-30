@@ -12,6 +12,11 @@
 		<div class="gameboard__actions">
 			<ul class="btn-list">
 				<li>
+					<dark-mode-toggler
+						class="btn btn--hollow btn--block"
+					><svg-theme aria-hidden="true" class="icon" /></dark-mode-toggler>
+				</li>
+				<li>
 					<button
 						@click="restartGame"
 						class="btn btn--hollow btn--block"
@@ -31,15 +36,20 @@
 </template>
 
 <script>
+import DarkModeToggler from './DarkModeToggler';
+
 import SvgHome from '@mdi/svg/svg/home.svg';
 import SvgRestart from '@mdi/svg/svg/restart.svg';
+import SvgTheme from '@mdi/svg/svg/palette.svg';
 
 export default {
 	name: 'Gameboard',
 
 	components: {
+		DarkModeToggler,
 		SvgHome,
 		SvgRestart,
+		SvgTheme,
 	},
 
 	methods: {
@@ -82,7 +92,7 @@ export default {
 	right: 0;
 	top: 0;
 
-	background: #eee;
+	background: var(--color-background);
 	padding: var(--gap);
 
 	@media (min-width: 900px) {
@@ -112,6 +122,10 @@ export default {
 			top: 0;
 			width: 100%;
 			z-index: -1;
+		}
+
+		.t-dark & {
+			background: Hsla(0, 0%, 0%, 1);
 		}
 	}
 

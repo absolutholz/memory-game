@@ -124,7 +124,7 @@ export default {
 	&__back,
 	&__face {
 		align-items: center;
-		background: white;
+		background: var(--color-background);
 		border-radius: inherit;
 		display: flex;
 		height: 100%;
@@ -142,6 +142,7 @@ export default {
 	}
 
 	&__face {
+		background: #fff;
 		transform: rotateY( 180deg );
 	}
 

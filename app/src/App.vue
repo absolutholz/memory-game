@@ -16,11 +16,19 @@ export default {
 @import "~semantic-reboot/src/reboot-anchors";
 @import "~semantic-reboot/src/reboot-form-elements";
 
-:root {
-	--color-highlight: rebeccapurple;
+@mixin theme-light () {
+	--color-highlight: #4527a0;
 	--color-typography: #11111a;
 	--color-background: #fffff8;
+}
 
+@mixin theme-dark () {
+	--color-highlight: #9575cd;
+	--color-typography: #fffff8;
+	--color-background: #11111a;
+}
+
+:root {
 	--spacing-micro: 0.25rem;
 	--spacing-mini: 0.5rem;
 	--spacing-base: 1rem;
@@ -41,7 +49,22 @@ export default {
 		--typo-size-macro: 2rem;
 	}
 
+	background: var(--color-background);
+	color: var(--color-typography);
 	overflow-y: auto;
+
+	&,
+	&.t-light {
+		@include theme-light();
+	}
+
+	&.t-dark {
+		@include theme-dark();
+	}
+
+	@media (prefers-color-scheme: dark) {
+		@include theme-dark();
+	}
 }
 
 body {
@@ -72,6 +95,10 @@ legend {
 	float: none;
 	font-size: var(--typo-size-mega);
 	font-weight: bold;
+
+	.t-dark & {
+		color: #ddd;
+	}
 }
 
 .fieldset {
@@ -133,8 +160,6 @@ figure {
 	&:disabled {
 		opacity: 0.4;
 	}
-
-
 }
 
 .section {
@@ -150,8 +175,14 @@ figure {
 	}
 }
 
+input,
+select,
+textarea {
+	color: inherit;
+}
+
 .input {
-	background: white;
+	background: var(--color-background);
 	border: 2px solid #666;
 	border-radius: 3px;
 	font-size: var(--typo-size-mega);
@@ -165,7 +196,7 @@ select.input {
 	$icon: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z'></path></svg>";
 
 	appearance: none;
-	background: url($icon) no-repeat calc(100% - #{($icon-container-size - $icon-size) / 2}) center / $icon-size $icon-size white;
+	background: url($icon) no-repeat calc(100% - #{($icon-container-size - $icon-size) / 2}) center / $icon-size $icon-size var(--color-background);
 	padding-right: $icon-container-size;
 }
 
