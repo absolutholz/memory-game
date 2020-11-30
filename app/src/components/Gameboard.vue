@@ -87,6 +87,7 @@ export default {
 	}
 
 	bottom: 0;
+	height: 100%;
 	left: 0;
 	position: fixed;
 	right: 0;
