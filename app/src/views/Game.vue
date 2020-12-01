@@ -456,7 +456,7 @@ export default {
 		},
 	},
 
-	setup() {
+	setup () {
 		const { config } = GameConfig();
 		const state = {
 			STATE_GAME_STARTING,

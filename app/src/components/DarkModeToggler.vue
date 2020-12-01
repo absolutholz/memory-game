@@ -18,6 +18,34 @@ const CLASS_THEME_DARK = 't-dark';
 const LOCAL_STORAGE_THEME_LIGHT = 'light';
 const LOCAL_STORAGE_THEME_DARK = 'dark';
 
+export function activateDarkMode () {
+	elRoot.classList.remove(CLASS_THEME_LIGHT);
+	elRoot.classList.add(CLASS_THEME_DARK);
+	localStorage.theme = LOCAL_STORAGE_THEME_DARK;
+}
+
+export function activateLightMode () {
+	elRoot.classList.remove(CLASS_THEME_DARK);
+	elRoot.classList.add(CLASS_THEME_LIGHT);
+	localStorage.theme = LOCAL_STORAGE_THEME_LIGHT;
+}
+
+export function isDarkMode () {
+	if (localStorage.theme) {
+		if (localStorage.theme === LOCAL_STORAGE_THEME_DARK) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 export default {
 	main: 'DarkModeToggler',
 
@@ -28,35 +56,22 @@ export default {
 	},
 
 	created() {
-		if (localStorage.theme) {
-			if (localStorage.theme === LOCAL_STORAGE_THEME_DARK) {
-				this.setDarkMode();
-			} else{
-				this.setLightMode();
-			}
-
+		if (isDarkMode()) {
+			this.setDarkMode();
 		} else {
-			if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				this.setDarkMode();
-			} else {
-				this.setLightMode();
-			}
+			this.setLightMode();
 		}
 	},
 
 	methods: {
 		setDarkMode() {
 			this.isDark = true;
-			elRoot.classList.remove(CLASS_THEME_LIGHT);
-			elRoot.classList.add(CLASS_THEME_DARK);
-			localStorage.theme = LOCAL_STORAGE_THEME_DARK;
+			activateDarkMode();
 		},
 
 		setLightMode() {
 			this.isDark = false;
-			elRoot.classList.remove(CLASS_THEME_DARK);
-			elRoot.classList.add(CLASS_THEME_LIGHT);
-			localStorage.theme = LOCAL_STORAGE_THEME_LIGHT;
+			activateLightMode();
 		},
 
 		toggle() {

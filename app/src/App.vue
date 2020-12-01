@@ -3,8 +3,18 @@
 </template>
 
 <script>
+import { isDarkMode, activateDarkMode, activateLightMode } from './components/DarkModeToggler';
+
 export default {
 	name: 'App',
+
+	setup () {
+		if (isDarkMode()) {
+			activateDarkMode();
+		} else {
+			activateLightMode();
+		}
+	},
 };
 </script>
 
