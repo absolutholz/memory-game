@@ -217,6 +217,7 @@ select.input {
 
 .input-label {
 	font-size: var(--typo-size-micro);
+	font-weight: normal;
 	margin-bottom: var(--spacing-micro);
 
 	.btn {
@@ -266,6 +267,12 @@ select.input {
 		&:disabled {
 			opacity: 0.4;
 		}
+	}
+
+
+	&--inline {
+		display: inline-flex;
+		width: auto;
 	}
 }
 

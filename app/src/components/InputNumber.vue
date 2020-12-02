@@ -1,5 +1,5 @@
 <template>
-	<div class="compound-input input">
+	<div class="compound-input compound-input--inline input">
 		<button
 			@click="stepDown"
 			:aria-controls="id"
