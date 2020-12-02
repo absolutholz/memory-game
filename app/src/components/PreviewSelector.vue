@@ -71,7 +71,7 @@ export default {
 	display: grid;
 	grid-auto-rows: 1fr;
 	grid-gap: var(--spacing-base) var(--spacing-base);
-	grid-template-columns: repeat(auto-fill, minmax(clamp(15% #{"-"} var(--spacing-base), 50px, 100%), 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(clamp(15% #{"-"} var(--spacing-base), 70px, 100%), 1fr));
 	margin: 0;
 
 	&__input {
