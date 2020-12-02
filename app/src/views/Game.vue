@@ -21,19 +21,10 @@
 							/>
 						</label>
 
-						<label class="input-group" for="card-style">
-							<div class="input-label">Style</div>
-							<select
-								v-model="config.cardStyle"
-								class="input"
-								id="card-style"
-							>
-								<option
-									v-for="(typeConfig, index) in config.configs" :key="index"
-									:value="typeConfig.id"
-								>{{ typeConfig.name }}</option>
-							</select>
-						</label>
+						<fieldset class="input-group" for="card-style">
+							<legend class="input-label">Style</legend>
+							<preview-selector :list="config.configs" :initialSelection="config.cardStyle" @on-select="onCardStyleSelect" />
+						</fieldset>
 					</fieldset>
 
 					<fieldset>
@@ -98,9 +89,9 @@
 				<card-list
 					@on-match="onMatch"
 					@on-non-match="onNonMatch"
-					:cardBackSrc="cover.image.src"
-					:cardBackType="cover.type"
-					:cardFaceStyle="cardFaceStyle"
+					:cardBackSrc="config.cardStyle.cover.image.src"
+					:cardBackType="config.cardStyle.cover.type"
+					:cardFaceStyle="config.cardStyle"
 					:cards="cards"
 					:foundCards="foundCards"
 					:gameState="playState"
@@ -141,7 +132,7 @@
 						<div class="results__body">
 							<player-result
 								v-for="(player, index) in winningPlayers" :key="index"
-								:cardFaceStyle="cardFaceStyle"
+								:cardFaceStyle="config.cardStyle"
 								:imageIds="imageIds"
 								:player="player"
 							/>
@@ -156,7 +147,7 @@
 						<div class="results__body">
 							<player-result
 								v-for="(player, index) in notWinningPlayers" :key="index"
-								:cardFaceStyle="cardFaceStyle"
+								:cardFaceStyle="config.cardStyle"
 								:imageIds="imageIds"
 								:player="player"
 							/>
@@ -184,6 +175,7 @@ import Gameboard from './../components/Gameboard';
 import InputNumber from '../components/InputNumber.vue';
 import PausedScreen from '../components/PausedScreen.vue';
 import PlayerResult from './../components/PlayerResult';
+import PreviewSelector from './../components/PreviewSelector';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
 import TemporalDisplay from '../components/TemporalDisplay.vue';
 
@@ -219,7 +211,7 @@ function GameConfig () {
 
 	const config = reactive({
 		cardCount: savedConfig.cardCount || 20,
-		cardStyle: savedConfig.cardStyle || 'shapes',
+		cardStyle: savedConfig.cardStyleId ? configs.find((config) => config.id === savedConfig.cardStyleId) : configShapes,
 		players: savedConfig.players || [
 				{
 					name: 'Player 1',
@@ -273,6 +265,7 @@ export default {
 		InputNumber,
 		PausedScreen,
 		PlayerResult,
+		PreviewSelector,
 		ScoreboardPlayerList,
 		TemporalDisplay,
 
@@ -314,26 +307,6 @@ export default {
 			return this.config.players.filter((player) => !this.winningPlayers.includes(player));
 		},
 
-		cardFaceStyle () {
-			switch (this.config.cardStyle) {
-				case 'shapes':
-					return 'sprite';
-				case 'letters':
-				case 'numbers':
-					return 'text';
-			}
-
-			return '';
-		},
-
-		cover () {
-			return this.gameStyle.cover;
-		},
-
-		gameStyle () {
-			return this.config.configs.find((config) => config.id === this.config.cardStyle);
-		},
-
 		isGameBeingPlayed () {
 			return this.playState === this.state.STATE_GAME_PLAYING
 				|| this.playState === this.state.STATE_GAME_RESTARTING
@@ -344,7 +317,7 @@ export default {
 
 	methods: {
 		setGameboard () {
-			this.cards = dealCards(this.gameStyle, this.config.cardCount);
+			this.cards = dealCards(this.config.cardStyle, this.config.cardCount);
 
 			this.foundCards = [];
 			this.roundCount = 1,
@@ -359,12 +332,7 @@ export default {
 				this.timer = Timer(1000);
 				this.timer.addObserver({ update: () => {
 					this.secondsPlayed += 1;
-					// console.log(this.secondsPlayed);
 				}});
-
-				window.addEventListener('blur', () => {
-					this.pauseGame();
-				});
 			}
 		},
 
@@ -372,7 +340,7 @@ export default {
 			this.playState = STATE_GAME_STARTING;
 
 			saveConfiguration({
-				cardStyle: this.config.cardStyle,
+				cardStyleId: this.config.cardStyle.id,
 				cardCount: this.config.cardCount,
 				players: this.config.players,
 			});
@@ -380,6 +348,8 @@ export default {
 			this.setGameboard();
 
 			this.timer.start();
+
+			window.addEventListener('blur', this.pauseGame);
 
 			this.playState = STATE_GAME_PLAYING;
 		},
@@ -412,6 +382,7 @@ export default {
 
 		endGame () {
 			this.timer.stop();
+			window.removeEventListener('blur', this.pauseGame);
 			this.playState = STATE_GAME_NOT_STARTED;
 		},
 
@@ -420,6 +391,11 @@ export default {
 			if (this.playerTurnIndex === 0) {
 				this.roundCount += 1;
 			}
+		},
+
+		onCardStyleSelect (data) {
+			console.log(data);
+			this.config.cardStyle = data;
 		},
 
 		onMatch (cards) {
