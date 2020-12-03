@@ -133,7 +133,6 @@
 							<player-result
 								v-for="(player, index) in winningPlayers" :key="index"
 								:cardFaceStyle="config.cardStyle"
-								:imageIds="imageIds"
 								:player="player"
 							/>
 						</div>
@@ -148,7 +147,6 @@
 							<player-result
 								v-for="(player, index) in notWinningPlayers" :key="index"
 								:cardFaceStyle="config.cardStyle"
-								:imageIds="imageIds"
 								:player="player"
 							/>
 						</div>
@@ -355,9 +353,11 @@ export default {
 		},
 
 		pauseGame () {
-			console.log('pausing game');
-			this.timer.stop();
-			this.playState = STATE_GAME_PAUSED;
+			if (this.playState === STATE_GAME_PLAYING) {
+				console.log('pausing game');
+				this.timer.stop();
+				this.playState = STATE_GAME_PAUSED;
+			}
 		},
 
 		resumeGame () {
@@ -481,22 +481,6 @@ export default {
 .input-group {
 	display: block;
 	width: 100%;
-}
-
-.mini-card-list {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	list-style: none;
-	margin: 0;
-	padding-left: 0;
-
-	&__item {
-		height: 50px;
-		margin: var(--spacing-mini);
-		position: relative;
-		width: 50px;
-	}
 }
 
 .results {
