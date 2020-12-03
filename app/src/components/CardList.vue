@@ -1,7 +1,7 @@
 <template>
 	<ol class="card-list" ref="elRoot">
 		<li v-for="(card, index) in cards" :key="index">
-			<card
+			<playing-card
 				:backImageSrc="cardBackSrc"
 				:backImageType="cardBackType"
 				:color="card.color"
@@ -20,7 +20,7 @@
 <script>
 import { reactive, ref, onMounted, watch } from 'vue';
 
-import Card from './Card';
+import PlayingCard from './PlayingCard';
 
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
@@ -59,7 +59,7 @@ export default {
 	name: 'CardList',
 
 	components: {
-		Card,
+		PlayingCard,
 	},
 
 	props: {
