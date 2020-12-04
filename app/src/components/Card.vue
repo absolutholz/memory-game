@@ -27,7 +27,7 @@ export default {
 		0 3px 1px -2px rgba(0, 0, 0, 0.2),
 		0 2px 2px 0 rgba(0, 0, 0, 0.14),
 		0 1px 5px 0 rgba(0, 0, 0, 0.12);
-	color: var(--color, --primary); // --card-on-surface,
+	color: var(--card-on-surface, var(--color, var(--color-highlight, #111)));
 	display: block;
 	padding-bottom: 100%;
 	position: relative;

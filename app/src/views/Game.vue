@@ -21,9 +21,14 @@
 							/>
 						</label>
 
-						<fieldset class="input-group" for="card-style">
+						<fieldset class="input-group">
 							<legend class="input-label">Style</legend>
 							<preview-selector :list="config.configs" :initialSelection="config.cardStyle" @on-select="onCardStyleSelect" />
+						</fieldset>
+
+						<fieldset class="input-group">
+							<legend class="input-label">Back-side style</legend>
+							<preview-selector-back-side :cardStyleCover="config.cardStyle.cover" :initialSelection="config.cardBackStyle" @on-select="onCardBackSideStyleSelect" />
 						</fieldset>
 					</fieldset>
 
@@ -89,8 +94,8 @@
 				<card-list
 					@on-match="onMatch"
 					@on-non-match="onNonMatch"
-					:cardBackSrc="config.cardStyle.cover.image.src"
-					:cardBackType="config.cardStyle.cover.type"
+					:cardBackSrc="config.cardBackStyle.image"
+					:cardBackType="config.cardBackStyle.type"
 					:cardFaceStyle="config.cardStyle"
 					:cards="cards"
 					:foundCards="foundCards"
@@ -174,6 +179,7 @@ import InputNumber from '../components/InputNumber.vue';
 import PausedScreen from '../components/PausedScreen.vue';
 import PlayerResult from './../components/PlayerResult';
 import PreviewSelector from './../components/PreviewSelector';
+import PreviewSelectorBackSide from '../components/PreviewSelectorBackSide';
 import ScoreboardPlayerList from '../components/ScoreboardPlayerList.vue';
 import TemporalDisplay from '../components/TemporalDisplay.vue';
 
@@ -188,6 +194,7 @@ import shuffle from './../array-shuffle';
 import Timer from './../Timer';
 
 import colors from './../colors';
+import patterns from './../patterns';
 
 import configShapes from './../configs/shapes';
 import configLetters from './../configs/letters';
@@ -206,11 +213,15 @@ function GameConfig () {
 	const savedConfig = JSON.parse(window.localStorage.config || '{}');
 
 	const configs = [ configShapes, configLetters, configNumbers, configLegoFigures, configLegoStarWarsFigures ];
+	const cardStyle = savedConfig.cardStyleId ? configs.find((config) => config.id === savedConfig.cardStyleId) : configShapes;
+	const cardBackStyle = savedConfig.cardBackStyle ? patterns.find((pattern) => pattern.image === savedConfig.cardBackStyle.image ) || cardStyle.cover : cardStyle.cover;
 
 	const config = reactive({
 		cardCount: savedConfig.cardCount || 20,
-		cardStyle: savedConfig.cardStyleId ? configs.find((config) => config.id === savedConfig.cardStyleId) : configShapes,
-		players: savedConfig.players || [
+		cardStyle,
+		cardBackStyle,
+		players: savedConfig.players
+			|| [
 				{
 					name: 'Player 1',
 					cards: [],
@@ -264,6 +275,7 @@ export default {
 		PausedScreen,
 		PlayerResult,
 		PreviewSelector,
+		PreviewSelectorBackSide,
 		ScoreboardPlayerList,
 		TemporalDisplay,
 
@@ -339,6 +351,7 @@ export default {
 
 			saveConfiguration({
 				cardStyleId: this.config.cardStyle.id,
+				cardBackStyle: this.config.cardBackStyle,
 				cardCount: this.config.cardCount,
 				players: this.config.players,
 			});
@@ -394,8 +407,15 @@ export default {
 		},
 
 		onCardStyleSelect (data) {
-			console.log(data);
+			// console.log(data);
+			console.log(data.cover);
+			this.config.cardBackStyle = data.cover;
 			this.config.cardStyle = data;
+		},
+
+		onCardBackSideStyleSelect (data) {
+			// console.log(data);
+			this.config.cardBackStyle = data;
 		},
 
 		onMatch (cards) {

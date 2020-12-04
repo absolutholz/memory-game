@@ -9,7 +9,7 @@
 			<div class="playing-card__back">
 				<span v-if="$route.query.debug" style="position: relative; z-index: 10;">{{ name }}</span>
 				<slot name="back">
-					<card-back-image :src="backImageSrc" :type="backImageType" />
+					<card-back-image :src="backImageSrc.src || backImageSrc" :type="backImageType" />
 				</slot>
 			</div>
 			<div class="playing-card__face">
@@ -95,7 +95,7 @@ export default {
 // https://codepen.io/ettrics/pen/zxMPWj?editors=0100
 
 .playing-card {
-	color: var(--color, --primary);
+	color: var(--color, --color-highlight);
 	display: block;
 	padding-bottom: 100%;
 	perspective: 500px;

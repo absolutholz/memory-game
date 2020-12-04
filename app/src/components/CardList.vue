@@ -2,7 +2,7 @@
 	<ol class="card-list" ref="elRoot">
 		<li v-for="(card, index) in cards" :key="index">
 			<playing-card
-				:backImageSrc="cardBackSrc"
+				:backImageSrc="cardBackSrc.src || cardBackSrc"
 				:backImageType="cardBackType"
 				:color="card.color"
 				:faceImageSrc="card.image.src"
@@ -85,7 +85,6 @@ export default {
 
 		cardBackSrc: {
 			required: false,
-			type: String,
 		},
 	},
 
