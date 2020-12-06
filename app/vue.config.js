@@ -1,29 +1,29 @@
 module.exports = {
-	css: {
-		sourceMap: true,
-	},
-
 	chainWebpack: (config) => {
 		const svgRule = config.module.rule('svg');
 
 		svgRule.uses.clear();
 
 		svgRule
+			.use('babel-loader')
+			.loader('babel-loader')
+			.end()
 			.use('vue-svg-loader')
 			.loader('vue-svg-loader')
 			.tap((options) => {
 				return {
 					svgo: {
 						plugins: [
-							{ removeXMLNS: true },
+							{
+								removeXMLNS: true,
+							},
 							{
 								// https://github.com/guylando/svgo-addViewBox/blob/master/addViewBox.js
 								// https://github.com/svg/svgo/issues/722#issuecomment-385028841
 								removeSvgId: {
 									type: 'perItem',
 									name: 'convertDimensionsToViewbox',
-									description:
-										'replaces width, height attributes of an svg with viewBox attribute to make it responsive',
+									description: 'replaces width, height attributes of an svg with viewBox attribute to make it responsive',
 									fn: function (item) {
 										if (
 											item.isElem(['svg']) &&
@@ -61,6 +61,10 @@ module.exports = {
 					},
 				};
 			});
+	},
+
+	css: {
+		sourceMap: true,
 	},
 
 	pwa: {
