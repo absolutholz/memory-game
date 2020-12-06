@@ -1,6 +1,36 @@
 const path = require('path');
 
 module.exports = ({ config }) => {
+	config.module.rules.push({
+		test: /\.(scss)$/,
+		include: path.resolve(__dirname, './../'),
+		use: [
+			'style-loader',
+			{
+				loader: 'css-loader',
+				options: {
+					sourceMap: true,
+					importLoaders: 1,
+				},
+			},
+			// {
+			// 	loader: 'postcss-loader',
+			// 	options: {
+			// 		sourceMap: true,
+			// 		ident: 'postcss',
+			// 		plugins: () => [ autoprefixer ],
+			// 	},
+			// },
+			{
+				loader: 'sass-loader',
+				options: {
+					sourceMap: true,
+					implementation: require('node-sass'),
+				},
+			},
+		],
+	});
+
 	let rule = config.module.rules.find(r =>
 		// it can be another rule with file loader
 		// we should get only svg related
@@ -65,17 +95,6 @@ module.exports = ({ config }) => {
 			},
 		},
 	);
-
-	config.module.rules.push({
-		test: /\.scss$/,
-		use: [
-			'vue-style-loader',
-			'css-loader',
-			{
-				loader: 'sass-loader',
-			},
-		],
-	});
 
 	return config;
 };
