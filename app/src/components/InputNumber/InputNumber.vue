@@ -14,7 +14,7 @@
 		<input
 			@change="checkValue"
 			class="compound-input__input number-input"
-			:diabled="disabled"
+			:disabled="disabled"
 			:id="id"
 			:max="max"
 			:min="min"
