@@ -75,6 +75,20 @@ button {
 	width: auto;
 }
 
+// RESET: input, select, textarea
+input:not([type="radio"]):not([type="checkbox"]),
+textarea,
+select {
+	background: none;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	padding: 0;
+	width: 100%;
+}
+
 .icon {
 	fill: currentColor;
 	font-size: 1.25em;
