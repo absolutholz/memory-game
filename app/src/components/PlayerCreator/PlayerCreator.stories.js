@@ -5,7 +5,7 @@ export default {
 	// component: PlayerCreator,
 };
 
-export const Default = () => ({
+export const WithoutPlayer = () => ({
 	components: { PlayerCreator },
 	template: `
 			<player-creator :player="player" />
@@ -13,6 +13,18 @@ export const Default = () => ({
 	props: {
 		player: {
 			default: new Player('1'),
+		},
+	},
+});
+
+export const WithPlayer = () => ({
+	components: { PlayerCreator },
+	template: `
+			<player-creator :player="player" />
+	`,
+	props: {
+		player: {
+			default: new Player('1', 'Vroni'),
 		},
 	},
 });

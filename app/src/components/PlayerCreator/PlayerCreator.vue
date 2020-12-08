@@ -37,10 +37,10 @@ export default {
 		// },
 
 		player: {
-			// default: () => {
-			// 	return Player('asdf');
-			// },
-			required: true,
+			default: () => {
+				return Player('1');
+			},
+			required: false,
 			type: Player,
 		},
 	},
