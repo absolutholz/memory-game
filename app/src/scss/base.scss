@@ -6,15 +6,17 @@
 @import "~semantic-reboot/src/reboot-form-elements";
 
 @mixin theme-light () {
-	--color-highlight: #4527a0;
-	--color-on-surface: #11111a;
-	--color-surface: #fffff8;
+	--surface: #fffff8;
+	--on-surface: #11111a;
+	--primary: #6200ea;
+	--on-primary: #fff;
 }
 
 @mixin theme-dark () {
-	--color-highlight: #9575cd;
-	--color-on-surface: #fffff8;
-	--color-surface: #11111a;
+	--surface: #11111a;
+	--on-surface: #fffff8;
+	--primary: #b388ff;
+	--on-primary: #000;
 }
 
 :root {
@@ -38,14 +40,14 @@
 		--typo-size-macro: 2rem;
 	}
 
-	background: var(--color-surface);
-	color: var(--color-on-surface);
+	background: var(--surface);
+	color: var(--on-surface);
 	overflow-y: auto;
 
-	// &,
-	// &.t-light {
-	// 	@include theme-light();
-	// }
+	&,
+	&.t-light {
+		@include theme-light();
+	}
 
 	// &.t-dark {
 	// 	@include theme-dark();
