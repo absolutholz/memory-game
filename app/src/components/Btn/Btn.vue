@@ -1,5 +1,6 @@
 <template>
 	<component
+		@click="click"
 		class="btn"
 		:class="variantClass"
 		:href="href"
@@ -55,6 +56,12 @@ export default {
 					return 'btn--outlined';
 			}
 			return null;
+		},
+	},
+
+	methods: {
+		click () {
+			this.$emit('click');
 		},
 	},
 };

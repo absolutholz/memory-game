@@ -99,7 +99,7 @@ export default {
 	computed: {
 		proxyValue: {
 			get() { return this.value; },
-			set(newValue) { this.$emit('update:value', newValue); }
+			set(newValue) { this.$emit('update', newValue); }
 		},
 	},
 

@@ -60,7 +60,7 @@ export default {
 
 	methods: {
 		select () {
-			this.$emit('on-select', this.selection);
+			this.$emit('update', this.selection);
 		},
 	},
 };
