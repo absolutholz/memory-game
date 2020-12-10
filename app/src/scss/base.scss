@@ -63,6 +63,10 @@ body {
 	font-size: var(--typo-size-base);
 }
 
+path:not([fill]) {
+	fill: currentColor;
+}
+
 // RESET: button
 button {
 	background: none;
