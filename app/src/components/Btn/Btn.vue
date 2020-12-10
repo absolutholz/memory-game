@@ -3,6 +3,7 @@
 		@click="click"
 		class="btn"
 		:class="variantClass"
+		:aria-disabled="disabled"
 		:href="href"
 		:is="nodeType"
 		:to="to"
@@ -13,6 +14,8 @@
 </template>
 
 <script>
+export const VARIANTS = ['text', 'contained', 'outlined'];
+
 export default {
 	name: 'Btn',
 
@@ -27,12 +30,18 @@ export default {
 			type: [String, Object],
 		},
 
+		disabled: {
+			default: false,
+			required: false,
+			type: Boolean,
+		},
+
 		variant: {
 			default: 'text',
 			required: false,
 			type: String,
 			validator: function (value) {
-				return ['text', 'contained', 'outlined'].indexOf(value) !== -1;
+				return VARIANTS.indexOf(value) !== -1;
 			},
 		},
 	},
@@ -61,7 +70,9 @@ export default {
 
 	methods: {
 		click () {
-			this.$emit('click');
+			if (!this.disabled) {
+				this.$emit('click');
+			}
 		},
 	},
 };
@@ -72,11 +83,14 @@ export default {
 .btn {
 	--spacing-h: 1rem;
 	--spacing-v: 0.5rem;
+	--btn-surface: transparent;
+	--btn-on-surface: var(--primary, inherit);
 
 	align-items: center;
+	background: var(--btn-surface);
 	// border: 1px solid transparent;
 	border-radius: 4px;
-	color: var(--primary, inherit);
+	color: var(--btn-on-surface);
 	display: inline-flex;
 	font-size: 0.875em;
 	font-weight: 500;
@@ -84,19 +98,21 @@ export default {
 	letter-spacing: 0.1575ch;
 	line-height: 1;
 	max-width: 100%;
-	overflow: hidden;
 	padding: var(--spacing-v) var(--spacing-h);
 	position: relative;
 	text-decoration: none;
 	text-overflow: ellipsis;
 	text-transform: uppercase;
+	transition: 250ms background-color, 250ms box-shadow, 250ms color;
 	white-space: nowrap;
-	// will-change: transform, opacity;
+	will-change: background-color, box-shadow, color, opacity;
 	z-index: 0;
 
 	&__bg {
+		border-radius: inherit;
 		height: 100%;
 		left: 0;
+		overflow: hidden;
 		position: absolute;
 		top:0;
 		width: 100%;
@@ -128,7 +144,49 @@ export default {
 	}
 
 	&:focus {
-		// outline: 0;
+		outline: 0;
+
+		@keyframes border {
+			0% {
+				border-width: 0;
+				font-size: 0;
+				opacity: 0;
+			}
+			33% {
+				opacity: 0.75;
+			}
+			90% {
+				opacity: 0;
+			}
+			100% {
+				border-width: 8px;
+				font-size: 12px;
+			}
+		}
+
+		&::before {
+			animation: 1.75s ease-out 0s reverse infinite border;
+			border: 0 solid var(--primary);
+			// border: 1em solid #ff7000;
+			border-radius: inherit;
+			bottom: -1em;
+			content: "";
+			font-size: 0em;
+			left: -1em;
+			opacity: 0;
+			pointer-events: none;
+			position: absolute;
+			right: -1em;
+			top: -1em;
+		}
+	}
+
+	&[aria-disabled="true"] {
+		--btn-surface: var(--surface);
+		--btn-on-surface: var(--on-surface);
+
+		opacity: 0.5;
+		pointer-events: none;
 	}
 
 	&--outlined {
@@ -137,9 +195,10 @@ export default {
 	}
 
 	&--contained {
-		background: var(--primary, inherit);
+		--btn-surface: var(--primary);
+		--btn-on-surface: var(--on-primary);
+
 		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 1px 5px 0px rgba(0,0,0,.12);
-		color: var(--on-primary, inherit);
 		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 		will-change: box-shadow;
 
@@ -162,6 +221,11 @@ export default {
 					opacity: 0.24;
 				}
 			}
+		}
+
+		&[aria-disabled="true"] {
+			--btn-surface: var(--on-surface);
+			--btn-on-surface: var(--surface);
 		}
 	}
 

@@ -1,53 +1,30 @@
-import Btn from '.';
+import Btn, { VARIANTS } from '.';
+import { action } from '@storybook/addon-actions';
 
 export default {
 	title: 'Btn',
+	component: Btn,
+	argTypes: {
+		variant: {
+			control: {
+				type: 'select',
+				options: VARIANTS,
+			},
+		},
+	},
 };
 
-export const asButton = () => ({
-	label: 'Text/As Button',
+const actionsData = {
+  onClick: action('click'),
+};
+
+const Template = (args, { argTypes }) => ({
 	components: { Btn },
-	template: `
-	<btn>button</btn>
+	props: Object.keys(argTypes),
+	methods: actionsData,
+	template:  `
+		<btn v-bind="$props" @click="onClick">Button</btn>
 	`,
 });
 
-export const asAnchor = () => ({
-	label: 'Text/As Anchor',
-	components: { Btn },
-	template: `
-		<btn href="#">anchor</btn>
-	`,
-});
-
-export const containedAsButton = () => ({
-	label: 'Contained/As Button',
-	components: { Btn },
-	template: `
-	<btn variant="contained">button</btn>
-	`,
-});
-
-export const containedAsAnchor = () => ({
-	label: 'Contained/As Anchor',
-	components: { Btn },
-	template: `
-		<btn href="#" variant="contained">anchor</btn>
-	`,
-});
-
-export const outlinedAsButton = () => ({
-	label: 'Contained/As Button',
-	components: { Btn },
-	template: `
-	<btn variant="outlined">button</btn>
-	`,
-});
-
-export const outlinedAsAnchor = () => ({
-	label: 'Contained/As Anchor',
-	components: { Btn },
-	template: `
-		<btn href="#" variant="outlined">anchor</btn>
-	`,
-});
+export const Default = Template.bind({});
