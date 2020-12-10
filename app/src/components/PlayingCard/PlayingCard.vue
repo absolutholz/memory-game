@@ -7,42 +7,35 @@
 	>
 		<div class="playing-card__content">
 			<div class="playing-card__back">
-				<slot name="back">
-					<!-- <card-back-image :src="backImageSrc.src || backImageSrc" :type="backImageType" /> -->
-					<card-image class="playing-card__back-image" />
-				</slot>
+				<card-image class="playing-card__card-image" :src="backImageSrc" :type="backImageType" />
 			</div>
 			<div class="playing-card__face">
-				<!-- <card-image :src="faceImageSrc" :type="faceImageType" /> -->
+				<card-image class="playing-card__card-image" :src="faceImageSrc" :type="faceImageType" />
 			</div>
 		</div>
 	</button>
 </template>
 
 <script>
-// import Card from './../Card';
 import CardImage from './../CardImage';
-// import CardBackImage from './CardBackImage';
 
 export default {
 	name: 'Card',
 
 	components: {
-		// Card,
 		CardImage,
-		// CardBackImage,
 	},
 
 	props: {
-		// id: {
-		// 	required: true,
-		// 	type: String,
-		// },
+		id: {
+			required: true,
+			type: String,
+		},
 
-		// name: {
-		// 	required: true,
-		// 	type: String,
-		// },
+		name: {
+			required: true,
+			type: String,
+		},
 
 		color: {
 			required: false,
@@ -61,25 +54,25 @@ export default {
 			type: Boolean,
 		},
 
-		// backImageSrc: {
-		// 	required: false,
-		// 	type: String,
-		// },
+		backImageSrc: {
+			required: false,
+			type: String,
+		},
 
-		// backImageType: {
-		// 	required: false,
-		// 	type: String,
-		// },
+		backImageType: {
+			required: false,
+			type: String,
+		},
 
-		// faceImageSrc: {
-		// 	required: false,
-		// 	type: String,
-		// },
+		faceImageSrc: {
+			required: true,
+			type: String,
+		},
 
-		// faceImageType: {
-		// 	required: false,
-		// 	type: String,
-		// },
+		faceImageType: {
+			required: true,
+			type: String,
+		},
 	},
 
 	methods: {
@@ -107,7 +100,10 @@ export default {
 
 	&__content {
 		border-radius: 4px;
-		box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		box-shadow:
+			0 3px 1px -2px rgba(0, 0, 0, 0.2),
+			0 2px 2px 0 rgba(0, 0, 0, 0.14),
+			0 1px 5px 0 rgba(0, 0, 0, 0.12);
 		height: 100%;
 		position: absolute;
 		transform-style: preserve-3d;
@@ -115,7 +111,10 @@ export default {
 		width: 100%;
 
 		.playing-card--showing & {
-			box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+			box-shadow:
+				0 5px 5px -3px rgba(0, 0, 0, 0.2),
+				0 8px 10px 1px rgba(0, 0, 0, 0.14),
+				0 3px 14px 2px rgba(0, 0, 0, 0.12);
 			transform: rotateY(180deg) scale(1.125);
 			transition: transform 0.5s;
 		}
@@ -124,7 +123,7 @@ export default {
 	&__back,
 	&__face {
 		align-items: center;
-		background: var(--color-background);
+		background: var(--surface);
 		border-radius: inherit;
 		display: flex;
 		height: 100%;
@@ -138,11 +137,7 @@ export default {
 	}
 
 	&__back {
-		color: var(--color-highlight);
-	}
-
-	&__back-image {
-
+		color: var(--primary, --on-surface);
 	}
 
 	&__face {
@@ -150,18 +145,8 @@ export default {
 		transform: rotateY( 180deg );
 	}
 
-	&__image {
-		height: 80%;
-		left: 10%;
-		object-fit: contain;
-		position: absolute;
-		top: 10%;
-		width: 80%;
-		z-index: 0;
-
-		&--svg {
-
-		}
+	&__card-image {
+		width: 90%;
 	}
 
 	&--found {
