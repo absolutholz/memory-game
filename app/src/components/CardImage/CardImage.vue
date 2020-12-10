@@ -41,6 +41,7 @@ export default {
 .card-image {
 	padding-bottom: 100%;
 	position: relative;
+	width: 100%;
 
 	&__image {
 		height: 100%;
