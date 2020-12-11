@@ -1,9 +1,9 @@
-import PlayingCard from '.';
+import GameboardCard from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-	title: 'Playing Card',
-	component: PlayingCard,
+	title: 'Gameboard/Gameboard Card',
+	component: GameboardCard,
 	argTypes: {
 		color: { control: 'color' },
 	},
@@ -14,12 +14,12 @@ const actionsData = {
 };
 
 const Template = (args, { argTypes }) => ({
-	components: { PlayingCard },
+	components: { GameboardCard },
 	props: Object.keys(argTypes),
 	methods: actionsData,
 	template:  `
 		<div style="max-width: 250px; padding: 5vw;">
-			<playing-card v-bind="$props" @select="onSelect" />
+			<gameboard-card v-bind="$props" @select="onSelect" />
 		</div>
 	`,
 });

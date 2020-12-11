@@ -1,12 +1,16 @@
 import Gameboard from '.';
 
 export default {
-	title: 'Gameboard',
+	title: 'Gameboard/Gameboard',
+	component: Gameboard,
 };
 
-export const Default = () => ({
+const Template = (args, { argTypes }) => ({
 	components: { Gameboard },
+	props: Object.keys(argTypes),
 	template: `
 		<gameboard />
 	`,
 });
+
+export const Default = Template.bind({});

@@ -4,21 +4,21 @@
 			aria-hidden="true"
 			class="icon timer__icon"
 		/>
-		<span v-if="formattedHours">
+		<span v-if="formattedHours" class="timer__digit-unit">
 			<span class="timer__digit">{{ formattedHours }}</span>
 			<abbr
 				:aria-label="formattedHours > 1 ? 'hours' : 'hour'"
 				class="timer__unit"
 			>h</abbr>
 		</span>
-		<span v-if="formattedMinutes">
+		<span v-if="formattedMinutes" class="timer__digit-unit">
 			<span class="timer__digit">{{ formattedMinutes }}</span>
 			<abbr
 				:aria-label="formattedMinutes > 1 ? 'minutes' : 'minute'"
 				class="timer__unit"
 			>m</abbr>
 		</span>
-		<span>
+		<span class="timer__digit-unit">
 			<span class="timer__digit">{{ formattedSeconds }}</span>
 			<abbr
 				:aria-label="formattedSeconds > 1 ? 'seconds' : 'second'"
@@ -76,6 +76,18 @@ export default {
 		&:last-child {
 			margin-right: 0;
 		}
+	}
+
+	&__digit-unit {
+		display: inline-flex;
+	}
+
+	&__digit {
+
+	}
+
+	&__unit {
+
 	}
 
 	&__icon {

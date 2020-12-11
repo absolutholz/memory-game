@@ -1,16 +1,16 @@
 <template>
 	<button
 		@click="onClick"
-		:class="`playing-card${ isShowing ? ' playing-card--showing' : '' }${ isFound ? ' playing-card--found' : '' }`"
+		:class="`gameboard-card${ isShowing ? ' gameboard-card--showing' : '' }${ isFound ? ' gameboard-card--found' : '' }`"
 		:disabled="isShowing || isFound"
 		:style="`--color: ${ color };`"
 	>
-		<div class="playing-card__content">
-			<div class="playing-card__back">
-				<card-image class="playing-card__card-image" :src="backImageSrc" :type="backImageType" />
+		<div class="gameboard-card__content">
+			<div class="gameboard-card__back">
+				<card-image class="gameboard-card__card-image" :src="backImageSrc" :type="backImageType" />
 			</div>
-			<div class="playing-card__face">
-				<card-image class="playing-card__card-image" :src="faceImageSrc" :type="faceImageType" />
+			<div class="gameboard-card__face">
+				<card-image class="gameboard-card__card-image" :src="faceImageSrc" :type="faceImageType" />
 			</div>
 		</div>
 	</button>
@@ -20,7 +20,7 @@
 import CardImage from './../CardImage';
 
 export default {
-	name: 'Card',
+	name: 'GameboardCard',
 
 	components: {
 		CardImage,
@@ -89,7 +89,7 @@ export default {
 // https://codepen.io/cojdev/pen/EQZVRN?editors=0100
 // https://codepen.io/ettrics/pen/zxMPWj?editors=0100
 
-.playing-card {
+.gameboard-card {
 	color: var(--color, --primary);
 	display: block;
 	padding-bottom: 100%;
@@ -110,7 +110,7 @@ export default {
 		transition: transform 1s;
 		width: 100%;
 
-		.playing-card--showing & {
+		.gameboard-card--showing & {
 			box-shadow:
 				0 5px 5px -3px rgba(0, 0, 0, 0.2),
 				0 8px 10px 1px rgba(0, 0, 0, 0.14),

@@ -2,11 +2,18 @@ import TimeDisplay from '.';
 
 export default {
 	title: 'Time Display',
+	component: TimeDisplay,
 };
 
-export const standard = () => ({
+const Template = (args, { argTypes }) => ({
 	components: { TimeDisplay },
+	props: Object.keys(argTypes),
 	template: `
-		<time-display :seconds="99" />
+		<time-display v-bind="$props" />
 	`,
 });
+
+export const Default = Template.bind({});
+Default.args = {
+	seconds: 97,
+};
