@@ -1,15 +1,15 @@
-import Gameboard from '.';
+import GameboardLayout from '.';
 
 export default {
-	title: 'Gameboard/Gameboard',
-	component: Gameboard,
+	title: 'Gameboard/Gameboard Layout',
+	component: GameboardLayout,
 };
 
 const Template = (args, { argTypes }) => ({
-	components: { Gameboard },
+	components: { GameboardLayout },
 	props: Object.keys(argTypes),
 	template: `
-		<gameboard />
+		<gameboard-layout />
 	`,
 });
 

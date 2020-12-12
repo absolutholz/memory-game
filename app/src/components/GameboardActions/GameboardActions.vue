@@ -1,5 +1,5 @@
 <template>
-	<ul class="gameboard-btns">
+	<ul class="gameboard-actions">
 		<!-- <li>
 			<dark-mode-toggler
 				class="btn btn--hollow btn--block"
@@ -26,7 +26,7 @@ import SvgRestart from '@mdi/svg/svg/restart.svg';
 // import SvgTheme from '@mdi/svg/svg/palette.svg';
 
 export default {
-	name: 'GameboardBtns',
+	name: 'GameboardActions',
 
 	components: {
 		Btn,
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss">
-.gameboard-btns {
+.gameboard-actions {
 	--gutter: var(--spacing-micro);
 
 	display: flex;

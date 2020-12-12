@@ -1,71 +1,28 @@
 <template>
-	<div class="gameboard">
-		<div class="gameboard__playing-field gameboard__inset">
+	<div class="gameboard-layout">
+		<div class="gameboard-layout__playing-field gameboard-layout__inset">
 			<slot />
 		</div>
-		<div class="gameboard__players gameboard__inset">
+		<div class="gameboard-layout__players gameboard-layout__inset">
 			<slot name="players" />
 		</div>
-		<div class="gameboard__temporal">
+		<div class="gameboard-layout__temporal">
 			<slot name="temporal" />
 		</div>
-		<div class="gameboard__actions">
-			<!-- <ul class="btn-list">
-				<li>
-					<dark-mode-toggler
-						class="btn btn--hollow btn--block"
-					><svg-theme aria-hidden="true" class="icon" /></dark-mode-toggler>
-				</li>
-				<li>
-					<button
-						@click="restartGame"
-						class="btn btn--hollow btn--block"
-						type="button"
-					><svg-restart aria-hidden="true" class="icon" /></button>
-				</li>
-				<li>
-					<button
-						@click="configureNewGame"
-						class="btn btn--hollow btn--block"
-						type="button"
-					><svg-home aria-hidden="true" class="icon" /></button>
-				</li>
-			</ul> -->
+		<div class="gameboard-layout__actions">
+			<slot name="actions" />
 		</div>
 	</div>
 </template>
 
 <script>
-// import DarkModeToggler from './DarkModeToggler';
-
-// import SvgHome from '@mdi/svg/svg/home.svg';
-// import SvgRestart from '@mdi/svg/svg/restart.svg';
-// import SvgTheme from '@mdi/svg/svg/palette.svg';
-
 export default {
-	name: 'Gameboard',
-
-	components: {
-		// DarkModeToggler,
-		// SvgHome,
-		// SvgRestart,
-		// SvgTheme,
-	},
-
-	methods: {
-		restartGame () {
-			this.$emit('do-restart-game', { name: this.name, id: this.id });
-		},
-
-		configureNewGame () {
-			this.$emit('do-configure-new-game', { name: this.name, id: this.id });
-		},
-	},
+	name: 'GameboardLayout',
 };
 </script>
 
 <style lang="scss">
-.gameboard {
+.gameboard-layout {
 	--gap: var(--spacing-mini);
 
 	display: grid;
@@ -154,24 +111,4 @@ export default {
 		grid-area: actions;
 	}
 }
-
-// .btn-list {
-// 	--gutter: var(--spacing-micro);
-
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	justify-content: flex-end;
-// 	list-style: none;
-// 	margin: calc(var(--gutter) * -1);
-// 	padding-left: 0;
-
-// 	> li {
-// 		flex: 1 1 auto;
-// 		padding: var(--gutter);
-// 	}
-
-// 	@media (min-width: 30rem) {
-// 		--gutter: var(--spacing-mini);
-// 	}
-// }
 </style>
