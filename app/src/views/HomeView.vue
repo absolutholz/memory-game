@@ -6,7 +6,7 @@
 		</h1>
 
 		<div>
-			<router-link to="/game">Play</router-link>
+			<btn variant="contained" to="/game">Play</btn>
 		</div>
 
 		<div>
@@ -24,7 +24,13 @@
 </template>
 
 <script>
+import Btn from '../components/Btn';
+
 export default {
-	name: 'Home',
+	name: 'HomeView',
+
+	components: {
+		Btn,
+	},
 };
 </script>
