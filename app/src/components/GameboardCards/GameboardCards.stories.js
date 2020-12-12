@@ -1,7 +1,7 @@
 import GameboardCards from '.';
 import { action } from '@storybook/addon-actions';
 
-// import shuffle from './../../array-shuffle';
+// import shuffle from './../../js/array-shuffle';
 
 export default {
 	title: 'Gameboard/Gameboard Cards',

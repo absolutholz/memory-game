@@ -5,24 +5,30 @@
 				class="btn btn--hollow btn--block"
 			><svg-theme aria-hidden="true" class="icon" /></dark-mode-toggler>
 		</li> -->
-		<li>
+		<!-- <li>
 			<btn
 				@click="restartGame"
 			><svg-restart aria-hidden="true" class="icon" /></btn>
-		</li>
+		</li> -->
 		<li>
+			<btn
+				@click="pauseGame"
+			><svg-pause aria-hidden="true" class="icon" /></btn>
+		</li>
+		<!-- <li>
 			<btn
 				@click="reconfigureGame"
 			><svg-home aria-hidden="true" class="icon" /></btn>
-		</li>
+		</li> -->
 	</ul>
 </template>
 
 <script>
 import Btn from './../Btn';
 
-import SvgHome from '@mdi/svg/svg/home.svg';
-import SvgRestart from '@mdi/svg/svg/restart.svg';
+// import SvgHome from '@mdi/svg/svg/home.svg';
+import SvgPause from '@mdi/svg/svg/pause.svg';
+// import SvgRestart from '@mdi/svg/svg/restart.svg';
 // import SvgTheme from '@mdi/svg/svg/palette.svg';
 
 export default {
@@ -31,18 +37,24 @@ export default {
 	components: {
 		Btn,
 
-		SvgHome,
-		SvgRestart,
+		// SvgHome,
+		SvgPause,
+		// SvgRestart,
+		// SvgTheme,
 	},
 
 	methods: {
-		restartGame () {
-			this.$emit('restart-game');
+		pauseGame () {
+			this.$emit('pause-game');
 		},
 
-		reconfigureGame () {
-			this.$emit('reconfigure-game');
-		},
+		// restartGame () {
+		// 	this.$emit('restart-game');
+		// },
+
+		// reconfigureGame () {
+		// 	this.$emit('reconfigure-game');
+		// },
 	},
 };
 </script>
