@@ -1,6 +1,10 @@
 <template>
 	<gameboard-layout>
-		cards
+		<gameboard-cards
+			:cards="cards"
+			:themeImageSrc="theme.image.src"
+			:themeImageType="theme.image.type"
+		/>
 
 		<gameboard-pause-screen
 			v-if="isPaused"
@@ -31,6 +35,7 @@
 
 <script>
 import GameboardActions from './../GameboardActions';
+import GameboardCards from './../GameboardCards';
 import GameboardLayout from './../GameboardLayout';
 import GameboardPlayers from './../GameboardPlayers';
 import GameboardStatus from './../GameboardStatus';
@@ -48,6 +53,7 @@ export default {
 
 	components: {
 		GameboardActions,
+		GameboardCards,
 		GameboardLayout,
 		GameboardPauseScreen,
 		GameboardPlayers,
@@ -55,9 +61,19 @@ export default {
 	},
 
 	props: {
+		cards: {
+			required: true,
+			type: Array,
+		},
+
 		players: {
 			required: true,
 			type: Array,
+		},
+
+		theme: {
+			required: true,
+			type: Object,
 		},
 	},
 

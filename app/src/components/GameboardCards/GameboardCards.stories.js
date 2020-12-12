@@ -1,5 +1,6 @@
 import GameboardCards from '.';
 import { action } from '@storybook/addon-actions';
+import Card from '../../js/Card';
 
 // import shuffle from './../../js/array-shuffle';
 
@@ -13,6 +14,20 @@ const actionsData = {
   onNonMatch: action('non-match'),
 };
 
+const cards = [];
+for (let i = 0; i < 10; i += 1) {
+	const card1 = new Card(`${i}-a`, `${i}`);
+	card1.faceImage.src = `${i}`;
+	card1.faceImage.type = 'text';
+
+	const card2 = new Card(`${i}-b`, `${i}`);
+	card2.faceImage.src = `${i}`;
+	card2.faceImage.type = 'text';
+
+	cards.push(card1);
+	cards.push(card2);
+}
+
 const Template = (args, { argTypes }) => ({
 	components: { GameboardCards },
 	props: Object.keys(argTypes),
@@ -24,28 +39,7 @@ const Template = (args, { argTypes }) => ({
 	`,
 });
 
-const cards = [];
-for (let i = 0; i < 10; i += 1) {
-	cards.push({
-		id: `${i}-a`,
-		name: `${i}`,
-		backImageSrc: `${i}`,
-		backImageType: 'text',
-		faceImageSrc: `${i}`,
-		faceImageType: 'text',
-	});
-	cards.push({
-		id: `${i}-b`,
-		name: `${i}`,
-		backImageSrc: `${i}`,
-		backImageType: 'text',
-		faceImageSrc: `${i}`,
-		faceImageType: 'text',
-	});
-}
-
 export const Default = Template.bind({});
 Default.args = {
 	cards: cards,
-	// cards: shuffle(cards),
 };

@@ -1,4 +1,5 @@
-import PlayerCreator, { Player } from '.';
+import PlayerCreator from '.';
+import Player from './../../js/Player';
 
 export default {
 	title: 'Player Creator',

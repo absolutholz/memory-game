@@ -26,7 +26,7 @@
 import Btn from './../Btn';
 import PlayerCreator from './../PlayerCreator';
 
-import { Player } from './../PlayerCreator';
+import Player from './../../js/Player';
 
 export default {
 	name: 'PlayerCreatorList',

@@ -55,11 +55,13 @@ export default {
 		},
 
 		backImageSrc: {
+			default: '/apple-touch-icon-152x152.png',
 			required: false,
 			type: String,
 		},
 
 		backImageType: {
+			default: 'image',
 			required: false,
 			type: String,
 		},

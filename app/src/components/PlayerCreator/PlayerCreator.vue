@@ -24,10 +24,7 @@ import InputGroup from './../InputGroup';
 
 import SvgPlayerDelete from '@mdi/svg/svg/account-minus.svg';
 
-export function Player (id, name = 'Player') {
-  this.id = id;
-  this.name = name;
-}
+import Player from './../../js/Player';
 
 export default {
 	name: 'PlayerConfig',

@@ -1,5 +1,5 @@
 import GameboardPlayers from '.';
-import { Player } from './../PlayerCreator';
+import Player from './../../js/Player';
 
 export default {
 	title: 'Gameboard/Gameboard Players',

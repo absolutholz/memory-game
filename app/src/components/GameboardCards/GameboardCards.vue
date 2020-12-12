@@ -3,10 +3,10 @@
 		<li v-for="(card, index) in cards" :key="index">
 			<gameboard-card
 				@select="onCardSelect(card)"
-				:backImageSrc="card.backImageSrc"
-				:backImageType="card.backImageType"
-				:faceImageSrc="card.faceImageSrc"
-				:faceImageType="card.faceImageType"
+				:backImageSrc="themeImageSrc"
+				:backImageType="themeImageType"
+				:faceImageSrc="card.faceImage.src"
+				:faceImageType="card.faceImage.type"
 				:id="`${ index }`"
 				:isFound="isCardFound(card)"
 				:isShowing="isCardShowing(card)"
@@ -58,14 +58,15 @@ export default {
 		// 	type: Number,
 		// },
 
-		// cardBackType: {
-		// 	required: false,
-		// 	type: String,
-		// },
+		themeImageType: {
+			required: false,
+			type: String,
+		},
 
-		// cardBackSrc: {
-		// 	required: false,
-		// },
+		themeImageSrc: {
+			required: false,
+			type: String,
+		},
 	},
 
 	data () {
