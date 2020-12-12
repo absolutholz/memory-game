@@ -1,8 +1,9 @@
 <template>
-	<div
+	<component
 		class="card"
 		:class="`${ elevated ? 'card--elevated' : '' }`"
-	><slot /></div>
+		:is="nodeType"
+	><slot /></component>
 </template>
 
 <script>
@@ -14,6 +15,12 @@ export default {
 			default: false,
 			required: false,
 			type: Boolean,
+		},
+
+		nodeType: {
+			default: 'div',
+			required: false,
+			type: String,
 		},
 	},
 };
