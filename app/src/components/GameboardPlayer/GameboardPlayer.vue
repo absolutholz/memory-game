@@ -1,5 +1,9 @@
 <template>
-	<section :class="`gameboard-player${ isActive ? ' gameboard-player--active' : '' }`">
+	<card
+		:class="`gameboard-player${ isActive ? ' gameboard-player--active' : '' }`"
+		:elevated="isActive"
+		nodeType="section"
+	>
 		<h3 class="gameboard-player__name">{{ name }}</h3>
 		<div>
 			<svg style="width:1.25rem;height:1.25em;vertical-align:middle;" viewBox="0 0 24 24">
@@ -8,12 +12,18 @@
 			{{ foundCards.length }}
 		</div>
 		<!-- <div class="player__active" v-if="isActive">active</div> -->
-	</section>
+	</card>
 </template>
 
 <script>
+import Card from './../Card';
+
 export default {
 	name: 'GameboardPlayer',
+
+	components: {
+		Card,
+	},
 
 	props: {
 		name: {
@@ -40,14 +50,7 @@ export default {
 
 <style lang="scss">
 .gameboard-player {
-	background: var(--color-background);
 	border: 4px solid transparent;
-	border-radius: 8px;
-	box-shadow:
-		0 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0 2px 2px 0 rgba(0, 0, 0, 0.14),
-		0 1px 5px 0 rgba(0, 0, 0, 0.12);
-
 	padding: var(--spacing-micro) var(--spacing-base);
 	position: relative;
 
@@ -57,7 +60,8 @@ export default {
 	}
 
 	&--active {
-		border-color: var(--color-highlight);
+		border-color: var(--primary);
+		transform: scale(1.01);
 	}
 }
 </style>
