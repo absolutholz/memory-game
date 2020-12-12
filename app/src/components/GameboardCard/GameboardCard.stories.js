@@ -18,7 +18,7 @@ const Template = (args, { argTypes }) => ({
 	props: Object.keys(argTypes),
 	methods: actionsData,
 	template:  `
-		<div style="max-width: 250px; padding: 5vw;">
+		<div style="max-width: 250px; padding: 2rem;">
 			<gameboard-card v-bind="$props" @select="onSelect" />
 		</div>
 	`,

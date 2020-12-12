@@ -2,13 +2,15 @@
 	<ol class="gameboard-cards">
 		<li v-for="(card, index) in cards" :key="index">
 			<gameboard-card
-				faceImageSrc="/android-chrome-512x512.png"
-				faceImageType="image"
+				@select="onCardSelect(card)"
+				:backImageSrc="card.backImageSrc"
+				:backImageType="card.backImageType"
+				:faceImageSrc="card.faceImageSrc"
+				:faceImageType="card.faceImageType"
 				:id="`${ index }`"
 				:isFound="isCardFound(card)"
 				:isShowing="isCardShowing(card)"
 				:name="`${ index }`"
-				@select="onCardSelect"
 			/>
 		</li>
 	</ol>
@@ -38,20 +40,6 @@ function sizeList (elList) {
 	elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / step);
 }
 
-// function Gameboard () {
-// 	const activeCards = reactive({
-// 		card1: null,
-// 		card2: null,
-// 	});
-
-// 	const hideActiveCards = () => {
-// 		activeCards.card1 = null;
-// 		activeCards.card2 = null;
-// 	};
-
-// 	return { activeCards, hideActiveCards };
-// }
-
 export default {
 	name: 'GameboardCards',
 
@@ -61,14 +49,6 @@ export default {
 
 	props: {
 		cards: {
-			required: true,
-			type: Array,
-		},
-
-		foundCards: {
-			default () {
-				return [];
-			},
 			required: true,
 			type: Array,
 		},
@@ -88,46 +68,66 @@ export default {
 		// },
 	},
 
+	data () {
+		return {
+			activeCards: {
+				card1: null,
+				card2: null,
+			},
+			foundCards: [],
+			roundCount: 1,
+			secondsPlayed: 0,
+			playerTurnIndex: 0,
+		};
+	},
+
 	methods: {
+		hideActiveCards () {
+			this.activeCards.card1 = null;
+			this.activeCards.card2 = null;
+		},
+
 		onCardSelect (card) {
-			console.log(card);
+			if (!this.activeCards.card1) {
+				// console.log('first', card);
+				this.activeCards.card1 = this.cards.find((cardIter) => cardIter.id === card.id);
+			} else if (!this.activeCards.card2) {
+				// console.log('second', card);
+				this.activeCards.card2 = this.cards.find((cardIter) => cardIter.id === card.id)
 
-			// if (!this.activeCards.card1) {
-			// 	// console.log('first', card);
-			// 	this.activeCards.card1 = this.cards.find((cardIter) => cardIter.id === card.id);
-			// } else if (!this.activeCards.card2) {
-			// 	// console.log('second', card);
-			// 	this.activeCards.card2 = this.cards.find((cardIter) => cardIter.id === card.id)
+				if (this.activeCards.card1.name === this.activeCards.card2.name) {
+					// console.warn('match!', this.activeCards.card1, card);
 
-			// 	if (this.activeCards.card1.name === this.activeCards.card2.name) {
-			// 		// console.warn('match!', this.activeCards.card1, card);
-			// 		this.$emit('on-match', [this.activeCards.card1, this.activeCards.card2]);
+					this.foundCards.push(this.activeCards.card1);
+					this.foundCards.push(this.activeCards.card2);
 
-			// 		setTimeout(() => {
-			// 			this.hideActiveCards();
-			// 		}, 2000);
-			// 	} else {
-			// 		// console.info('no match', this.activeCards.card1, this.card);
-			// 		this.$emit('on-non-match');
+					this.$emit('match', [this.activeCards.card1, this.activeCards.card2]);
 
-			// 		setTimeout(() => {
-			// 			this.hideActiveCards();
-			// 		}, 2000);
-			// 	}
-			// }
+					setTimeout(() => {
+						this.hideActiveCards();
+					}, 2000);
+				} else {
+					// console.info('no match', this.activeCards.card1, this.card);
+					this.$emit('non-match');
+
+					setTimeout(() => {
+						this.hideActiveCards();
+					}, 2000);
+				}
+			}
 		},
 
 		isCardFound (card) {
-			// return !!this.foundCards.find((foundCard) => card.id === foundCard.id);
+			return !!this.foundCards.find((foundCard) => card.id === foundCard.id);
 		},
 
 		isCardShowing (card) {
-			// return (this.activeCards.card1 && card.id === this.activeCards.card1.id) || (this.activeCards.card2 && card.id === this.activeCards.card2.id);
+			return (this.activeCards.card1 && card.id === this.activeCards.card1.id)
+				|| (this.activeCards.card2 && card.id === this.activeCards.card2.id);
 		},
 	},
 
 	mounted () {
-		console.log(this.$el);
 		sizeList(this.$el);
 	},
 
