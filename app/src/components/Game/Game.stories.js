@@ -1,7 +1,7 @@
 import Game from '.';
-import Card from './../../js/Card';
 import Player from './../../js/Player';
 // import { action } from '@storybook/addon-actions';
+import theme from './../../configs/numbers';
 
 export default {
 	title: 'Game',
@@ -12,20 +12,6 @@ export default {
 //   onEndGame: action('endGame'),
 //   onReconfigureGame: action('reconfigureGame'),
 // };
-
-const cards = [];
-for (let i = 0; i < 10; i += 1) {
-	const card1 = new Card(`${i}-a`, `${i}`);
-	card1.faceImage.src = `${i}`;
-	card1.faceImage.type = 'text';
-
-	const card2 = new Card(`${i}-b`, `${i}`);
-	card2.faceImage.src = `${i}`;
-	card2.faceImage.type = 'text';
-
-	cards.push(card1);
-	cards.push(card2);
-}
 
 const player1 = new Player();
 const player2 = new Player();
@@ -41,7 +27,9 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-	cards: cards,
+	cardCount: 20,
+	images: theme.images,
+	imagesType: theme.type,
 	players: [ player1, player2 ],
 	theme: {
 		type: 'image',

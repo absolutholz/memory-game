@@ -1,7 +1,6 @@
 import GameboardCards from '.';
 import { action } from '@storybook/addon-actions';
 import Card from '../../js/Card';
-
 // import shuffle from './../../js/array-shuffle';
 
 export default {
@@ -41,5 +40,6 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({});
 Default.args = {
+	// cards: shuffle(cards),
 	cards: cards,
 };

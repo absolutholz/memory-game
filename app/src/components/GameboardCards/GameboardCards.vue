@@ -53,11 +53,6 @@ export default {
 			type: Array,
 		},
 
-		// hideCardsKey: {
-		// 	required: false,
-		// 	type: Number,
-		// },
-
 		themeImageType: {
 			required: false,
 			type: String,
@@ -76,9 +71,6 @@ export default {
 				card2: null,
 			},
 			foundCards: [],
-			roundCount: 1,
-			secondsPlayed: 0,
-			playerTurnIndex: 0,
 		};
 	},
 
@@ -107,6 +99,10 @@ export default {
 					setTimeout(() => {
 						this.hideActiveCards();
 					}, 2000);
+
+					if (this.foundCards.length === this.cards.length) {
+						this.$emit('all-matched');
+					}
 				} else {
 					// console.info('no match', this.activeCards.card1, this.card);
 					this.$emit('non-match');
@@ -130,22 +126,18 @@ export default {
 
 	mounted () {
 		sizeList(this.$el);
+
+		window.addEventListener('orientationchange', () => {
+			this.$el.style.setProperty('--width', 1);
+			setTimeout(() => {
+				sizeList(this.$el);
+			}, 150);
+		});
 	},
 
-	// setup(props) {
-	// 	const elRoot = ref(null);
-	// 	const { activeCards, hideActiveCards } = Gameboard();
-
-	// 	onMounted(() => {
-	// 		sizeList(elRoot.value);
-	// 	});
-
-	// 	window.addEventListener('orientationchange', () => {
-	// 		elRoot.value.style.setProperty('--width', 1);
-	// 		setTimeout(() => {
-	// 			sizeList(elRoot.value);
-	// 		}, 150);
-	// 	});
+	unmounted () {
+		window.removeEventListener('orientationchange');
+	},
 
 	// 	watch(() => props.hideCardsKey, () => {
 	// 		hideActiveCards();
@@ -154,13 +146,6 @@ export default {
 	// 			elRoot.value.style.removeProperty('--card-hide-delay');
 	// 		}, 1000);
 	// 	});
-
-	// 	return {
-	// 		elRoot,
-	// 		activeCards,
-	// 		hideActiveCards,
-	// 	};
-	// },
 };
 </script>
 
