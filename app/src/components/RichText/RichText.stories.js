@@ -1,7 +1,7 @@
 import RichText from '.';
 
 export default {
-	title: 'Rich Text',
+	title: 'Generic/Rich Text',
 	component: RichText,
 };
 
@@ -9,7 +9,7 @@ const Template = (args, { argTypes }) => ({
 	components: { RichText },
 	props: Object.keys(argTypes),
 	template:  `
-		<rich-text v-bind="$props">{{ $props.text }}</rich-text>>
+		<rich-text v-bind="$props">{{ $props.text }}</rich-text>
 	`,
 });
 

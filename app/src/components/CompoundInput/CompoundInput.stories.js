@@ -1,7 +1,7 @@
 import CompoundInput from '.';
 
 export default {
-	title: 'Compound Input',
+	title: 'Generic/Compound Input',
 };
 
 export const prefixOnly = () => ({

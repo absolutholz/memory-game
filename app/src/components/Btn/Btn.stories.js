@@ -2,7 +2,7 @@ import Btn, { VARIANTS } from '.';
 import { action } from '@storybook/addon-actions';
 
 export default {
-	title: 'Btn',
+	title: 'Generic/Btn',
 	component: Btn,
 	argTypes: {
 		variant: {

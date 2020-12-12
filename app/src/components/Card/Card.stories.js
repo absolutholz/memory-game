@@ -1,7 +1,7 @@
 import Card from '.';
 
 export default {
-	title: 'Card',
+	title: 'Generic/Card',
 };
 
 export const standard = () => ({

@@ -1,7 +1,7 @@
 import InputNumber from '.';
 
 export default {
-	title: 'Input Number',
+	title: 'Generic/Input Number',
 };
 
 export const standard = () => ({

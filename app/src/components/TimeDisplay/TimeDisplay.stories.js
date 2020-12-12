@@ -1,7 +1,7 @@
 import TimeDisplay from '.';
 
 export default {
-	title: 'Time Display',
+	title: 'Generic/Time Display',
 	component: TimeDisplay,
 };
 

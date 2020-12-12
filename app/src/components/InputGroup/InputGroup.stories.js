@@ -1,7 +1,7 @@
 import InputGroup from '.';
 
 export default {
-	title: 'Input Group',
+	title: 'Generic/Input Group',
 };
 
 export const standard = () => ({
