@@ -2,22 +2,22 @@ import Card from '.';
 
 export default {
 	title: 'Generic/Card',
+	component: Card,
 };
 
-export const standard = () => ({
+const Template = (args, { argTypes }) => ({
 	components: { Card },
-	template: `
+	props: Object.keys(argTypes),
+	template:  `
 		<div style="max-width: 250px; padding: 5vw;">
-			<card style="padding-bottom: 100%;" />
+			<card v-bind="$props" style="padding-bottom: 100%;" />
 		</div>
 	`,
 });
 
-export const elevated = () => ({
-	components: { Card },
-	template: `
-		<div style="max-width: 250px; padding: 5vw;">
-			<card :elevated="true" style="padding-bottom: 100%;" />
-		</div>
-	`,
-});
+export const Default = Template.bind({});
+
+export const Elevated = Template.bind({});
+Elevated.args = {
+	elevated: true,
+};
