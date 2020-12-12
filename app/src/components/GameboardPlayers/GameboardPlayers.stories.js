@@ -6,6 +6,10 @@ export default {
 	component: GameboardPlayers,
 };
 
+const player1 = new Player();
+player1.cards = new Array(10);
+const player2 = new Player();
+
 const Template = (args, { argTypes }) => ({
 	components: { GameboardPlayers },
 	props: Object.keys(argTypes),
@@ -13,9 +17,6 @@ const Template = (args, { argTypes }) => ({
 		<gameboard-players v-bind="$props" />
 	`,
 });
-
-const player1 = new Player();
-const player2 = new Player();
 
 export const Default = Template.bind({});
 Default.args = {
