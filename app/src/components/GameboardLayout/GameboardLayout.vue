@@ -6,8 +6,8 @@
 		<div class="gameboard-layout__players gameboard-layout__inset">
 			<slot name="players" />
 		</div>
-		<div class="gameboard-layout__temporal">
-			<slot name="temporal" />
+		<div class="gameboard-layout__status">
+			<slot name="status" />
 		</div>
 		<div class="gameboard-layout__actions">
 			<slot name="actions" />
@@ -30,14 +30,14 @@ export default {
 	grid-template-areas:
 		"field field"
 		"players players"
-		"temporal actions";
+		"status actions";
 	grid-template-columns: auto auto;
 	grid-template-rows: 1fr auto auto;
 
 	@media (orientation: landscape) {
 		grid-template-areas:
 			"field players"
-			"field temporal"
+			"field status"
 			"field actions";
 		grid-template-columns: 1fr auto;
 		grid-template-rows: 1fr auto auto;
@@ -95,11 +95,11 @@ export default {
 		overflow: hidden;
 	}
 
-	&__temporal {
+	&__status {
 		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
-		grid-area: temporal;
+		grid-area: status;
 		// justify-content: space-between;
 	}
 
