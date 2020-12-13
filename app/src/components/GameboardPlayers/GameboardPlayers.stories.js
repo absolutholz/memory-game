@@ -6,9 +6,9 @@ export default {
 	component: GameboardPlayers,
 };
 
-const player1 = new Player();
+const player1 = new Player('1', 'Player 1');
 player1.cards = new Array(10);
-const player2 = new Player();
+const player2 = new Player('2', 'Player 2');
 
 const Template = (args, { argTypes }) => ({
 	components: { GameboardPlayers },
