@@ -1,10 +1,14 @@
 <template>
-	<ol class="gameboard-cards">
+	<ol
+		class="gameboard-cards"
+		:class="isRestarting ? `gameboard-cards--reloading` : ''"
+	>
 		<li v-for="(card, index) in cards" :key="index">
 			<gameboard-card
 				@select="onCardSelect(card)"
 				:backImageSrc="themeImageSrc"
 				:backImageType="themeImageType"
+				:color="card.color"
 				:faceImageSrc="card.faceImage.src"
 				:faceImageType="card.faceImage.type"
 				:id="`${ index }`"
@@ -18,6 +22,7 @@
 
 <script>
 import GameboardCard from './../GameboardCard';
+import { STATE_GAME_RESTARTING } from './../Game';
 
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
@@ -53,6 +58,11 @@ export default {
 			type: Array,
 		},
 
+		gameState: {
+			required: false,
+			type: String,
+		},
+
 		themeImageType: {
 			required: false,
 			type: String,
@@ -72,6 +82,12 @@ export default {
 			},
 			foundCards: [],
 		};
+	},
+
+	computed: {
+		isRestarting () {
+			return this.gameState === STATE_GAME_RESTARTING;
+		},
 	},
 
 	methods: {
@@ -139,13 +155,13 @@ export default {
 		window.removeEventListener('orientationchange');
 	},
 
-	// 	watch(() => props.hideCardsKey, () => {
-	// 		hideActiveCards();
-	// 		elRoot.value.style.setProperty('--card-hide-delay', '0s');
-	// 		setTimeout(() => {
-	// 			elRoot.value.style.removeProperty('--card-hide-delay');
-	// 		}, 1000);
-	// 	});
+	watch: {
+		isRestarting (value) {
+			if (!value) {
+				this.foundCards = [];
+			}
+		},
+	},
 };
 </script>
 
@@ -167,6 +183,8 @@ export default {
 	> li {
 		flex: 0 1 calc(var(--width) * 100%);
 		padding: Min(2vw, var(--gutter));
+		transition: opacity 250ms;
+		will-change: opacity;
 	}
 
 	@media (min-width: 600px) {
@@ -175,6 +193,12 @@ export default {
 
 	@media (min-width: 900px) {
 		--gutter: var(--spacing-base);
+	}
+
+	&--reloading {
+		> li {
+			opacity: 0;
+		}
 	}
 }
 </style>

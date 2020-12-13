@@ -6,6 +6,7 @@
 			@match="onCardMatch"
 			@non-match="onCardNonMatch"
 			:cards="cards"
+			:gameState="state"
 			:themeImageSrc="theme.image.src"
 			:themeImageType="theme.type"
 		/>
@@ -32,6 +33,8 @@
 		<template #actions>
 			<gameboard-actions
 				@pause-game="pause"
+				@reconfigure-game="reconfigure"
+				@restart-game="restart"
 			/>
 		</template>
 	</gameboard-layout>
@@ -49,10 +52,11 @@ import Card, { colors } from './../../js/Card';
 import Timer from './../../js/Timer';
 import shuffle from './../../js/array-shuffle';
 
-const STATE_GAME_NOT_STARTED = 'game_not_started';
-const STATE_GAME_PLAYING = 'game_playing';
-const STATE_GAME_PAUSED = 'game_paused';
-const STATE_GAME_OVER = 'game_over';
+export const STATE_GAME_NOT_STARTED = 'game_not_started';
+export const STATE_GAME_PLAYING = 'game_playing';
+export const STATE_GAME_PAUSED = 'game_paused';
+export const STATE_GAME_OVER = 'game_over';
+export const STATE_GAME_RESTARTING = 'game_restarting';
 
 function createCards (cardCount, images, type) {
 	const cards = [];
@@ -124,7 +128,7 @@ export default {
 		return {
 			activePlayer: this.players[0],
 			cards: [],
-			roundCount: 0,
+			roundCount: 1,
 			secondsPlayed: 0,
 			state: STATE_GAME_NOT_STARTED,
 			timer: null,
@@ -141,8 +145,6 @@ export default {
 		start () {
 			console.log('starting game');
 
-			this.cards = shuffle(createCards(this.cardCount, this.images, this.imagesType));
-
 			if (!this.timer) {
 				this.timer = Timer(1000);
 				this.timer.addObserver({ update: () => {
@@ -150,11 +152,29 @@ export default {
 				}});
 			}
 
-			window.addEventListener('blur', this.pause);
+			this.cards = shuffle(createCards(this.cardCount, this.images, this.imagesType));
+			this.activePlayer = this.players[0];
+			this.roundCount = 1,
+			this.secondsPlayed = 0;
 
 			this.timer.start();
 
 			this.state = STATE_GAME_PLAYING;
+		},
+
+		restart () {
+			console.log('restarting game');
+			this.state = STATE_GAME_RESTARTING;
+
+			this.timer.stop();
+
+			setTimeout(() => {
+				this.players.forEach((player) => {
+					player.cards = [];
+				});
+
+				this.start();
+			}, 1000);
 		},
 
 		pause () {
@@ -179,6 +199,12 @@ export default {
 			this.timer.stop();
 
 			this.state = STATE_GAME_OVER;
+		},
+
+		reconfigure () {
+			console.log('reconfigure game');
+			this.$emit('configure');
+			this.state = STATE_GAME_NOT_STARTED;
 		},
 
 		onCardMatch (cards) {
@@ -206,6 +232,7 @@ export default {
 	},
 
 	mounted () {
+		window.addEventListener('blur', this.pause);
 		this.start();
 	},
 };

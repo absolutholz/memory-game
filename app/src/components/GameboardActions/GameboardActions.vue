@@ -5,30 +5,39 @@
 				class="btn btn--hollow btn--block"
 			><svg-theme aria-hidden="true" class="icon" /></dark-mode-toggler>
 		</li> -->
-		<!-- <li>
-			<btn
-				@click="restartGame"
-			><svg-restart aria-hidden="true" class="icon" /></btn>
-		</li> -->
 		<li>
 			<btn
-				@click="pauseGame"
+				@click="$emit('restart-game')"
+				aria-label="Restart the game"
+				class="gameboard-actions__btn"
+				title="Restart the game"
+			><svg-restart aria-hidden="true" class="icon" /></btn>
+		</li>
+		<li>
+			<btn
+				@click="$emit('pause-game')"
+				aria-label="Pause the game"
+				class="gameboard-actions__btn"
+				title="Pause the game"
 			><svg-pause aria-hidden="true" class="icon" /></btn>
 		</li>
-		<!-- <li>
+		<li>
 			<btn
-				@click="reconfigureGame"
+				@click="$emit('reconfigure-game')"
+				aria-label="Reconfigure the game"
+				class="gameboard-actions__btn"
+				title="Reconfigure the game"
 			><svg-home aria-hidden="true" class="icon" /></btn>
-		</li> -->
+		</li>
 	</ul>
 </template>
 
 <script>
 import Btn from './../Btn';
 
-// import SvgHome from '@mdi/svg/svg/home.svg';
+import SvgHome from '@mdi/svg/svg/home.svg';
 import SvgPause from '@mdi/svg/svg/pause.svg';
-// import SvgRestart from '@mdi/svg/svg/restart.svg';
+import SvgRestart from '@mdi/svg/svg/restart.svg';
 // import SvgTheme from '@mdi/svg/svg/palette.svg';
 
 export default {
@@ -37,24 +46,10 @@ export default {
 	components: {
 		Btn,
 
-		// SvgHome,
+		SvgHome,
 		SvgPause,
-		// SvgRestart,
+		SvgRestart,
 		// SvgTheme,
-	},
-
-	methods: {
-		pauseGame () {
-			this.$emit('pause-game');
-		},
-
-		// restartGame () {
-		// 	this.$emit('restart-game');
-		// },
-
-		// reconfigureGame () {
-		// 	this.$emit('reconfigure-game');
-		// },
 	},
 };
 </script>
@@ -73,6 +68,10 @@ export default {
 	> li {
 		flex: 0 1 auto;
 		padding: var(--gutter);
+	}
+
+	&__btn {
+		padding: 0.5rem;
 	}
 
 	@media (min-width: 30rem) {

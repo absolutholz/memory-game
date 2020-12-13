@@ -97,7 +97,7 @@ export default {
 	padding-bottom: 100%;
 	perspective: 500px;
 	position: relative;
-	transition: opacity 250ms var(--card-hide-delay, 2s);
+	transition: opacity 250ms 250ms;
 	width: 100%;
 
 	&__content {
@@ -153,6 +153,7 @@ export default {
 
 	&--found {
 		opacity: 0;
+		transition-delay: 2s;
 	}
 }
 </style>

@@ -25,6 +25,7 @@
 
 		<div v-if="isGameView">
 			<game
+				@configure="configure"
 				:cardCount="config.cardCount"
 				:images="config.theme.images"
 				:imagesType="config.theme.type"
@@ -108,6 +109,10 @@ export default {
 
 		setTheme (theme) {
 			this.config.theme = theme;
+		},
+
+		configure () {
+			this.viewState = STATE_VIEW_CONFIG;
 		},
 	},
 };
