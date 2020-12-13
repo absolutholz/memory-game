@@ -1,9 +1,9 @@
-import ResultCards from '.';
+import ResultsPlayerCards from '.';
 import Card from './../../js/Card';
 
 export default {
-	title: 'Result/Result Cards',
-	component: ResultCards,
+	title: 'Results/Player Cards',
+	component: ResultsPlayerCards,
 };
 
 const colors = [
@@ -31,10 +31,10 @@ for (let i = 0; i < 5; i += 1) {
 }
 
 const Template = (args, { argTypes }) => ({
-	components: { ResultCards },
+	components: { ResultsPlayerCards },
 	props: Object.keys(argTypes),
 	template:  `
-		<result-cards v-bind="$props" />
+		<results-player-cards v-bind="$props" />
 	`,
 });
 

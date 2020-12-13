@@ -22,7 +22,7 @@ import Card from './../Card';
 import CardImage from './../CardImage';
 
 export default {
-	name: 'ResultCards',
+	name: 'ResultsPlayerCards',
 
 	components: {
 		Card,
