@@ -28,13 +28,13 @@ export default {
 
 <style lang="scss">
 .card {
-	background: var(--card-surface, #fff);
+	background: #fff;
 	border-radius: 4px;
 	box-shadow:
 		0 3px 1px -2px rgba(0, 0, 0, 0.2),
 		0 2px 2px 0 rgba(0, 0, 0, 0.14),
 		0 1px 5px 0 rgba(0, 0, 0, 0.12);
-	color: var(--card-on-surface, var(--color, var(--color-highlight, #111)));
+	color: var(--on-surface, var(--primary, #111));
 	display: block;
 	padding: 10%;
 	// position: relative;
