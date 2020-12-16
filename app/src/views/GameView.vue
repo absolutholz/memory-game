@@ -122,6 +122,10 @@ export default {
 		startGame () {
 			console.log('starting game', this.config);
 
+			window.localStorage.cardCount = this.config.cardCount;
+			window.localStorage.theme = JSON.stringify(this.config.theme);
+			window.localStorage.players = JSON.stringify(this.config.players);
+
 			this.viewState = STATE_VIEW_GAME;
 		},
 
@@ -141,6 +145,24 @@ export default {
 		configure () {
 			this.viewState = STATE_VIEW_CONFIG;
 		},
+	},
+
+	created () {
+		if (window.localStorage.cardCount) {
+			this.config.cardCount = window.localStorage.cardCount * 1;
+		}
+
+		if (window.localStorage.theme) {
+			this.config.theme = JSON.parse(window.localStorage.theme);
+		}
+
+		if (window.localStorage.players) {
+			this.config.players = JSON.parse(window.localStorage.players).map((playerObject) => {
+				const player = new Player(playerObject.id, playerObject.name);
+				player.avatar = playerObject.avatar;
+				return player;
+			});
+		}
 	},
 };
 </script>
