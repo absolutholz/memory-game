@@ -146,38 +146,31 @@ export default {
 	&:focus {
 		outline: 0;
 
-		@keyframes border {
-			0% {
-				border-width: 0;
-				font-size: 0;
-				opacity: 0;
+		@keyframes outline-pulse {
+			from {
+				opacity: 0.3;
 			}
-			33% {
-				opacity: 0.75;
-			}
-			90% {
-				opacity: 0;
-			}
-			100% {
-				border-width: 8px;
-				font-size: 12px;
+
+			to {
+				opacity: 0.6;
 			}
 		}
 
 		&::before {
-			animation: 1.75s ease-out 0s reverse infinite border;
-			border: 0 solid var(--primary);
-			// border: 1em solid #ff7000;
-			border-radius: inherit;
-			bottom: -1em;
+			$size: 3px;
+			$space: 2px;
+
+			animation: 1.5s ease-in-out 0s infinite alternate outline-pulse;
+			border: $size solid var(--primary);
+			border-radius: 7px;
+			bottom: ($size + $space) * -1;
 			content: "";
-			font-size: 0em;
-			left: -1em;
-			opacity: 0;
+			left: ($size + $space) * -1;
+			opacity: 0.75;
 			pointer-events: none;
 			position: absolute;
-			right: -1em;
-			top: -1em;
+			right: ($size + $space) * -1;
+			top: ($size + $space) * -1;
 		}
 	}
 
