@@ -60,10 +60,14 @@ export default {
 
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-end;
 	list-style: none;
 	margin: calc(var(--gutter) * -1);
 	padding-left: 0;
+
+	@media (orientation: landscape) {
+		justify-content: center;
+	}
 
 	> li {
 		flex: 0 1 auto;
