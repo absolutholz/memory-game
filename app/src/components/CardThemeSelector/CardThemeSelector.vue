@@ -85,5 +85,9 @@ export default {
 	&__label {
 		display: block;
 	}
+
+	.card {
+		--on-surface: var(--primary);
+	}
 }
 </style>
