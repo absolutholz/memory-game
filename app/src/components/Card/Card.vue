@@ -37,19 +37,9 @@ export default {
 	color: var(--on-surface);
 	display: block;
 	padding: 10%;
-	// position: relative;
-	transition: transform 0.5s;
+	transition: transform 0.5s, box-shadow 0.5s;
 	width: 100%;
-
-	// &__image {
-	// 	height: 80%;
-	// 	left: 10%;
-	// 	object-fit: contain;
-	// 	position: absolute;
-	// 	top: 10%;
-	// 	width: 80%;
-	// 	z-index: 0;
-	// }
+	will-change: transform, box-shadow;
 
 	&--elevated {
 		box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
