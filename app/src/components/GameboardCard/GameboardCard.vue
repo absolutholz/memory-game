@@ -92,7 +92,6 @@ export default {
 // https://codepen.io/ettrics/pen/zxMPWj?editors=0100
 
 .gameboard-card {
-	color: var(--color, --primary);
 	display: block;
 	padding-bottom: 100%;
 	perspective: 500px;
@@ -143,7 +142,9 @@ export default {
 	}
 
 	&__face {
-		background: #fff;
+		--surface: #fff;
+
+		color: var(--color, var(--primary, --on-surface));
 		transform: rotateY( 180deg );
 	}
 
