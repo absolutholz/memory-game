@@ -232,10 +232,16 @@ export default {
 	}
 
 	&--small {
+		--spacing-h: 0.5rem;
+		--spacing-v: 0.25rem;
+
 		font-size: var(--typo-size-micro);
 	}
 
 	&--large {
+		--spacing-h: 3rem;
+		--spacing-v: 1rem;
+
 		font-size: var(--typo-size-mega);
 	}
 }
