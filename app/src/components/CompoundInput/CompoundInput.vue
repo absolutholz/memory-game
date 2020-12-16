@@ -22,10 +22,7 @@ export default {
 	padding: 0;
 
 	&__input {
-		background: none;
-		border: 0;
 		flex: 1 1 auto;
-		padding: 0.25em 0.5em;
 	}
 
 	&__prefix,
