@@ -1,43 +1,49 @@
 <template>
-	<gameboard-layout>
-		<gameboard-cards
-			v-if="cards.length > 0"
-			@all-matched="onGameWon"
-			@match="onCardMatch"
-			@non-match="onCardNonMatch"
-			:cards="cards"
-			:gameState="state"
-			:themeImageSrc="theme.image.src"
-			:themeImageType="theme.type"
-		/>
+	<div>
 
-		<gameboard-pause-screen
-			v-if="isPaused"
-			@click.native="resume"
-		/>
-
-		<template #players>
-			<gameboard-players
-				:activePlayer="activePlayer"
-				:players="players"
+		<gameboard-layout>
+			<gameboard-cards
+				v-if="cards.length > 0"
+				@all-matched="onGameWon"
+				@match="onCardMatch"
+				@non-match="onCardNonMatch"
+				:cards="cards"
+				:gameState="state"
+				:themeImageSrc="theme.image.src"
+				:themeImageType="theme.type"
 			/>
-		</template>
 
-		<template #status>
-			<gameboard-status
-				:roundCount="roundCount"
-				:secondsPlayed="secondsPlayed"
+			<gameboard-pause-screen
+				v-if="isPaused"
+				@click.native="resume"
 			/>
-		</template>
 
-		<template #actions>
-			<gameboard-actions
-				@pause-game="pause"
-				@reconfigure-game="reconfigure"
-				@restart-game="restart"
-			/>
-		</template>
-	</gameboard-layout>
+			<template #players>
+				<gameboard-players
+					:activePlayer="activePlayer"
+					:players="players"
+				/>
+			</template>
+
+			<template #status>
+				<gameboard-status
+					:roundCount="roundCount"
+					:secondsPlayed="secondsPlayed"
+				/>
+			</template>
+
+			<template #actions>
+				<gameboard-actions
+					@pause-game="pause"
+					@reconfigure-game="reconfigure"
+					@restart-game="restart"
+				/>
+			</template>
+		</gameboard-layout>
+
+		<results-screen v-if="isGameOver" :players="players" />
+
+	</div>
 </template>
 
 <script>
@@ -47,6 +53,7 @@ import GameboardLayout from './../GameboardLayout';
 import GameboardPlayers from './../GameboardPlayers';
 import GameboardStatus from './../GameboardStatus';
 import GameboardPauseScreen from './../GameboardPauseScreen';
+import ResultsScreen from './../ResultsScreen';
 
 import Card, { colors } from './../../js/Card';
 import Timer from './../../js/Timer';
@@ -95,6 +102,7 @@ export default {
 		GameboardPauseScreen,
 		GameboardPlayers,
 		GameboardStatus,
+		ResultsScreen,
 	},
 
 	props: {
@@ -138,6 +146,10 @@ export default {
 	computed: {
 		isPaused () {
 			return this.state === STATE_GAME_PAUSED;
+		},
+
+		isGameOver () {
+			return this.state === STATE_GAME_OVER;
 		},
 	},
 

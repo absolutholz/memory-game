@@ -1,6 +1,6 @@
 <template>
 	<section class="results-non-victorius">
-		<h2 class="results-victorius__hdln">Better luck next time</h2>
+		<h2 class="results-non-victorius__hdln">Better luck next time</h2>
 
 		<div v-if="players.length === 1">
 			<results-player :player="players[0]" />
@@ -41,7 +41,7 @@ export default {
 <style lang="scss">
 .results-non-victorius {
 	&__hdln {
-		font-size: 4rem;
+		font-size: var(--typo-size-macro);
 		margin: 0 0 var(--spacing-mega);
 		text-align: center;
 	}
