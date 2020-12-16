@@ -20,6 +20,6 @@ export default {
 .input-label {
 	font-size: var(--typo-size-micro);
 	font-weight: normal;
-	margin-bottom: var(--spacing-micro);
+	margin-bottom: var(--spacing-mini);
 }
 </style>

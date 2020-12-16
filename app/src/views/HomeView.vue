@@ -8,7 +8,7 @@
 			</h1>
 
 			<div>
-				<btn variant="contained" to="/game">Play</btn>
+				<btn class="btn--large" variant="contained" to="/game">Play</btn>
 			</div>
 
 			<rich-text>

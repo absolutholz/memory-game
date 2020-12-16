@@ -5,20 +5,34 @@
 		<div v-if="isConfigView">
 			<form @submit.prevent="startGame">
 
-				<input-group>
-					<template #label>Card count</template>
-					<input-number @update="setCardCount" :max="54" :min="8" :step="2" :value="config.cardCount" />
-				</input-group>
+				<form-block>
+					<template #legend>Cards</template>
 
-				<fieldset class="input-group">
-					<legend class="input-label">Card theme</legend>
-					<card-theme-selector @update="setTheme" :initialSelection="config.theme" />
-				</fieldset>
+					<input-group>
+						<template #label>Count</template>
+						<input-wrapper>
+							<input-number @update="setCardCount" :max="54" :min="8" :step="2" :value="config.cardCount" />
+						</input-wrapper>
+					</input-group>
 
-				<player-creator-list @update="setPlayers" />
+					<fieldset class="input-group">
+						<legend class="input-label">Theme</legend>
+						<card-theme-selector @update="setTheme" :initialSelection="config.theme" />
+					</fieldset>
+				</form-block>
+
+				<form-block>
+					<template #legend>Players</template>
+
+					<player-creator-list @update="setPlayers" />
+				</form-block>
 
 				<div>
-					<btn variant="contained" type="submit">Play</btn>
+					<btn
+						class="btn--large"
+						variant="contained"
+						type="submit"
+					>Play</btn>
 				</div>
 			</form>
 		</div>
@@ -44,9 +58,11 @@
 import Btn from '../components/Btn';
 import CardThemeSelector, { themes } from './../components/CardThemeSelector';
 import Container from './../components/Container';
+import FormBlock from './../components/FormBlock';
 import Game from './../components/Game';
 import InputGroup from './../components/InputGroup';
 import InputNumber from './../components/InputNumber';
+import InputWrapper from './../components/InputWrapper';
 import PlayerCreatorList from './../components/PlayerCreatorList';
 
 import Player from './../js/Player';
@@ -62,9 +78,11 @@ export default {
 		Btn,
 		CardThemeSelector,
 		Container,
+		FormBlock,
 		Game,
 		InputGroup,
 		InputNumber,
+		InputWrapper,
 		PlayerCreatorList,
 	},
 

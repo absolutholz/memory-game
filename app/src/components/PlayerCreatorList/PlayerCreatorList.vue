@@ -91,10 +91,10 @@ export default {
 .player-creator-list {
 	display: grid;
 	grid-auto-rows: 1fr;
-	grid-gap: var(--spacing-base) var(--spacing-base);
+	grid-gap: var(--spacing-base) var(--spacing-mega);
 	grid-template-columns: repeat(auto-fill, minmax(clamp(50% #{"-"} var(--spacing-base), 25ch, 100%), 1fr));
 	list-style: none;
-	margin: var(--spacing-base) 0;
+	margin: var(--spacing-macro) 0 var(--spacing-base) 0;
 	padding-left: 0;
 
 	> * {
