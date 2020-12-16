@@ -226,5 +226,17 @@ export default {
 		display: flex;
 		width: 100%;
 	}
+
+	&--subtle {
+		--btn-on-surface: var(--on-surface, inherit);
+	}
+
+	&--small {
+		font-size: var(--typo-size-micro);
+	}
+
+	&--large {
+		font-size: var(--typo-size-mega);
+	}
 }
 </style>
