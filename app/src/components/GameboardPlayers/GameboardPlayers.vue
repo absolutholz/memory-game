@@ -2,6 +2,7 @@
 	<ol class="gameboard-players">
 		<li v-for="(player, index) in players" :key="index">
 			<gameboard-player
+				:avatar="player.avatar"
 				:foundCards="player.cards"
 				:isActive="activePlayer === player"
 				:name="player.name"

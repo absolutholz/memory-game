@@ -1,12 +1,17 @@
 <template>
 	<card class="player-creator">
-		<div class="player-creator__image">
+		<button
+			@click="changeAvatar"
+			class="player-creator__image"
+			type="button"
+		>
 			<avatar
-				@click.native="changeAvatar"
 				class="player-creator__avatar"
+				:colorOnSurface="colorOnSurface"
+				:colorSurface="colorSurface"
 				:text="proxyName"
 			/>
-		</div>
+		</button>
 
 		<div class="player-creator__main">
 			<input-group>
@@ -37,7 +42,7 @@
 </template>
 
 <script>
-import Avatar from './../Avatar';
+import Avatar, { colors } from './../Avatar';
 import Btn from './../Btn';
 import Card from './../Card';
 import InputGroup from './../InputGroup';
@@ -71,9 +76,20 @@ export default {
 	},
 
 	computed: {
+		colorSurface () {
+			return this.player.avatar.color?.surface;
+		},
+
+		colorOnSurface () {
+			return this.player.avatar.color?.onSurface;
+		},
+
 		proxyName: {
 			get() { return this.player.name; },
-			set(newValue) { this.$emit('update', new Player(this.player.id, newValue)); }
+			set(newValue) {
+				this.player.name = newValue;
+				this.$emit('update', this.player);
+			}
 		},
 	},
 
@@ -83,7 +99,16 @@ export default {
 		},
 
 		changeAvatar () {
+			const currentColorIndex = colors.findIndex((color) => color === this.player.avatar.color);
 
+			if (currentColorIndex > -1 && currentColorIndex < colors.length - 1) {
+				this.player.avatar.color =colors[currentColorIndex + 1];
+
+			} else {
+				this.player.avatar.color = colors[0];
+			}
+
+			this.$emit('update', this.player);
 		},
 	},
 };
@@ -96,6 +121,7 @@ export default {
 	padding: var(--spacing-base);
 
 	&__image {
+		display: flex;
 		margin-right: var(--spacing-base);
 	}
 

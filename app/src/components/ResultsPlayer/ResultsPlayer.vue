@@ -1,6 +1,11 @@
 <template>
 	<section class="results-player">
-		<avatar class="results-player__avatar" :text="player.name" />
+		<avatar
+			class="results-player__avatar"
+			:colorOnSurface="colorOnSurface"
+			:colorSurface="colorSurface"
+			:text="player.name"
+		/>
 		<h3 class="results-player__hdln">{{ player.name }}</h3>
 		<div class="results-player__body">found <strong>{{ player.cards.length }}</strong> cards</div>
 		<results-player-cards
@@ -28,6 +33,16 @@ export default {
 		player: {
 			required: true,
 			type: Player,
+		},
+	},
+
+	computed: {
+		colorSurface () {
+			return this.player.avatar.color?.surface;
+		},
+
+		colorOnSurface () {
+			return this.player.avatar.color?.onSurface;
 		},
 	},
 };

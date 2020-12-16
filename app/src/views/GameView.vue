@@ -24,7 +24,10 @@
 				<form-block>
 					<template #legend>Players</template>
 
-					<player-creator-list @update="setPlayers" />
+					<player-creator-list
+						@update="setPlayers"
+						:players="config.players"
+					/>
 				</form-block>
 
 				<div>

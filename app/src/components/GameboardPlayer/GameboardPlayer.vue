@@ -5,7 +5,12 @@
 		nodeType="section"
 	>
 		<div class="gameboard-player__image">
-			<avatar class="gameboard-player__avatar" :text="name" />
+			<avatar
+				class="gameboard-player__avatar"
+				:colorOnSurface="colorOnSurface"
+				:colorSurface="colorSurface"
+				:text="name"
+			/>
 		</div>
 		<div class="gameboard-player__main">
 			<h3 class="gameboard-player__name">{{ name }}</h3>
@@ -33,6 +38,11 @@ export default {
 	},
 
 	props: {
+		avatar: {
+			required: true,
+			type: Object,
+		},
+
 		name: {
 			required: true,
 			type: String,
@@ -50,6 +60,16 @@ export default {
 			},
 			required: false,
 			type: Array,
+		},
+	},
+
+	computed: {
+		colorSurface () {
+			return this.avatar.color?.surface;
+		},
+
+		colorOnSurface () {
+			return this.avatar.color?.onSurface;
 		},
 	},
 };
