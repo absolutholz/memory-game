@@ -41,7 +41,12 @@
 			</template>
 		</gameboard-layout>
 
-		<results-screen v-if="isGameOver" :players="players" />
+		<results-screen
+			v-if="isGameOver"
+			@reconfigure-game="reconfigure"
+			@restart-game="restart"
+			:players="players"
+		/>
 
 	</div>
 </template>

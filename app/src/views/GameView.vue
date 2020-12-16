@@ -1,5 +1,7 @@
 <template>
 	<main>
+		<container>
+
 		<div v-if="isConfigView">
 			<form @submit.prevent="startGame">
 
@@ -33,12 +35,15 @@
 				:theme="config.theme.cover"
 			/>
 		</div>
+
+		</container>
 	</main>
 </template>
 
 <script>
 import Btn from '../components/Btn';
 import CardThemeSelector, { themes } from './../components/CardThemeSelector';
+import Container from './../components/Container';
 import Game from './../components/Game';
 import InputGroup from './../components/InputGroup';
 import InputNumber from './../components/InputNumber';
@@ -56,6 +61,7 @@ export default {
 	components: {
 		Btn,
 		CardThemeSelector,
+		Container,
 		Game,
 		InputGroup,
 		InputNumber,

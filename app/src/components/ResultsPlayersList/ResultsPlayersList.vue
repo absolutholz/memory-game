@@ -30,6 +30,7 @@ export default {
 	padding-left: 0;
 
 	> li {
+		flex: 1 1 auto;
 		margin: var(--spacing-base);
 	}
 }
