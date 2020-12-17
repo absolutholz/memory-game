@@ -7,9 +7,9 @@
 				Memory
 			</h1>
 
-			<div>
-				<btn class="btn--large" variant="contained" to="/game">Play</btn>
-			</div>
+			<fixed-mobile-footer>
+				<btn class="btn--large" variant="contained" to="/game"><svg-play class="icon" /> Play</btn>
+			</fixed-mobile-footer>
 
 			<rich-text>
 				<p>This is the classic, simple Memory game, for 2 to 4 players and with 8 to 54 cards. Try to find more matching cards
@@ -28,7 +28,10 @@
 <script>
 import Btn from './../components/Btn';
 import Container from './../components/Container';
+import FixedMobileFooter from './../components/FixedMobileFooter';
 import RichText from './../components/RichText';
+
+import SvgPlay from '@mdi/svg/svg/play.svg';
 
 export default {
 	name: 'HomeView',
@@ -36,7 +39,9 @@ export default {
 	components: {
 		Btn,
 		Container,
+		FixedMobileFooter,
 		RichText,
+		SvgPlay,
 	},
 };
 </script>

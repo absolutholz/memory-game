@@ -30,13 +30,13 @@
 					/>
 				</form-block>
 
-				<div>
+				<fixed-mobile-footer>
 					<btn
 						class="btn--large"
 						variant="contained"
 						type="submit"
-					>Play</btn>
-				</div>
+					><svg-play class="icon" /> Play</btn>
+				</fixed-mobile-footer>
 			</form>
 		</div>
 
@@ -61,12 +61,15 @@
 import Btn from '../components/Btn';
 import CardThemeSelector, { themes } from './../components/CardThemeSelector';
 import Container from './../components/Container';
+import FixedMobileFooter from './../components/FixedMobileFooter';
 import FormBlock from './../components/FormBlock';
 import Game from './../components/Game';
 import InputGroup from './../components/InputGroup';
 import InputNumber from './../components/InputNumber';
 import InputWrapper from './../components/InputWrapper';
 import PlayerCreatorList from './../components/PlayerCreatorList';
+
+import SvgPlay from '@mdi/svg/svg/play.svg';
 
 import Player from './../js/Player';
 
@@ -81,12 +84,15 @@ export default {
 		Btn,
 		CardThemeSelector,
 		Container,
+		FixedMobileFooter,
 		FormBlock,
 		Game,
 		InputGroup,
 		InputNumber,
 		InputWrapper,
 		PlayerCreatorList,
+
+		SvgPlay,
 	},
 
 	data () {
