@@ -1,5 +1,5 @@
 <template>
-	<ul class="game-theme-list">
+	<list-unstyled class="game-theme-list">
 		<li v-for="(theme, index) in themes" :key="index">
 			<input class="game-theme-list__input"
 				v-model="selection"
@@ -15,13 +15,13 @@
 				</card>
 			</label>
 		</li>
-	</ul>
-
+	</list-unstyled>
 </template>
 
 <script>
 import Card from './../Card';
 import CardImage from './../CardImage';
+import ListUnstyled from './../ListUnstyled';
 
 import configFlags from './../../configs/flags';
 import configShapes from './../../configs/shapes';
@@ -45,6 +45,7 @@ export default {
 	components: {
 		Card,
 		CardImage,
+		ListUnstyled,
 	},
 
 	data () {
@@ -76,9 +77,7 @@ export default {
 	grid-auto-rows: 1fr;
 	grid-gap: var(--spacing-base) var(--spacing-base);
 	grid-template-columns: repeat(auto-fill, minmax(clamp(15% #{"-"} var(--spacing-base), 70px, 100%), 1fr));
-	list-style: none;
 	margin: 0;
-	padding-left: 0;
 
 	&__input {
 		@include visually-hidden();

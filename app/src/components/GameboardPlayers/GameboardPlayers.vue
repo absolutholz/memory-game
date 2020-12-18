@@ -1,5 +1,8 @@
 <template>
-	<ol class="gameboard-players">
+	<list-flexy
+		class="gameboard-players"
+		:ordered="true"
+	>
 		<li v-for="(player, index) in players" :key="index">
 			<gameboard-player
 				:avatar="player.avatar"
@@ -8,17 +11,19 @@
 				:name="player.name"
 			/>
 		</li>
-	</ol>
+	</list-flexy>
 </template>
 
 <script>
 import GameboardPlayer from './../GameboardPlayer';
+import ListFlexy from './../ListFlexy';
 
 export default {
 	name: 'GameboardPlayers',
 
 	components: {
 		GameboardPlayer,
+		ListFlexy,
 	},
 
 	props: {
@@ -37,34 +42,17 @@ export default {
 
 <style lang="scss">
 .gameboard-players {
-	--gutter: var(--spacing-micro);
-
-	// display: flex;
-	// flex-wrap: wrap;
-	list-style: none;
-	margin: calc(var(--gutter) * -1);
-	padding-left: 0;
-
-	// @media (orientation: landscape) {
-	// 	display: block;
-	// }
+	--list-spacing-v: var(--spacing-micro);
+	--list-spacing-h: var(--list-spacing-v);
 
 	> li {
-		display: inline-block;
-		// flex: 0 1 auto;
-		margin: var(--gutter);
-
 		@media (orientation: landscape) {
-			display: block;
+			flex: 1 1 100%;
 		}
 	}
 
 	@media (min-width: 600px) {
-		--gutter: var(--spacing-mini);
-	}
-
-	@media (min-width: 900px) {
-		--gutter: var(--spacing-base);
+		--list-spacing-v: var(--spacing-mini);
 	}
 }
 </style>

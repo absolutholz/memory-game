@@ -1,7 +1,8 @@
 <template>
-	<ol
+	<list-flexy
 		class="gameboard-cards"
 		:class="isRestarting ? `gameboard-cards--reloading` : ''"
+		:ordered="true"
 	>
 		<li v-for="(card, index) in cards" :key="index">
 			<gameboard-card
@@ -17,11 +18,13 @@
 				:name="`${ index }`"
 			/>
 		</li>
-	</ol>
+	</list-flexy>
 </template>
 
 <script>
 import GameboardCard from './../GameboardCard';
+import ListFlexy from './../ListFlexy';
+
 import { STATE_GAME_RESTARTING } from './../Game';
 
 function sizeList (elList) {
@@ -50,6 +53,7 @@ export default {
 
 	components: {
 		GameboardCard,
+		ListFlexy,
 	},
 
 	props: {
@@ -171,17 +175,14 @@ export default {
 	--width: 1;
 
 	align-items: center;
-	display: flex;
-	flex-wrap: wrap;
 	justify-content: center;
-	list-style: none;
 	margin: 0;
 	max-height: 100%;
-	padding-left: 0;
 	width: 100%;
 
 	> li {
 		flex: 0 1 calc(var(--width) * 100%);
+		margin: 0;
 		padding: Min(2vw, var(--gutter));
 		transition: opacity 250ms;
 		will-change: opacity;

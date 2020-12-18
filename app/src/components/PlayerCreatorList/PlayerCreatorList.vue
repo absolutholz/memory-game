@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<ol class="player-creator-list">
+		<list-unstyled
+			class="player-creator-list"
+			:ordered="true"
+		>
 			<li
 				v-for="(player, index) in playersProxy" :key="index"
 			>
@@ -10,7 +13,7 @@
 					:player="player"
 				/>
 			</li>
-		</ol>
+		</list-unstyled>
 		<div>
 			<btn
 				@click="createPlayer"
@@ -24,6 +27,7 @@
 
 <script>
 import Btn from './../Btn';
+import ListUnstyled from './../ListUnstyled';
 import PlayerCreator from './../PlayerCreator';
 
 import Player from './../../js/Player';
@@ -33,6 +37,7 @@ export default {
 
 	components: {
 		Btn,
+		ListUnstyled,
 		PlayerCreator,
 	},
 
@@ -93,11 +98,9 @@ export default {
 	grid-auto-rows: 1fr;
 	grid-gap: var(--spacing-base) var(--spacing-mega);
 	grid-template-columns: repeat(auto-fill, minmax(clamp(50% #{"-"} var(--spacing-base), 25ch, 100%), 1fr));
-	list-style: none;
 	margin: var(--spacing-macro) 0 var(--spacing-base) 0;
-	padding-left: 0;
 
-	> * {
+	> li {
 		margin: 0;
 	}
 }

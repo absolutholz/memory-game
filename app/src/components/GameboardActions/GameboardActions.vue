@@ -1,5 +1,5 @@
 <template>
-	<ul class="gameboard-actions">
+	<list-flexy class="gameboard-actions">
 		<!-- <li>
 			<dark-mode-toggler
 				class="btn btn--hollow btn--block"
@@ -29,11 +29,12 @@
 				title="Reconfigure the game"
 			><svg-home aria-hidden="true" class="icon" /></btn>
 		</li>
-	</ul>
+	</list-flexy>
 </template>
 
 <script>
 import Btn from './../Btn';
+import ListFlexy from './../ListFlexy';
 
 import SvgHome from '@mdi/svg/svg/home.svg';
 import SvgPause from '@mdi/svg/svg/pause.svg';
@@ -45,10 +46,12 @@ export default {
 
 	components: {
 		Btn,
+		ListFlexy,
 
 		SvgHome,
 		SvgPause,
 		SvgRestart,
+
 		// SvgTheme,
 	},
 };
@@ -56,30 +59,25 @@ export default {
 
 <style lang="scss">
 .gameboard-actions {
-	--gutter: var(--spacing-micro);
+	--list-spacing-v: var(--spacing-micro);
+	--list-spacing-h: var(--list-spacing-v);
 
-	display: flex;
-	flex-wrap: wrap;
 	justify-content: flex-end;
-	list-style: none;
-	margin: calc(var(--gutter) * -1);
-	padding-left: 0;
 
 	@media (orientation: landscape) {
 		justify-content: center;
 	}
 
+	@media (min-width: 30rem) {
+		--list-spacing-v: var(--spacing-mini);
+	}
+
 	> li {
 		flex: 0 1 auto;
-		padding: var(--gutter);
 	}
 
 	&__btn {
 		padding: 0.5rem;
-	}
-
-	@media (min-width: 30rem) {
-		--gutter: var(--spacing-mini);
 	}
 }
 </style>

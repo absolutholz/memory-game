@@ -1,5 +1,5 @@
 <template>
-	<ul class="result-cards">
+	<list-flexy class="result-cards">
 		<li
 			v-for="(cardGroup, index) in cardGroups" :key="index"
 		>
@@ -14,12 +14,13 @@
 				<card-image :src="cardGroup.faceImage.src" :type="cardGroup.faceImage.type" />
 			</card>
 		</li>
-	</ul>
+	</list-flexy>
 </template>
 
 <script>
 import Card from './../Card';
 import CardImage from './../CardImage';
+import ListFlexy from './../ListFlexy';
 
 export default {
 	name: 'ResultsPlayerCards',
@@ -27,6 +28,7 @@ export default {
 	components: {
 		Card,
 		CardImage,
+		ListFlexy,
 	},
 
 	props: {
@@ -46,16 +48,14 @@ export default {
 
 <style lang="scss">
 .result-cards {
-	display: flex;
-	flex-wrap: wrap;
+	--list-spacing-h: var(--spacing-mini);
+	--list-spacing-v: var(--list-spacing-h);
+
 	justify-content: center;
-	list-style: none;
 	margin: 0;
-	padding-left: 0;
 
 	> li {
 		height: 50px;
-		margin: var(--spacing-mini);
 		position: relative;
 		width: 50px;
 	}
