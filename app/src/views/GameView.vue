@@ -2,56 +2,56 @@
 	<main>
 		<container>
 
-		<div v-if="isConfigView">
-			<form @submit.prevent="startGame">
+			<div v-if="isConfigView">
+				<form @submit.prevent="startGame">
 
-				<form-block>
-					<template #legend>Cards</template>
+					<form-block>
+						<template #legend>Cards</template>
 
-					<input-group>
-						<template #label>Count</template>
-						<input-wrapper>
-							<input-number @update="setCardCount" :max="54" :min="8" :step="2" :value="config.cardCount" />
-						</input-wrapper>
-					</input-group>
+						<input-group>
+							<template #label>Count</template>
+							<input-wrapper>
+								<input-number @update="setCardCount" :max="54" :min="8" :step="2" :value="config.cardCount" />
+							</input-wrapper>
+						</input-group>
 
-					<fieldset class="input-group">
-						<legend class="input-label">Theme</legend>
-						<card-theme-selector @update="setTheme" :initialSelection="config.theme" />
-					</fieldset>
-				</form-block>
+						<fieldset class="input-group">
+							<legend class="input-label">Theme</legend>
+							<card-theme-selector @update="setTheme" :initialSelection="config.theme" />
+						</fieldset>
+					</form-block>
 
-				<form-block>
-					<template #legend>Players</template>
+					<form-block>
+						<template #legend>Players</template>
 
-					<player-creator-list
-						@update="setPlayers"
-						:players="config.players"
-					/>
-				</form-block>
+						<player-creator-list
+							@update="setPlayers"
+							:players="config.players"
+						/>
+					</form-block>
 
-				<fixed-mobile-footer>
-					<btn
-						class="btn--large"
-						variant="contained"
-						type="submit"
-					><svg-play class="icon" /> Play</btn>
-				</fixed-mobile-footer>
-			</form>
-		</div>
+					<fixed-mobile-footer>
+						<btn
+							class="btn--large"
+							variant="contained"
+							type="submit"
+						><svg-play class="icon" /> Play</btn>
+					</fixed-mobile-footer>
+				</form>
+			</div>
 
-		<div v-if="isSettingsView">Settings</div>
+			<div v-if="isSettingsView">Settings</div>
 
-		<div v-if="isGameView">
-			<game
-				@configure="configure"
-				:cardCount="config.cardCount"
-				:images="config.theme.images"
-				:imagesType="config.theme.type"
-				:players="config.players"
-				:theme="config.theme.cover"
-			/>
-		</div>
+			<div v-if="isGameView">
+				<game
+					@configure="configure"
+					:cardCount="config.cardCount"
+					:images="config.theme.images"
+					:imagesType="config.theme.type"
+					:players="config.players"
+					:theme="config.theme.cover"
+				/>
+			</div>
 
 		</container>
 	</main>
