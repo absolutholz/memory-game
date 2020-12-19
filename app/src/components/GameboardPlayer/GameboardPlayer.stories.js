@@ -1,4 +1,8 @@
 import GameboardPlayer from '.';
+import Player from './../../js/Player';
+
+const player = new Player('1', 'Player 1');
+player.cards = new Array(10);
 
 export default {
 	title: 'Gameboard/Gameboard Player',
@@ -15,5 +19,6 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({});
 Default.args = {
-	name: 'Player 1',
+	name: player.name,
+	avatar: player.avatar,
 };
