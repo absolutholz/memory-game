@@ -53,8 +53,9 @@ export default {
 	text-align: center;
 
 	&__avatar {
+		display: inline-flex;
+		font-size: 4rem;
 		margin-bottom: var(--spacing-mini);
-		width: 9rem;
 	}
 
 	&__hdln {

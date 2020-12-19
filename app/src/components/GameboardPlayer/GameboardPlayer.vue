@@ -98,7 +98,7 @@ export default {
 	}
 
 	&__avatar {
-		width: 3rem;
+		font-size: 1.5rem;
 	}
 
 	&__name {
