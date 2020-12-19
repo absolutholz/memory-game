@@ -174,6 +174,10 @@ export default {
 			this.roundCount = 1,
 			this.secondsPlayed = 0;
 
+			this.players.forEach((player) => {
+				player.cards = [];
+			});
+
 			this.timer.start();
 
 			this.state = STATE_GAME_PLAYING;
