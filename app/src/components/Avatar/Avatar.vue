@@ -14,12 +14,89 @@
 </template>
 
 <script>
-// import { ICONS } from './../AvatarCreator';
-
 export function transformText (text) {
 	return text[0].toUpperCase();
 }
 
+// https://material.io/design/color/the-color-system.html
+export const COLORS = [
+	{
+		surface: '#d32f2f', // red 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#C2185B', // pink 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#7B1FA2', // purple 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#4527A0', // deep purple 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#283593', // indigo 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#1565C0', // blue 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#0277BD', // light blue 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#00838F', // cyan 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#00695C', // teal 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#2E7D32', // green 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#558B2F', // light green 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#9E9D24', // lime 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#F9A825', // yellow 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#FF8F00', // amber 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#EF6C00', // orange 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#D84315', // deep orange 800
+		onSurface: '#000',
+	},
+	{
+		surface: '#4E342E', // brown 800
+		onSurface: '#fff',
+	},
+	{
+		surface: '#37474F', // blue gray 800
+		onSurface: '#fff',
+	},
+];
+
+export const GRADIENTS = [];
+
+// https://materialdesignicons.com/
 export const ICONS = [
 	'airballoon',
 	'alien',
@@ -80,9 +157,9 @@ export default {
 		symbol: {
 			required: false,
 			type: String,
-			validator: function (value) {
-				return ICONS.indexOf(value) !== -1;
-			},
+			// validator: function (value) {
+			// 	return ICONS.indexOf(value) !== -1;
+			// },
 		},
 
 		colorSurface: {
