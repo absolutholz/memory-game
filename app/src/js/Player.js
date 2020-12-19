@@ -3,6 +3,7 @@ export default function Player (id, name = 'Player') {
 	this.name = name;
 	this.cards = [];
 	this.avatar = {
-		color: {},
+		onSurfaceColor: 'var(--on-primary)',
+		surfaceColor: 'var(--primary)',
 	};
 }

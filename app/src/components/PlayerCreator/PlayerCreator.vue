@@ -7,8 +7,8 @@
 		>
 			<avatar
 				class="player-creator__avatar"
-				:colorOnSurface="colorOnSurface"
-				:colorSurface="colorSurface"
+				:colorOnSurface="this.player.avatar.onSurfaceColor"
+				:colorSurface="this.player.avatar.surfaceColor"
 				:text="proxyName"
 			/>
 		</button>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Avatar, { colors } from './../Avatar';
+import Avatar from './../Avatar';
 import Btn from './../Btn';
 import Card from './../Card';
 import InputGroup from './../InputGroup';
@@ -76,14 +76,6 @@ export default {
 	},
 
 	computed: {
-		colorSurface () {
-			return this.player.avatar.color?.surface;
-		},
-
-		colorOnSurface () {
-			return this.player.avatar.color?.onSurface;
-		},
-
 		proxyName: {
 			get() { return this.player.name; },
 			set(newValue) {
@@ -99,14 +91,14 @@ export default {
 		},
 
 		changeAvatar () {
-			const currentColorIndex = colors.findIndex((color) => color === this.player.avatar.color);
+			// const currentColorIndex = colors.findIndex((color) => color === this.player.avatar.color);
 
-			if (currentColorIndex > -1 && currentColorIndex < colors.length - 1) {
-				this.player.avatar.color =colors[currentColorIndex + 1];
+			// if (currentColorIndex > -1 && currentColorIndex < colors.length - 1) {
+			// 	this.player.avatar.color =colors[currentColorIndex + 1];
 
-			} else {
-				this.player.avatar.color = colors[0];
-			}
+			// } else {
+			// 	this.player.avatar.color = colors[0];
+			// }
 
 			this.$emit('update', this.player);
 		},
@@ -130,7 +122,7 @@ export default {
 	}
 
 	&__avatar {
-		width: 4rem;
+		font-size: 1.75em;
 	}
 
 	&__actions {
