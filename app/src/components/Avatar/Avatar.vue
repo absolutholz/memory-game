@@ -3,91 +3,69 @@
 		class="avatar"
 		:style="`--surface: ${ colorSurface }; --on-surface: ${ colorOnSurface };`"
 	>
-		<svg class="avatar__image" viewBox="0 0 24 24">
-			<text
-				fill="currentColor"
-				font-size="90%"
-				font-weight="bold"
-				text-anchor="middle"
-				dominant-baseline="central"
-				x="50%"
-				y="47%"
-			>{{ letter }}</text>
-		</svg>
+		<svg
+			v-if="!!symbol && symbol !== text"
+			class="icon avatar__icon"
+		><use :href="`/avatars.svg#${ symbol }`" /></svg>
+		<span v-else>{{ transformedText }}</span>
+
+		<figcaption>{{ text }}</figcaption>
 	</figure>
 </template>
 
 <script>
-// https://material.io/design/color/the-color-system.html
-export const colors = [
-	{
-		surface: '#d32f2f', // red 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#C2185B', // pink 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#7B1FA2', // purple 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#4527A0', // deep purple 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#283593', // indigo 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#1565C0', // blue 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#0277BD', // light blue 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#00838F', // cyan 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#00695C', // teal 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#2E7D32', // green 50 - 800
-		onSurface: '#fff',
-	},
-	{
-		surface: '#558B2F', // light green 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#9E9D24', // lime 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#F9A825', // yellow 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#FF8F00', // amber 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#EF6C00', // orange 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#D84315', // deep orange 50 - 800
-		onSurface: '#000',
-	},
-	{
-		surface: '#4E342E', // brown 50 - 800
-		onSurface: '#fff',
-	},
+// import { ICONS } from './../AvatarCreator';
+
+export function transformText (text) {
+	return text[0].toUpperCase();
+}
+
+export const ICONS = [
+	'airballoon',
+	'alien',
+	'bug',
+	'butterfly',
+	'cake',
+	'car',
+	'cat',
+	'castle',
+	'cupcake',
+	'dinosaur',
+	'dog',
+	'duck',
+	'earth',
+	'egg-easter',
+	'elephant',
+	'fish',
+	'fleur-de-lis',
+	'flower',
+	'ghost',
+	'guitar',
+	'horse',
+	'ice-cream',
+	'kangaroo',
+	'lighthouse',
+	'lightning-bolt',
+	'medal',
+	'owl',
+	'panda',
+	'penguin',
+	'pig',
+	'pirate',
+	'pine-tree',
+	'rabbit',
+	'rocket',
+	'rodent',
+	'sheep',
+	'ship-wheel',
+	'snail',
+	'snake',
+	'space-invaders',
+	'sparkles',
+	'spider',
+	'trophy',
+	'truck',
+	'yin-yang',
 ];
 
 export default {
@@ -99,6 +77,14 @@ export default {
 			type: String,
 		},
 
+		symbol: {
+			required: false,
+			type: String,
+			validator: function (value) {
+				return ICONS.indexOf(value) !== -1;
+			},
+		},
+
 		colorSurface: {
 			default: 'var(--primary)',
 			required: false,
@@ -106,47 +92,42 @@ export default {
 		},
 
 		colorOnSurface: {
-			default: '#fff',
+			default: 'var(--on-primary)',
 			required: false,
 			type: String,
 		},
 	},
 
 	computed: {
-		letter () {
-			return this.text ? this.text[0].toUpperCase() : ' ';
+		transformedText () {
+			return this.text ? transformText(this.text) : ' '; // just to prevent storybook showing an ugly error when the control field is temporarily empty
 		},
 	},
 };
 </script>
 
 <style lang="scss">
+@import "~scss-mixins-functions-variables/scss/layout/visually-hidden-mixins";
+@import "~scss-mixins-functions-variables/scss/typography/font-weight-variables";
+
 .avatar {
-	border-radius: 99rem;
-	display: inline-flex;
-	max-width: 100%;
-	position: relative;
+	align-items: center;
+	background: var(--surface);
+	border-radius: 9em;
+	color: var(--on-surface);
+	display: flex;
+	font-size: 3rem;
+	font-weight: $typography-weight-normal;
+	justify-content: center;
+	height: 2em;
+	width: 2em;
 
-	&::before {
-		content: "";
-		display: block;
-		padding-bottom: 100%;
+	figcaption {
+		@include visually-hidden();
 	}
 
-	&__image {
-		background: var(--surface);
-		border-radius: inherit;
-		color: var(--on-surface);
-		height: 100%;
-		left: 0;
-		object-fit: cover;
-		position: absolute;
-		top: 0;
-		width: 100%;
+	&__icon {
+		font-size: 1em;
 	}
-
-	// text {
-	// 	text-shadow: 2px 2px var(--surface), 3px 3px var(--on-surface);
-	// }
 }
 </style>

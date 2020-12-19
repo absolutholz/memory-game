@@ -1,17 +1,23 @@
-import Avatar from '.';
+import Avatar, { ICONS } from '.';
 
 export default {
 	title: 'Avatar',
 	component: Avatar,
+	argTypes: {
+		symbol: {
+			control: {
+				type: 'select',
+				options: ICONS,
+			},
+		},
+	},
 };
 
 const Template = (args, { argTypes }) => ({
 	components: { Avatar },
 	props: Object.keys(argTypes),
 	template:  `
-		<div style="max-width: 250px;">
-			<avatar v-bind="$props" />
-		</div>
+		<avatar v-bind="$props" />
 	`,
 });
 
