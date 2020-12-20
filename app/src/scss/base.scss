@@ -101,6 +101,12 @@ figure {
 	margin: 0;
 }
 
+// RESET the RESET: legend
+legend {
+	display: block;
+	float: none;
+}
+
 .icon {
 	fill: currentColor;
 	font-size: 1.25em;
