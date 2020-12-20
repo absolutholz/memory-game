@@ -5,5 +5,6 @@ export default function Player (id, name = 'Player') {
 	this.avatar = {
 		onSurfaceColor: 'var(--on-primary)',
 		surfaceColor: 'var(--primary)',
+		symbol: null,
 	};
 }
