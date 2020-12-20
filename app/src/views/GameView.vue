@@ -126,7 +126,7 @@ export default {
 
 	methods: {
 		startGame () {
-			console.log('starting game', this.config);
+			// console.log('starting game', this.config);
 
 			window.localStorage.cardCount = this.config.cardCount;
 			window.localStorage.theme = JSON.stringify(this.config.theme);
@@ -140,7 +140,7 @@ export default {
 		},
 
 		setPlayers (players) {
-			console.log('update players', players);
+			// console.log('update players', players);
 			this.config.players = players;
 		},
 

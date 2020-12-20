@@ -146,7 +146,7 @@ export default {
 				symbol = null;
 			}
 
-			console.log(currentIconIndex, symbol);
+			// console.log(currentIconIndex, symbol);
 			this.player.avatar.symbol = symbol;
 
 			this.$emit('update', this.player);

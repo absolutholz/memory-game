@@ -160,7 +160,7 @@ export default {
 
 	methods: {
 		start () {
-			console.log('starting game');
+			// console.log('starting game');
 
 			if (!this.timer) {
 				this.timer = Timer(1000);
@@ -184,7 +184,7 @@ export default {
 		},
 
 		restart () {
-			console.log('restarting game');
+			// console.log('restarting game');
 			this.state = STATE_GAME_RESTARTING;
 
 			this.timer.stop();
@@ -200,7 +200,7 @@ export default {
 
 		pause () {
 			if (this.state === STATE_GAME_PLAYING) {
-				console.log('pausing game');
+				// console.log('pausing game');
 
 				this.timer.stop();
 
@@ -209,7 +209,7 @@ export default {
 		},
 
 		resume () {
-			console.log('resuming game');
+			// console.log('resuming game');
 
 			this.timer.start();
 
@@ -223,7 +223,7 @@ export default {
 		},
 
 		reconfigure () {
-			console.log('reconfigure game');
+			// console.log('reconfigure game');
 			this.$emit('configure');
 			this.state = STATE_GAME_NOT_STARTED;
 		},
@@ -235,7 +235,7 @@ export default {
 		},
 
 		onCardNonMatch () {
-			console.log(this.players, this.activePlayer);
+			// console.log(this.players, this.activePlayer);
 			const currentPlayerIndex = this.players.findIndex((player) => player === this.activePlayer);
 
 			if (currentPlayerIndex < this.players.length - 1) {

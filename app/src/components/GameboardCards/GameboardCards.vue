@@ -30,10 +30,10 @@ import { STATE_GAME_RESTARTING } from './../Game';
 function sizeList (elList) {
 	const nContainerHeight = elList.getBoundingClientRect().height;
 
-	console.log(elList, elList.getBoundingClientRect(), elList.scrollHeight, nContainerHeight);
+	// console.log(elList, elList.getBoundingClientRect(), elList.scrollHeight, nContainerHeight);
 	while (elList.scrollHeight > nContainerHeight) {
 		elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / 2);
-		console.log('/ 2', getComputedStyle(elList).getPropertyValue('--width'));
+		// console.log('/ 2', getComputedStyle(elList).getPropertyValue('--width'));
 	}
 
 	const step = 1.0125;
@@ -42,7 +42,7 @@ function sizeList (elList) {
 	while (elList.scrollHeight <= nContainerHeight && iterationCount < 50) {
 		iterationCount++;
 		elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') * step);
-		console.log('* s', getComputedStyle(elList).getPropertyValue('--width'));
+		// console.log('* s', getComputedStyle(elList).getPropertyValue('--width'));
 	}
 
 	elList.style.setProperty('--width', getComputedStyle(elList).getPropertyValue('--width') / step);

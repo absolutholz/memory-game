@@ -77,13 +77,13 @@ export default {
 			const indexToRemove = this.playersProxy.findIndex((player) => player.id === updatedPlayer.id);
 			if (indexToRemove > -1) {
 				this.playersProxy.splice(indexToRemove, 1, updatedPlayer);
-				console.log('update player', updatedPlayer, this.playersProxy, indexToRemove);
+				// console.log('update player', updatedPlayer, this.playersProxy, indexToRemove);
 				this.$emit('update', this.playersProxy);
 			}
 		},
 
 		deletePlayer (playerToRemove) {
-			console.log(playerToRemove);
+			// console.log(playerToRemove);
 			const indexToRemove = this.playersProxy.findIndex((player) => player === playerToRemove);
 			this.playersProxy.splice(indexToRemove, 1);
 			this.$emit('update', this.playersProxy);
