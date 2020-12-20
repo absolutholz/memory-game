@@ -7,8 +7,9 @@
 		<div class="gameboard-player__image">
 			<avatar
 				class="gameboard-player__avatar"
-				:colorOnSurface="colorOnSurface"
-				:colorSurface="colorSurface"
+				:colorOnSurface="avatar.onSurfaceColor"
+				:colorSurface="avatar.surfaceColor"
+				:symbol="avatar.symbol"
 				:text="name"
 			/>
 		</div>
@@ -60,16 +61,6 @@ export default {
 			},
 			required: false,
 			type: Array,
-		},
-	},
-
-	computed: {
-		colorSurface () {
-			return this.avatar.color?.surface;
-		},
-
-		colorOnSurface () {
-			return this.avatar.color?.onSurface;
 		},
 	},
 };

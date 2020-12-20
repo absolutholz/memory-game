@@ -1,17 +1,35 @@
 <template>
 	<card class="player-creator">
-		<button
-			@click="changeAvatar"
+		<div
 			class="player-creator__image"
-			type="button"
 		>
-			<avatar
-				class="player-creator__avatar"
-				:colorOnSurface="this.player.avatar.onSurfaceColor"
-				:colorSurface="this.player.avatar.surfaceColor"
-				:text="proxyName"
-			/>
-		</button>
+			<button
+				@click="changeAvatar"
+				type="button"
+			>
+				<avatar
+					class="player-creator__avatar"
+					:colorOnSurface="this.player.avatar.onSurfaceColor"
+					:colorSurface="this.player.avatar.surfaceColor"
+					:symbol="this.player.avatar.symbol"
+					:text="proxyName"
+				/>
+			</button>
+			<btn
+				v-if="isUpdatingAvatar"
+				@click="changeAvatarColor"
+				class="avatar__btn avatar__btn--color"
+				type="button"
+				variant="outlined"
+			><svg-avatar-color class="icon" /></btn>
+			<btn
+				v-if="isUpdatingAvatar"
+				@click="changeAvatarSymbol"
+				class="avatar__btn avatar__btn--symbol"
+				type="button"
+				variant="outlined"
+			><svg-avatar-symbol class="icon" /></btn>
+		</div>
 
 		<div class="player-creator__main">
 			<input-group>
@@ -42,18 +60,20 @@
 </template>
 
 <script>
-import Avatar from './../Avatar';
+import Avatar, { ICONS, COLORS } from './../Avatar';
 import Btn from './../Btn';
 import Card from './../Card';
 import InputGroup from './../InputGroup';
 import InputWrapper from './../InputWrapper';
 
 import SvgPlayerDelete from '@mdi/svg/svg/account-minus.svg';
+import SvgAvatarColor from '@mdi/svg/svg/palette.svg';
+import SvgAvatarSymbol from '@mdi/svg/svg/shape.svg';
 
 import Player from './../../js/Player';
 
 export default {
-	name: 'PlayerConfig',
+	name: 'PlayerCreator',
 
 	components: {
 		Avatar,
@@ -62,6 +82,8 @@ export default {
 		InputGroup,
 		InputWrapper,
 
+		SvgAvatarColor,
+		SvgAvatarSymbol,
 		SvgPlayerDelete,
 	},
 
@@ -73,6 +95,12 @@ export default {
 			required: false,
 			type: Player,
 		},
+	},
+
+	data () {
+		return {
+			isUpdatingAvatar: false,
+		};
 	},
 
 	computed: {
@@ -91,14 +119,35 @@ export default {
 		},
 
 		changeAvatar () {
-			// const currentColorIndex = colors.findIndex((color) => color === this.player.avatar.color);
+			this.isUpdatingAvatar = !this.isUpdatingAvatar;
+		},
 
-			// if (currentColorIndex > -1 && currentColorIndex < colors.length - 1) {
-			// 	this.player.avatar.color =colors[currentColorIndex + 1];
+		changeAvatarColor () {
+			const currentColorIndex = COLORS.findIndex((color) => color.surface === this.player.avatar.surfaceColor);
+			let color = COLORS[0];
 
-			// } else {
-			// 	this.player.avatar.color = colors[0];
-			// }
+			if (currentColorIndex < COLORS.length - 1) {
+				color = COLORS[currentColorIndex + 1];
+			}
+
+			this.player.avatar.surfaceColor = color.surface;
+			this.player.avatar.onSurfaceColor = color.onSurface;
+
+			this.$emit('update', this.player);
+		},
+
+		changeAvatarSymbol () {
+			const currentIconIndex = ICONS.findIndex((icon) => icon === this.player.avatar.symbol);
+			let symbol = ICONS[0];
+
+			if (currentIconIndex < ICONS.length - 1) {
+				symbol = ICONS[currentIconIndex + 1];
+			} else if (currentIconIndex === ICONS.length - 1) {
+				symbol = null;
+			}
+
+			console.log(currentIconIndex, symbol);
+			this.player.avatar.symbol = symbol;
 
 			this.$emit('update', this.player);
 		},
@@ -115,6 +164,7 @@ export default {
 	&__image {
 		display: flex;
 		margin-right: var(--spacing-base);
+		position: relative;
 	}
 
 	&__main {
@@ -133,6 +183,28 @@ export default {
 	.input-group {
 		margin: 0;
 		width: 100%;
+	}
+}
+
+.avatar {
+
+	&__btn {
+		background: var(--surface);
+		border: 2px solid var(--primary);
+		border-radius: 9em;
+		bottom: -1rem;
+		box-shadow: 0 0 0px 3px var(--surface);
+		font-size: 1rem;
+		padding: 3px;
+		position: absolute;
+
+		&--color {
+			left: -0.5rem;
+		}
+
+		&--symbol {
+			right: -0.5rem;
+		}
 	}
 }
 </style>

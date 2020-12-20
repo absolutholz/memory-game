@@ -2,8 +2,9 @@
 	<section class="results-player">
 		<avatar
 			class="results-player__avatar"
-			:colorOnSurface="colorOnSurface"
-			:colorSurface="colorSurface"
+			:colorOnSurface="player.avatar.onSurfaceColor"
+			:colorSurface="player.avatar.surfaceColor"
+			:symbol="player.avatar.symbol"
 			:text="player.name"
 		/>
 		<h3 class="results-player__hdln">{{ player.name }}</h3>
@@ -33,16 +34,6 @@ export default {
 		player: {
 			required: true,
 			type: Player,
-		},
-	},
-
-	computed: {
-		colorSurface () {
-			return this.player.avatar.color?.surface;
-		},
-
-		colorOnSurface () {
-			return this.player.avatar.color?.onSurface;
 		},
 	},
 };

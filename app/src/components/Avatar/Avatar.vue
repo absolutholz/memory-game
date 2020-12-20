@@ -21,6 +21,10 @@ export function transformText (text) {
 // https://material.io/design/color/the-color-system.html
 export const COLORS = [
 	{
+		surface: 'var(--primary)',
+		onSurface: 'var(--on-primary)',
+	},
+	{
 		surface: '#d32f2f', // red 800
 		onSurface: '#fff',
 	},
