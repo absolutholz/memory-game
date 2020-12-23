@@ -43,10 +43,10 @@ export default {
 			default: 0,
 			required: false,
 			type: Number,
-				validator: function(value) {
+			validator: function(value) {
 				return value > -1;
-			}
-		}
+			},
+		},
 	},
 
 	computed: {
