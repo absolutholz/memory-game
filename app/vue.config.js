@@ -1,5 +1,12 @@
 module.exports = {
 	chainWebpack: (config) => {
+		config
+			.plugin('html')
+			.tap((args) => {
+				args[0].title = 'Memory';
+				return args;
+			});
+
 		const svgRule = config.module.rule('svg');
 
 		svgRule.uses.clear();
@@ -70,9 +77,9 @@ module.exports = {
 	pwa: {
 		themeColor: '#fffff8',
 		manifestOptions: {
-			name: 'Memory @ absolutholz.de',
+			name: 'Memory',
 			short_name: 'Memory',
-			description: 'A simple card memory game',
+			description: 'A simple card memory game by absolutholz',
 			display: 'fullscreen',
 			background_color: '#fffff8',
 			icons: [
