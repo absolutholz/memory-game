@@ -23,6 +23,7 @@ import Card from './../Card';
 import CardImage from './../CardImage';
 import ListUnstyled from './../ListUnstyled';
 
+import configArt from './../../configs/art';
 import configFamily from './../../configs/family';
 import configFlags from './../../configs/flags';
 import configShapes from './../../configs/shapes';
@@ -39,6 +40,7 @@ export const themes =  [
 	configLegoStarWarsFigures,
 	configFlags,
 	configFamily,
+	configArt,
 ];
 
 export default {
